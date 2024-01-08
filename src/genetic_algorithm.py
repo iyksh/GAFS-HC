@@ -82,6 +82,8 @@ class GeneticAlgorithm:
 
         print(f"\n\nBest Chromosome: {self.best_chromosome[0]}")
         population.convert_chromossome_to_file(self.best_chromosome[0], path='./best_chromossome.arff')
+        
+        utils.check_chromossome(training_filepath)
         utils.plot_fitness_history(self.fitness_history)
         utils.plot_fitness_history(self.best_fitness_history, title = 'Best-Fitness History')
 

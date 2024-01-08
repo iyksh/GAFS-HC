@@ -1,6 +1,5 @@
 from genetic_algorithm import GeneticAlgorithm
 from dataset import DatasetManipulator
-from call_nbayes import call_nbayes
 
 #                                                                   
 #                                                                   
@@ -35,11 +34,9 @@ if set_minimum_classes:
 
 
 # Genetic Algorithm variables
-population_size = 50
+population_size = 40
 num_generations = 100
-cross_validation = False
+cross_validation = True
 GeneticAlgorithm(population_size, num_generations, train_path, test_path, cross_validation) # Genetic Algorithm object
 
-# Call the nbayes algorithm with the best chromossome found
-checking_best = call_nbayes(train_path, 'best_chromossome.arff')
-print(f"Best Chromossome (checking fitness): {checking_best}")
+

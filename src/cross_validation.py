@@ -4,8 +4,7 @@ import os
 from dataset import Dataset    
 from sklearn.model_selection import StratifiedKFold
 from call_nbayes import call_nbayes
-
-
+import warnings
 
 def five_folds(path_dataset: str, type = "train") -> None:
     """Divide the dataset into 5 parts, and each part is saved in a .arff file.
@@ -29,14 +28,17 @@ def five_folds(path_dataset: str, type = "train") -> None:
     data_list_test = dataset.dataset_objects
     df_test = pd.DataFrame(data_list_test)
     
-
+    
     X_test = df_test.iloc[:, :-1]   # Separating the attributes and 
     y_test = df_test.iloc[:, -1]    # the classes for test dataset
 
     # Using StratifiedKFold to maintain class proportions during cross-validation for test dataset
     skf_test = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
-
+    
+    warnings.filterwarnings("ignore", category=UserWarning)
     for i, (train_index_test, test_index_test) in enumerate(skf_test.split(X_test, y_test)):
+
+
         X_train_test, X_test_test = X_test.iloc[train_index_test], X_test.iloc[test_index_test]
         y_train_test, y_test_test = y_test.iloc[train_index_test], y_test.iloc[test_index_test]
 
@@ -57,6 +59,8 @@ def five_folds(path_dataset: str, type = "train") -> None:
         dataset.dataset_dict['data'] = fold_data
         dataset.save_dataset(path)
         dataset.dataset_dict['description'] = description
+
+    warnings.catch_warnings()
  
 
 def cross_validation(dataset_test_path: str, dataset_train_path: str, num_folds = 5) -> float:

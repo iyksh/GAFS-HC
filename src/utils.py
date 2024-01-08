@@ -2,6 +2,7 @@ import os
 import matplotlib.pyplot as plt
 
 from call_nbayes import *
+from cross_validation import cross_validation
 
 class Utils:
 
@@ -57,3 +58,10 @@ class Utils:
         plt.grid(True)
         plt.show()
     
+
+    def check_chromossome(self, train_path):
+        nbayes_fitness = call_nbayes(train_path, './best_chromossome.arff')
+        cross_validation_fitness = cross_validation('./best_chromossome.arff', train_path) # 5 folds cross validation
+        print(f"GMNbayes: {nbayes_fitness}")
+        print(f"GMNbayes Cross-validation: {cross_validation_fitness}") 
+
