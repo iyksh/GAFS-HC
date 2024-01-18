@@ -55,6 +55,7 @@ class genetic_operators:
             parent1 = population[i]
             parent2 = population[i + 1]
 
+
             if random.random() < crossover_rate:
                 child1 = self.pmx_crossover_chromossomes(parent1, parent2)
                 child2 = self.pmx_crossover_chromossomes(parent2, parent1)
@@ -117,6 +118,9 @@ if __name__ == "__main__":
     # Tournament Selection
     selected_parents = operators.tournament_selection(population, fitness_scores)
 
+    print(selected_parents)
+
+    """
     # PMX Crossover
     child = operators.pmx_crossover(selected_parents)
     
@@ -126,6 +130,7 @@ if __name__ == "__main__":
 
     elits = operators.elitism(population, fitness_scores, 1)
     print(elits)
+    """
 
 
 

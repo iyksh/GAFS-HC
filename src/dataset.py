@@ -108,7 +108,6 @@ class DatasetManipulator:
         if a class is removed, the function will be called again, until all classes have more than 10 instances.
         
         """
-        utils = Utils()
         dataset = Dataset(dataset_path) # Create dataset object
 
         attributes_class = dataset.dataset_attributes[-1]

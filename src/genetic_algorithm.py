@@ -68,11 +68,12 @@ class GeneticAlgorithm:
             if max(population_fitness) > self.best_chromosome[1]:
                 index = population_fitness.index(max(population_fitness))
                 self.best_chromosome = (population_list[index], population_fitness[index])      
-                self.best_fitness_history.append(population_fitness[index])     
+                self.best_fitness_history.append(population_fitness[index])
+            else:
+                self.best_fitness_history.append(self.best_chromosome[1])     
 
 
             self.fitness_history.append(sum(population_fitness) / len(population_fitness))
-
             #population_list = operators.elitism(population_list, population_fitness, num_elites= 1)
             population_list = operators.tournament_selection(population_list, population_fitness)
             population_list = operators.pmx_crossover(population_list)

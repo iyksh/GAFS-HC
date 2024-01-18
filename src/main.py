@@ -13,14 +13,14 @@ from dataset import DatasetManipulator
 #                                                                   
 
 #You can change the paths here
-test_path = "exemples-datasets/test_test.arff"
-train_path = "exemples-datasets/test_train.arff"
+test_path = "/home/yksh/Desktop/CellCycle_single.arff"
+train_path = "/home/yksh/Desktop/CellCycle_train.arff"
 
 # Preprocessing the dataset variables
-discretize = False
-set_minimum_classes = False
-output_path_test = ""
-output_path_train = ""
+discretize = True
+set_minimum_classes = True # Set the minimum number of 10 classes to be selected
+output_path_test = "/home/yksh/Desktop/CellCycle_single_Discretized.arff"
+output_path_train = "/home/yksh/Desktop/CellCycle_train_Discretized.arff"
 preprocessing = DatasetManipulator()
 
 if discretize:
@@ -34,9 +34,9 @@ if set_minimum_classes:
 
 
 # Genetic Algorithm variables
-population_size = 40
-num_generations = 100
-cross_validation = True
-GeneticAlgorithm(population_size, num_generations, train_path, test_path, cross_validation) # Genetic Algorithm object
+population_size = 50
+num_generations = 20
+cross_validation = False
+GeneticAlgorithm(population_size, num_generations, output_path_train, output_path_test, cross_validation) # Genetic Algorithm object
 
 

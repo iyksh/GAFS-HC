@@ -186,7 +186,8 @@ class AttributesPopulation:
 
         for chromosome in population:
             self.convert_chromossome_to_file(chromosome)
-            
+            #utils = Utils()
+            #utils.pause()
             if cross_validation_check:
                 value = cross_validation(self.chromossome_path, training_path)
 
