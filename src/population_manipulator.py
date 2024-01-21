@@ -1,10 +1,3 @@
-import random
-import os
-
-from utils import *
-from dataset import Dataset
-from cross_validation import *
-
 #                                                                   #
 #                                                                   #
 #                                                                   #
@@ -16,13 +9,20 @@ from cross_validation import *
 #                                                                   #
 #                                                                   #
 
+import random
+import time
 
-class Attributes_ClassPopulation:
+from dataset import Dataset
+from cross_validation import *
+from utils import Utils
+
+class ClassPopulation:
 
     def __init__(self, test_dataset_path) -> None:
         self.data = Dataset(test_dataset_path)
         self.filepath = test_dataset_path
         self.chromossome_path = "./chromossome.arff"
+        self.utils = Utils()
 
 
     def create_population(self, population_size: int) -> list:
@@ -49,7 +49,7 @@ class Attributes_ClassPopulation:
         return population
 
         
-    def convert_chromossome_to_file(self, chromosome: list, path = None) -> None:
+    def convert_chromossome_to_file(self, chromosome: list, path = None, description = None) -> None:
         """
         Convert a chromosome list with binary encoding (e.g., [0, 1, 0, 1]) to a .arff file.
 
@@ -68,7 +68,6 @@ class Attributes_ClassPopulation:
         temporary_chromossome = Dataset(self.filepath)
         attributes_class = self.data.dataset_attributes[-1][1]
 
-
         attributes = []
         objects = []
 
@@ -81,7 +80,8 @@ class Attributes_ClassPopulation:
             if self.data.dataset_objects[i][-1] in attributes:
                 objects.append(self.data.dataset_objects[i])
             
-    
+        if description != None:
+            temporary_chromossome.dataset_dict['description'] = description
     
         
         temporary_chromossome.dataset_dict['data'] = objects
@@ -90,17 +90,21 @@ class Attributes_ClassPopulation:
 
     def evaluate_fitness(self, population, training_path, cross_validation_check = False) -> list:
         chromossomes_fitness = []
-
+        start_time = time.time()
         for chromosome in population:
             self.convert_chromossome_to_file(chromosome)
             
             if cross_validation_check:
+                self.utils.debug("Cross Validation is activated", "warning")
                 value = cross_validation(self.chromossome_path, training_path)
 
             else:
                 value = call_nbayes(training_path, self.chromossome_path)
 
             chromossomes_fitness.append(value)
+
+        self.utils.debug(f"Time to evaluate fitness: {(time.time() - start_time):.3f} seconds", "info")
+
 
         return chromossomes_fitness
     
@@ -112,12 +116,13 @@ class Attributes_ClassPopulation:
 #                                                                   #
 #                                                                   #
 
-class AttributesPopulation:
+class Population:
 
     def __init__(self, test_dataset_path) -> None:
         self.data = Dataset(test_dataset_path)
         self.filepath = test_dataset_path
-        self.chromossome_path = "./chromossome.arff"
+        self.chromossome_path = (f"./chromossome.arff")
+        
 
 
     def create_population(self, population_size: int) -> list:
@@ -159,7 +164,7 @@ class AttributesPopulation:
 
         attributes = []
         temporary_chromossome = Dataset(self.filepath)
-      
+              
         for i in range(len(temporary_chromossome.dataset_dict['attributes'][:-1])): # The chromosome size is equal to the number of attributes
             if chromosome[i] == 1:
                 attributes.append(temporary_chromossome.dataset_dict['attributes'][i])
@@ -186,8 +191,7 @@ class AttributesPopulation:
 
         for chromosome in population:
             self.convert_chromossome_to_file(chromosome)
-            #utils = Utils()
-            #utils.pause()
+
             if cross_validation_check:
                 value = cross_validation(self.chromossome_path, training_path)
 
@@ -195,24 +199,5 @@ class AttributesPopulation:
                 value = call_nbayes(training_path, self.chromossome_path)
 
             chromossomes_fitness.append(value)
-
         return chromossomes_fitness
 
-#                                                                   #
-#                                                                   #
-#   Usage examples:                                                 #
-#                                                                   #
-#                                                                   #
-#                                                                   #
-
-if __name__ == "__main__":
-    population = Attributes_ClassPopulation('exemples-datasets/test_test.arff')
-    #chromossomes = population.create_population(3)
-    #x = population.evaluate_fitness(chromossomes, 'exemples-datasets/test_train.arff')
-    #print(x)
-
-    Best_Chromosome = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1]
-    population.convert_chromossome_to_file(Best_Chromosome)
-
-    x = call_nbayes('./chromossome.arff', 'exemples-datasets/test_train.arff')
-    print(x)

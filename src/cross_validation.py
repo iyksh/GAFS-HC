@@ -83,7 +83,6 @@ def cross_validation(dataset_test_path: str, dataset_train_path: str, num_folds 
     for i in range(num_folds):
         for j in range(num_folds):
             if i != j:
-                #print(f"Cross-validation: test_{i} -> train_{j}")
                 sum_iteration += call_nbayes(f'train_{j}.arff', f'test_{i}.arff')
 
 

@@ -1,9 +1,8 @@
 import arff
 import numpy as np
 
-from utils import *
 from sklearn.preprocessing import KBinsDiscretizer
-
+from utils import Utils
 
 class Dataset:
     """
@@ -30,6 +29,8 @@ class Dataset:
 
         self.dataset_objects = self.dataset_dict['data'] #list of lists [[value, value, value], [value, value, value]] all strings
 
+        self.utils = Utils()
+
 
 
     def save_dataset(self, path):
@@ -43,10 +44,14 @@ class Dataset:
         try:
             arff.dump(self.dataset_dict, open(path, 'w+'))
         except:
-            print("Error saving the dataset.")
+            self.utils.debug("Error saving the dataset.", type="error")
+
   
 
 class DatasetManipulator:
+
+    def __init__(self) -> None:
+        self.utils = Utils()
 
     def discretize_data(self, dataset_path: str, output_path: str) -> None:
 
@@ -138,11 +143,11 @@ class DatasetManipulator:
                 new_attributes.pop()
                 new_attributes = '.'.join(new_attributes)
 
-                print(f"Changing class {filtered_attributes[i]} with {count} instances from {new_attributes}")
+                self.utils.debug(f"Changing class {filtered_attributes[i]} with {count} instances from {new_attributes}")
                 recursion_check = True
 
                 if new_attributes == 'R':
-                    print("The class is root, removing it.")
+                    self.utils.debug("The class is root, removing it.", "info")
 
                 for k in range(len(filtered_objects)):
                     if filtered_attributes[i] == filtered_objects[k][-1]:

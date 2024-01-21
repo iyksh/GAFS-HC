@@ -1,4 +1,12 @@
-from population_manipulator import Attributes_ClassPopulation, AttributesPopulation
+# ==============================================================================
+# Main file to manipulate the dataset and the genetic algorithm, and to find the
+# best attributes to be selected.
+# 
+#
+# Author: Guilherme Santos
+# ==============================================================================
+
+from population_manipulator import ClassPopulation, Population
 from genetic_operators import *
 from dataset import *
 
@@ -36,58 +44,74 @@ class GeneticAlgorithm:
 
     """
 
-    def __init__(self, population_size, num_generations, training_filepath, test_filepath, cross_validation = False) -> None:
+    # ==============================================================================
+    # Constructor, all the variables and the algorithm are initialized here
+    # ==============================================================================
+
+    def __init__(self, population_size, num_generations, test_filepath, train_filepath, cross_validation = True) -> None:
         
         # Creating the objects
-        population = Attributes_ClassPopulation(test_filepath) # Object that manipulates the population and fitness function 
+        population = ClassPopulation(test_filepath) # Object that manipulates the population and fitness function 
         operators = genetic_operators() # Object that manipulates the genetic operators
         utils = Utils() # Object that manipulates the utils functions
+
+        utils.debug(f"Test file: {population.filepath}") # check if the file is correct
+        utils.debug(f"Train file: {train_filepath}") # check if the file is correct
 
         # Initializing the variables
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
         self.fitness_history = []           #list of the average fitness of each generation, will be used to plot the graph
         self.best_fitness_history = []      #list of the best fitness of each generation, will be used to plot the graph
 
-    #                                                                   #
-    #                                                                   #
-    #                                                                   #
-    #                                                                   #
-    #                           MAIN-LOOP                               #
-    #                                                                   #
-    #                                                                   #
-    #                                                                   #
-    #                                                                   #
-    #                                                                   #
+        utils.clear_screen()                # Clear the terminal screen before the starts
 
-        utils.clear_screen()
-        population_list = population.create_population(population_size)
+    # ==============================================================================
+    # Main loop of the genetic algorithm
+    # ==============================================================================        
 
-        for generation in range(num_generations):
+        population_list = population.create_population(population_size) # Creating the initial population 
+
+        for generation in range(num_generations): # Main loop of the genetic algorithm
             
-            population_fitness = population.evaluate_fitness(population_list, training_filepath, cross_validation_check = cross_validation)
-            if max(population_fitness) > self.best_chromosome[1]:
-                index = population_fitness.index(max(population_fitness))
-                self.best_chromosome = (population_list[index], population_fitness[index])      
-                self.best_fitness_history.append(population_fitness[index])
-            else:
-                self.best_fitness_history.append(self.best_chromosome[1])     
+            population_fitness = population.evaluate_fitness(population_list, train_filepath, cross_validation_check = cross_validation)
+            self.get_history(population_fitness, population_list)
 
 
-            self.fitness_history.append(sum(population_fitness) / len(population_fitness))
-            #population_list = operators.elitism(population_list, population_fitness, num_elites= 1)
             population_list = operators.tournament_selection(population_list, population_fitness)
             population_list = operators.pmx_crossover(population_list)
             population_list = operators.swap_mutation(population_list)
 
             utils.print_population_fitness(population_fitness, generation)
 
-        print(f"\n\nBest Chromosome: {self.best_chromosome[0]}")
-        population.convert_chromossome_to_file(self.best_chromosome[0], path='./best_chromossome.arff')
+    # ==============================================================================
+    # End of the genetic algorithm
+    # ==============================================================================       
+
+
+        utils.debug(f"Best Chromosome found and saved at ./best_chromossome.arff", type="success")
+        population.convert_chromossome_to_file(self.best_chromosome[0], path='./best_chromossome.arff', 
+        description = f"Binary Enconding: {self.best_chromosome[0]} \nFitness: {self.best_chromosome[1]}")
         
-        utils.check_chromossome(training_filepath)
+        operators.check_chromossome(train_filepath, test_filepath)
         utils.plot_fitness_history(self.fitness_history)
         utils.plot_fitness_history(self.best_fitness_history, title = 'Best-Fitness History')
 
+
+    # ==============================================================================
+    # Functions 
+    # ============================================================================== 
+        
+    def get_history(self, population_fitness, population_list):
+        if max(population_fitness) > self.best_chromosome[1]:
+            index = population_fitness.index(max(population_fitness))
+            self.best_chromosome = (population_list[index], population_fitness[index])      
+            self.best_fitness_history.append(population_fitness[index])
+        else:
+            self.best_fitness_history.append(self.best_chromosome[1])     
+
+
+        self.fitness_history.append(sum(population_fitness) / len(population_fitness))
+        
 
 
 

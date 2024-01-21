@@ -4,10 +4,12 @@ import os
 from utils import *
 from dataset import Dataset
 from cross_validation import *
+from call_nbayes import call_nbayes
 
 class genetic_operators:
 
     def __init__(self) -> None:
+        self.utils = Utils()
         pass
 
 
@@ -96,6 +98,18 @@ class genetic_operators:
             population[random_index] = elite_individual
 
         return population
+    
+
+    def check_chromossome(self, train_path, test_path):
+        nbayes_fitness = call_nbayes(train_path, test_path)
+        cross_validation_fitness = cross_validation(test_path, train_path) 
+        self.utils.debug(f"Original Dataset GMNbayes: {nbayes_fitness}")
+        self.utils.debug(f"Original Dataset GMNbayes Cross-validation: {cross_validation_fitness}")
+
+        nbayes_fitness = call_nbayes(train_path, './best_chromossome.arff')
+        cross_validation_fitness = cross_validation('./best_chromossome.arff', train_path) # 5 folds cross validation
+        self.utils.debug(f"Best Chromossome GMNbayes: {nbayes_fitness}")
+        self.utils.debug(f"Best Chromossome GMNbayes Cross-validation: {cross_validation_fitness}")
 
 
 

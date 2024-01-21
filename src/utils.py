@@ -1,9 +1,6 @@
 import os
 import matplotlib.pyplot as plt
 
-from call_nbayes import *
-from cross_validation import cross_validation
-
 class Utils:
 
     def delete_chromossomes(self):
@@ -20,27 +17,17 @@ class Utils:
 
 
     def print_population_fitness(self, population_fitness, generation):
-        best_fitness = max(population_fitness)
-        worst_fitness = min(population_fitness)
-        
-        print(f"Generation {generation}: ")
-        """
-        for i in range(len(population_fitness)):
-            print(f"Chromossome {i}: {population_fitness[i]}")
-        print()
-        """
+        best_fitness = f"{max(population_fitness):.3f}"
+        average_fitness = f"{sum(population_fitness) / len(population_fitness):.3f}"
+        worst_fitness = f"{min(population_fitness):.3f}"
 
-        print(f"Best fitness: {best_fitness}")
-        print(f"Worst fitness: {worst_fitness}")
-        print(f'Difference: {best_fitness - worst_fitness}')
-        print()
-        print(f"Average fitness: {sum(population_fitness) / len(population_fitness)}")
-        
-        print()
-
+        self.debug(f"Generation {generation}: ")
+        self.debug(f"Best fitness: {best_fitness}")
+        self.debug(f"Average fitness: {average_fitness}")
+        self.debug(f"Worst fitness: {worst_fitness}")
 
     def clear_screen(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
+        print("\033[H\033[J")
 
 
     def plot_fitness_history(self, fitness_history, title = 'Avarage-Fitness History'):
@@ -59,9 +46,21 @@ class Utils:
         plt.show()
     
 
-    def check_chromossome(self, train_path):
-        nbayes_fitness = call_nbayes(train_path, './best_chromossome.arff')
-        cross_validation_fitness = cross_validation('./best_chromossome.arff', train_path) # 5 folds cross validation
-        print(f"GMNbayes: {nbayes_fitness}")
-        print(f"GMNbayes Cross-validation: {cross_validation_fitness}") 
+    def debug(self, text, type = "debug"):
+
+        if type == "error":
+            print("\033[1;31m" + "[Error]: " + "\033[0m" + text)
+                
+        elif type == "warning":
+            print("\033[1;33m" + "[Warning]: " + "\033[0m" + text)
+        
+        elif type == "info":
+            print("\033[1;34m" + "[Info]: " + "\033[0m" + text)
+            
+        elif type == "success":
+            print("\033[1;32m" + "[Success]: " + "\033[0m" + text)
+                
+        else:
+            print("\033[1;35m" + "[Debug]: " + "\033[0m" + text)
+        
 
