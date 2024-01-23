@@ -23,6 +23,7 @@ class ClassPopulation:
         self.filepath = test_dataset_path
         self.chromossome_path = "./chromossome.arff"
         self.utils = Utils()
+        self.cross_validation_warning = False
 
 
     def create_population(self, population_size: int) -> list:
@@ -95,7 +96,9 @@ class ClassPopulation:
             self.convert_chromossome_to_file(chromosome)
             
             if cross_validation_check:
-                self.utils.debug("Cross Validation is activated", "warning")
+                if not self.cross_validation_warning:
+                    self.utils.debug("Cross Validation is activated", "warning")
+                    self.cross_validation_warning = True
                 value = cross_validation(self.chromossome_path, training_path)
 
             else:

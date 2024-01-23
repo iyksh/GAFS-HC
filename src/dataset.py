@@ -1,10 +1,22 @@
+# ==============================================================================
+# Main file to manipulate the dataset 
+# 
+#
+# Author: Guilherme Santos
+# Last edited: 2023-01-23
+# ==============================================================================
+
 import arff
 import numpy as np
 
 from sklearn.preprocessing import KBinsDiscretizer
 from utils import Utils
 
-class Dataset:
+# ==============================================================================
+# # This class is used just to extract the dataset information
+# ==============================================================================
+
+class Dataset: 
     """
     
     This class is used to extract the dataset information, such as the dataset name, 
@@ -17,9 +29,15 @@ class Dataset:
 
     """
 
+    # ==============================================================================
+    # Constructor, all the variables and the algorithm are initialized here
+    # ==============================================================================
+
     def __init__(self, file_path) -> None:
 
-        self.dataset_dict = arff.load(open(file_path, 'r'))
+        self.utils = Utils() # Debugging object
+
+        self.dataset_dict = arff.load(open(file_path, 'r')) # a dictionary with the dataset information
 
         self.dataset_description = self.dataset_dict['description'] # a inlined string
 
@@ -29,9 +47,11 @@ class Dataset:
 
         self.dataset_objects = self.dataset_dict['data'] #list of lists [[value, value, value], [value, value, value]] all strings
 
-        self.utils = Utils()
+        
 
-
+    # ==============================================================================
+    # Functions to manipulate the datas
+    # ==============================================================================
 
     def save_dataset(self, path):
         """
@@ -43,15 +63,26 @@ class Dataset:
         
         try:
             arff.dump(self.dataset_dict, open(path, 'w+'))
-        except:
+        except Exception as e:
             self.utils.debug("Error saving the dataset.", type="error")
-
+            print(e)
   
+# ==============================================================================
+# # This class is used to manipulate the dataset
+# ==============================================================================
 
-class DatasetManipulator:
+class DatasetManipulator: 
+
+    # ==============================================================================
+    # Constructor, all the variables and the algorithm are initialized here
+    # ==============================================================================
 
     def __init__(self) -> None:
         self.utils = Utils()
+
+    # ==============================================================================
+    #  Functions to manipulate the datas
+    # ==============================================================================
 
     def discretize_data(self, dataset_path: str, output_path: str) -> None:
 

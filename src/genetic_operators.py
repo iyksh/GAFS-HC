@@ -12,6 +12,22 @@ class genetic_operators:
         self.utils = Utils()
         pass
 
+    def roulette_selection(self, population, fitness_scores):
+        total_fitness = sum(fitness_scores)
+        normalized_fitness = [score / total_fitness for score in fitness_scores]
+
+        # Criar uma roleta ponderada
+        cumulative_probabilities = [sum(normalized_fitness[:i+1]) for i in range(len(normalized_fitness))]
+
+        # Selecionar indivíduos
+        selected_population = []
+        for _ in range(len(population)):
+            rand_num = random.random()
+            selected_index = next(i for i, cum_prob in enumerate(cumulative_probabilities) if rand_num <= cum_prob)
+            selected_population.append(population[selected_index])
+
+        return selected_population
+
 
     def tournament_selection(self, population:list, fitness_scores:list, tournament_size = 2, k = 0.75) -> list:
         selected_parents = []
@@ -126,25 +142,12 @@ class genetic_operators:
 if __name__ == "__main__":
 
     operators = genetic_operators()
-    population = [[1, 1, 0, 0, 1], [0, 1, 0, 0, 0], [1, 1, 0, 1, 1], [0, 1, 0, 0, 0]]  # list of chromosomes 
-    fitness_scores = [34.72222137451172, 23.58974266052246, 24.72222137451172, 15.58974266052246]  # Corresponding fitness 
+    # Exemplo de uso com os parâmetros fornecidos
+    population = [[1, 1, 0, 0, 1], [0, 1, 0, 0, 0], [1, 1, 0, 1, 1], [0, 1, 0, 0, 0]]
+    fitness_scores = [34.72222137451172, 23.58974266052246, 24.72222137451172, 15.58974266052246]
 
-    # Tournament Selection
-    selected_parents = operators.tournament_selection(population, fitness_scores)
-
-    print(selected_parents)
-
-    """
-    # PMX Crossover
-    child = operators.pmx_crossover(selected_parents)
-    
-
-    child = operators.swap_mutation(population)
-    print(child)
-
-    elits = operators.elitism(population, fitness_scores, 1)
-    print(elits)
-    """
+    selected_population = operators.roulette_selection(population, fitness_scores)
+    print(selected_population)
 
 
 
