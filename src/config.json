@@ -1,0 +1,19 @@
+{
+
+        "test_path": "/home/yksh/Desktop/CellCycle_test.arff",
+        "train_path": "/home/yksh/Desktop/CellCycle_train.arff",
+        "preprocessing": true,
+
+        "population_size": 50,
+        "num_generations": 100,
+        "crossover_rate": 0.8,
+        "mutation_rate": 0.2,
+        "chromosome_length": 10,
+        "crossvalidation_5fold": false
+
+          
+          
+    }
+  
+
+  

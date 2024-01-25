@@ -25,6 +25,7 @@ class Utils:
         self.debug(f"Best fitness: {best_fitness}")
         self.debug(f"Average fitness: {average_fitness}")
         self.debug(f"Worst fitness: {worst_fitness}")
+        print()
 
     def clear_screen(self):
         print("\033[H\033[J")

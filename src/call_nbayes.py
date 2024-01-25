@@ -1,7 +1,8 @@
 import os
+from utils import Utils
 import ctypes
 
-def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'y', usf:str = 'y') -> float:
+def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'n') -> float:
     """Call nbayes function from nbayes.so, read docs/GMNB_2009_Silla.pdf for more information.
     
     `Args:`
@@ -20,7 +21,7 @@ def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './res
         raise Exception("Error: nbayes.so not found. Please compile the call_nbayes.cpp file.")
     
     if os.name == 'nt':
-        raise Exception("Error: nbayes.so is not compatible with Windows.")
+        raise Exception("Error: nbayes.so is not compatible with Windows, try to compile to nbayes.dll.")
 
     nbayes_dll = ctypes.CDLL('./src/nbayes.so')
 

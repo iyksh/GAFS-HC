@@ -47,16 +47,16 @@ class GeneticAlgorithm:
     # Constructor, all the variables and the algorithm are initialized here
     # ==============================================================================
 
-    def __init__(self, test_filepath:str, train_filepath:str, population_size = 10, num_generations = 20, cross_validation = False) -> None:
+    def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, cross_validation: bool) -> None:
         
         # Creating the objects
-        population = ClassPopulation(test_filepath) # Object that manipulates the population and fitness function 
+        population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
         operators = genetic_operators() # Object that manipulates the genetic operators
         utils = Utils() # Object that manipulates the utils functions
 
         utils.clear_screen()                # Clear the terminal screen before the starts
-        utils.debug(f"Test file: {population.filepath}") # check if the file is correct
-        utils.debug(f"Train file: {train_filepath}") # check if the file is correct
+        utils.debug(f"Test file: {population.train_filepath}") # check if the file is correct on the object
+        utils.debug(f"Train file: {population.test_filepath}") # check if the file is correct on the object
 
         # Initializing the variables
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
@@ -73,7 +73,7 @@ class GeneticAlgorithm:
 
         for generation in range(num_generations): # Main loop of the genetic algorithm
             
-            population_fitness = population.evaluate_fitness(population_list, train_filepath, cross_validation_check = cross_validation) # Evaluating the fitness of each chromosome
+            population_fitness = population.evaluate_fitness(population_list, cross_validation) # Evaluating the fitness of each chromosome
             self.get_history(population_fitness, population_list) # Getting the history of the fitness
 
             population_list = operators.tournament_selection(population_list, population_fitness) # Selecting the chromosomes to the crossover
@@ -88,8 +88,9 @@ class GeneticAlgorithm:
 
 
         utils.debug(f"Best Chromosome found and saved at ./best_chromossome.arff", type="success")
-        population.convert_chromossome_to_file(self.best_chromosome[0], path='./best_chromossome.arff', 
-        description = f"Binary Enconding: {self.best_chromosome[0]} \nFitness: {self.best_chromosome[1]}")
+        population.convert_chromossome_to_file(self.best_chromosome[0], population.test_filepath, type="best_chromossome") # Saving the best chromosome in a file
+
+        description = f"Binary Enconding: {self.best_chromosome[0]} \nFitness: {self.best_chromosome[1]}"
         
         operators.check_chromossome(train_filepath, test_filepath) # Checking if the best chromosome is correct
         utils.plot_fitness_history(self.fitness_history) # Plotting the average fitness history
