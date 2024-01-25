@@ -18,6 +18,7 @@ from dataset import DatasetManipulator
 with open("./src/config.json", "r") as FILE:
     config = json.load(FILE)                                                      
 
+#Paths variables
 test_path = config["test_path"]
 train_path = config["train_path"]
 output_path_test = test_path.split(".")[0] + "_output.arff"
@@ -30,9 +31,10 @@ preprocess = config["preprocessing"]
 population_size = config["population_size"]
 num_generations = config["num_generations"]
 cross_validation = config["crossvalidation_5fold"]
-
-# Report variables
-i = 1 # Number of the report
+crossover_rate = config["crossover_rate"]
+mutation_rate = config["mutation_rate"]
+tournament_winner_rate = config["tournament_winner_rate"]
+timer = config["timer_stop_algorithm"]
 
 # ==============================================================================
 # Preprocessing the dataset
@@ -56,5 +58,7 @@ else:
 # ==============================================================================
 
 # Genetic Algorithm object
-Algorithm = GeneticAlgorithm(output_path_test, output_path_train, population_size, num_generations, cross_validation) 
+Algorithm = GeneticAlgorithm(output_path_test, output_path_train, population_size, num_generations, 
+                             cross_validation, crossover_rate, mutation_rate, tournament_winner_rate,
+                             timer) 
 

@@ -1,0 +1,37 @@
+info: Test file: /home/yksh/Desktop/CellCycle_train_output.arff 
+info: Train file: /home/yksh/Desktop/CellCycle_test_output.arff 
+info: Population size: 5 
+info: Number of generations: 50 
+info: Cross-validation: False 
+info: Crossover rate: 0.8 
+info: Mutation rate: 0.2 
+info: Tournament winner rate: 0.75 
+debug: Generation 0:  
+debug: Best fitness: 41.275 
+debug: Average fitness: 40.953 
+debug: Worst fitness: 40.700 
+info: Stop, at generation 0? (y/n) 
+debug: Generation 1:  
+debug: Best fitness: 41.275 
+debug: Average fitness: 41.151 
+debug: Worst fitness: 40.812 
+info: Stop, at generation 1? (y/n) 
+debug: Generation 2:  
+debug: Best fitness: 41.275 
+debug: Average fitness: 41.275 
+debug: Worst fitness: 41.275 
+info: Stop, at generation 2? (y/n) 
+debug: Generation 3:  
+debug: Best fitness: 41.275 
+debug: Average fitness: 41.275 
+debug: Worst fitness: 41.275 
+info: Stop, at generation 3? (y/n) 
+debug: Generation 4:  
+debug: Best fitness: 41.275 
+debug: Average fitness: 41.242 
+debug: Worst fitness: 41.142 
+info: Stop, at generation 4? (y/n) 
+info: Stopped at generation 4 
+success: Best Chromosome found and saved at ./best_chromossome.arff 
+debug: Original Dataset GMNbayes: 41.07338333129883 
+debug: Best Chromossome GMNbayes: 41.27906799316406 

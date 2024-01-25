@@ -67,7 +67,7 @@ class genetic_operators:
 
         return child
 
-    def pmx_crossover(self, population:list, crossover_rate=0.8) -> list:
+    def pmx_crossover(self, population:list, crossover_rate) -> list:
         new_population = []
         for i in range(0, len(population)-1, 2):
             parent1 = population[i]
@@ -87,7 +87,7 @@ class genetic_operators:
         return new_population
     
 
-    def swap_mutation(self, population:list, mutation_rate=0.1) -> list:
+    def swap_mutation(self, population:list, mutation_rate) -> list:
         for i in range(len(population)):
             if random.random() < mutation_rate:
                 mutation_point1 = random.randint(0, len(population[i]) - 1)
@@ -118,14 +118,14 @@ class genetic_operators:
 
     def check_chromossome(self, train_path, test_path):
         nbayes_fitness = call_nbayes(train_path, test_path)
-        cross_validation_fitness = cross_validation(test_path, train_path) 
         self.utils.debug(f"Original Dataset GMNbayes: {nbayes_fitness}")
-        self.utils.debug(f"Original Dataset GMNbayes Cross-validation: {cross_validation_fitness}")
 
-        nbayes_fitness = call_nbayes(train_path, './best_chromossome.arff')
-        cross_validation_fitness = cross_validation('./best_chromossome.arff', train_path) # 5 folds cross validation
+        best_chromossome_test = "./best_chromossome_test.arff"
+        best_chromossome_train = "./best_chromossome_train.arff"
+
+        nbayes_fitness = call_nbayes(best_chromossome_train, best_chromossome_test)
         self.utils.debug(f"Best Chromossome GMNbayes: {nbayes_fitness}")
-        self.utils.debug(f"Best Chromossome GMNbayes Cross-validation: {cross_validation_fitness}")
+
 
 
 

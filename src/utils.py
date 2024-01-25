@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 
 class Utils:
 
+    def __init__(self) -> None:
+        self.log_file = "src/log.txt"
+
+        
+
     def delete_chromossomes(self):
         current_directory = "./"
         files = os.listdir(current_directory)
@@ -25,11 +30,14 @@ class Utils:
         self.debug(f"Best fitness: {best_fitness}")
         self.debug(f"Average fitness: {average_fitness}")
         self.debug(f"Worst fitness: {worst_fitness}")
-        print()
 
     def clear_screen(self):
         print("\033[H\033[J")
 
+    def clear_log(self):
+        with open(self.log_file, "w") as file:
+            file.write("")
+        file.close()
 
     def plot_fitness_history(self, fitness_history, title = 'Avarage-Fitness History'):
         """
@@ -63,6 +71,10 @@ class Utils:
                 
         else:
             print("\033[1;35m" + "[Debug]: " + "\033[0m" + text)
+
+        with open(self.log_file, "a+") as file:
+            file.write(f"{type}: {text} \n")
+        file.close()
 
 
     def plot_fitness_history_file(self, report_num, pop_size, best_fitness, avg_fitness_history, best_fitness_history):

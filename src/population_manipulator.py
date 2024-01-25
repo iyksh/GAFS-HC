@@ -107,10 +107,13 @@ class Population:
         elif type == 'train':
             temporary_chromossome.dataset_dict['description'] = "Train Chromossome"
             temporary_chromossome.save_dataset(self.chromossome_train_path)
-        elif type == "best_chromossome":
-            temporary_chromossome.dataset_dict['description'] = "Best Chromossome"
-            temporary_chromossome.save_dataset('./best_chromossome.arff')
-        
+        elif type == "best_chromossome_test":
+            temporary_chromossome.dataset_dict['description'] = "Best Chromossome of the test dataset"
+            temporary_chromossome.save_dataset('./best_chromossome_test.arff')
+        elif type == "best_chromossome_train":
+            temporary_chromossome.dataset_dict['description'] = "Best Chromossome of the train dataset"
+            temporary_chromossome.save_dataset('./best_chromossome_train.arff')
+
         else:
             self.utils.debug("Invalid type", "error")
 
