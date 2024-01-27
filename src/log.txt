@@ -1,37 +1,35 @@
-info: Test file: /home/yksh/Desktop/CellCycle_train_output.arff 
-info: Train file: /home/yksh/Desktop/CellCycle_test_output.arff 
-info: Population size: 5 
-info: Number of generations: 50 
-info: Cross-validation: False 
-info: Crossover rate: 0.8 
-info: Mutation rate: 0.2 
-info: Tournament winner rate: 0.75 
+info: Test file: /home/yksh/Desktop/temp/CellCycle_train_preprocessed.arff 
+info: Train file: /home/yksh/Desktop/temp/CellCycle_test_preprocessed.arff 
 debug: Generation 0:  
-debug: Best fitness: 41.275 
-debug: Average fitness: 40.953 
-debug: Worst fitness: 40.700 
-info: Stop, at generation 0? (y/n) 
+debug: Best fitness: 41.481 
+debug: Average fitness: 41.119 
+debug: Worst fitness: 40.870 
+info: Generation 0 took 23.92 seconds 
+info: Approximate time to finish: 0.03 hours 
 debug: Generation 1:  
-debug: Best fitness: 41.275 
-debug: Average fitness: 41.151 
-debug: Worst fitness: 40.812 
-info: Stop, at generation 1? (y/n) 
+debug: Best fitness: 41.221 
+debug: Average fitness: 41.031 
+debug: Worst fitness: 40.785 
+info: Generation 1 took 24.42 seconds 
+info: Approximate time to finish: 0.03 hours 
 debug: Generation 2:  
-debug: Best fitness: 41.275 
-debug: Average fitness: 41.275 
-debug: Worst fitness: 41.275 
-info: Stop, at generation 2? (y/n) 
+debug: Best fitness: 41.532 
+debug: Average fitness: 41.032 
+debug: Worst fitness: 40.678 
+info: Generation 2 took 24.21 seconds 
+info: Approximate time to finish: 0.02 hours 
 debug: Generation 3:  
-debug: Best fitness: 41.275 
-debug: Average fitness: 41.275 
-debug: Worst fitness: 41.275 
-info: Stop, at generation 3? (y/n) 
+debug: Best fitness: 41.109 
+debug: Average fitness: 40.930 
+debug: Worst fitness: 40.611 
+info: Generation 3 took 24.59 seconds 
+info: Approximate time to finish: 0.01 hours 
 debug: Generation 4:  
-debug: Best fitness: 41.275 
-debug: Average fitness: 41.242 
-debug: Worst fitness: 41.142 
-info: Stop, at generation 4? (y/n) 
-info: Stopped at generation 4 
+debug: Best fitness: 41.282 
+debug: Average fitness: 40.967 
+debug: Worst fitness: 40.545 
+info: Generation 4 took 24.85 seconds 
+info: Approximate time to finish: 0.01 hours 
 success: Best Chromosome found and saved at ./best_chromossome.arff 
-debug: Original Dataset GMNbayes: 41.07338333129883 
-debug: Best Chromossome GMNbayes: 41.27906799316406 
+debug: Original Dataset GMNbayes: 40.96122360229492 
+debug: Best chromossome found fitness: 40.9962158203125 

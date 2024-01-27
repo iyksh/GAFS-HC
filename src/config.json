@@ -1,17 +1,14 @@
 {
 
-        "test_path": "/home/yksh/Desktop/CellCycle_test.arff",
-        "train_path": "/home/yksh/Desktop/CellCycle_train.arff",
-        
-        "preprocessing": true,
-        "crossvalidation_5fold": false,
+        "test_path": "/home/yksh/Desktop/temp/CellCycle_test.arff",
+        "train_path": "/home/yksh/Desktop/temp/CellCycle_train.arff",
 
-        "population_size": 5,
-        "num_generations": 50,
-        "crossover_rate": 0.8,
-        "mutation_rate": 0.2,
+        "population_size": 10,
+        "num_generations": 5,
+        "crossover_rate": 0.9,
+        "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
-        "timer_stop_algorithm": 5
+        "timer_stop_algorithm": 0
        
 
           

@@ -34,8 +34,7 @@ class GeneticAlgorithm:
         - Tournament Selection, with 2 individuals.
 
     `Fitness:`
-        - GMNB cross-validation (5 folds), if cross_validation=True
-        - GMNB only, if cross_validation=False
+        - GMNB cross-validation (5 folds)
 
     `Crossover:`
         - Partially Mapped Crossover (PMX)
@@ -50,8 +49,7 @@ class GeneticAlgorithm:
     # ==============================================================================
 
     def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, 
-                 cross_validation: bool, crossover_rate:float, mutation_rate:float, tournament_winner_rate:float,
-                 timer = 5) -> None:
+                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer = 5) -> None:
         
         # Creating the objects
         population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
@@ -64,29 +62,26 @@ class GeneticAlgorithm:
         self.best_fitness_history = []      #list of the best fitness of each generation, will be used to plot the graph
         self.timer = timer                  #timer to check if stops the algorithm
         self.stop_input = None              #input to check if stops the algorithm
+        self.num_generations = num_generations #number of generations
 
         # Debugging the variables before the algorithm starts
         self.utils.clear_screen()                # Clear the terminal screen before the starts
         self.utils.clear_log()
         self.utils.debug(f"Test file: {population.train_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"Train file: {population.test_filepath}", "info") # check if the file is correct on the object
-        self.utils.debug(f"Population size: {population_size}", "info") # check if the population size is correct on the object
-        self.utils.debug(f"Number of generations: {num_generations}", "info") # check if the number of generations is correct on the object
-        self.utils.debug(f"Cross-validation: {cross_validation}", "info") # check if the cross-validation is correct on the object
-        self.utils.debug(f"Crossover rate: {crossover_rate}", "info") # check if the crossover rate is correct on the object
-        self.utils.debug(f"Mutation rate: {mutation_rate}", "info") # check if the mutation rate is correct on the object
-        self.utils.debug(f"Tournament winner rate: {tournament_winner_rate}", "info") # check if the tournament winner rate is correct on the object
         
-
     # ==============================================================================
     # Main loop of the genetic algorithm
     # ==============================================================================        
+        population.five_folds(test_filepath) # Creating the 5 folds of the test file
+        population.five_folds(train_filepath) # Creating the 5 folds of the train file
 
         population_list = population.create_population(population_size) # Creating the initial population 
 
         for generation in range(num_generations): # Main loop of the genetic algorithm
-            
-            population_fitness = population.evaluate_fitness(population_list, cross_validation) # Evaluating the fitness of each chromosome
+            start = time.time()
+
+            population_fitness = population.cross_validation(population_list) # Evaluating the fitness of each chromosome
             self.get_history(population_fitness, population_list) # Getting the history of the fitness
 
             population_list = operators.tournament_selection(population_list, population_fitness, k= tournament_winner_rate) # Selection
@@ -95,7 +90,9 @@ class GeneticAlgorithm:
 
             self.utils.print_population_fitness(population_fitness, generation) # Printing the population fitness
             
-            if self.stop_check(generation): #checking if the user wants to stop the algorithm
+            end = time.time()
+
+            if self.stop_check(generation, start, end): #checking if the user wants to stop the algorithm
                 break
 
 
@@ -136,7 +133,10 @@ class GeneticAlgorithm:
     def get_user_input(self):
         self.stop_input = str(input())
         
-    def stop_check(self, generation) -> bool:
+    def stop_check(self, generation, start, end) -> bool:
+        self.utils.debug(f"Generation {generation} took {(end - start):.2f} seconds", type="info")
+        self.utils.debug(f"Approximate time to finish: {(end - start) * (self.num_generations - generation) / 3600:.2f} hours", type="info")
+
         if self.timer == 0:
             return False
 

@@ -72,9 +72,10 @@ class Utils:
         else:
             print("\033[1;35m" + "[Debug]: " + "\033[0m" + text)
 
-        with open(self.log_file, "a+") as file:
-            file.write(f"{type}: {text} \n")
-        file.close()
+        if not text.endswith("seconds") or not text.endswith("minutes") or not text.endswith("hours"):
+            with open(self.log_file, "a+") as file:
+                file.write(f"{type}: {text} \n")
+            file.close()
 
 
     def plot_fitness_history_file(self, report_num, pop_size, best_fitness, avg_fitness_history, best_fitness_history):

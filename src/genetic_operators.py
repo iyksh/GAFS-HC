@@ -1,9 +1,6 @@
 import random
-import os
 
 from utils import *
-from dataset import Dataset
-from cross_validation import *
 from call_nbayes import call_nbayes
 
 class genetic_operators:
@@ -124,30 +121,8 @@ class genetic_operators:
         best_chromossome_train = "./best_chromossome_train.arff"
 
         nbayes_fitness = call_nbayes(best_chromossome_train, best_chromossome_test)
-        self.utils.debug(f"Best Chromossome GMNbayes: {nbayes_fitness}")
+        self.utils.debug(f"Best chromossome found fitness: {nbayes_fitness}")
 
-
-
-
-
-
-
-#                                                                   #
-#                                                                   #
-#                   Usage examples:                                 #
-#                                                                   #
-#                                                                   #
-#                                                                   #
-    
-if __name__ == "__main__":
-
-    operators = genetic_operators()
-    # Exemplo de uso com os parâmetros fornecidos
-    population = [[1, 1, 0, 0, 1], [0, 1, 0, 0, 0], [1, 1, 0, 1, 1], [0, 1, 0, 0, 0]]
-    fitness_scores = [34.72222137451172, 23.58974266052246, 24.72222137451172, 15.58974266052246]
-
-    selected_population = operators.roulette_selection(population, fitness_scores)
-    print(selected_population)
 
 
 
