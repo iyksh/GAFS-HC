@@ -1,2 +1,2 @@
-*.arff
+./result.arff
 __pycache__/
