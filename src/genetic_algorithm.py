@@ -72,9 +72,10 @@ class GeneticAlgorithm:
         
     # ==============================================================================
     # Main loop of the genetic algorithm
-    # ==============================================================================        
+    # ==============================================================================
+        population.five_folds(train_filepath) # Creating the 5 folds of the train file        
         population.five_folds(test_filepath) # Creating the 5 folds of the test file
-        population.five_folds(train_filepath) # Creating the 5 folds of the train file
+        
 
         population_list = population.create_population(population_size) # Creating the initial population 
 
@@ -103,11 +104,9 @@ class GeneticAlgorithm:
 
         self.utils.debug(f"Best Chromosome found and saved at ./best_chromossome.arff", type="success")
 
-        population.convert_chromossome_to_file(self.best_chromosome[0], population.test_filepath, type="best_chromossome_train") # Saving the best chromosome in a file
-        population.convert_chromossome_to_file(self.best_chromosome[0], population.train_filepath, type="best_chromossome_test") # Saving the best chromosome in a file
+        population.convert_chromossome_to_file(self.best_chromosome[0], population.test_filepath, type="best_chromossome_test") # Saving the best chromosome in a file
+        population.convert_chromossome_to_file(self.best_chromosome[0], population.train_filepath, type="best_chromossome_train") # Saving the best chromosome in a file
 
-        description = f"Binary Enconding: {self.best_chromosome[0]} \nFitness: {self.best_chromosome[1]}"
-        
         operators.check_chromossome(train_filepath, test_filepath) # Checking if the best chromosome is correct
         self.utils.plot_fitness_history(self.fitness_history) # Plotting the average fitness history
         self.utils.plot_fitness_history(self.best_fitness_history, title = 'Best-Fitness History') # Plotting the best fitness history

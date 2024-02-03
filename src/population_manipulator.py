@@ -39,8 +39,8 @@ class Population:
         self.test_filepath = test_dataset_path
 
         # The train and test dataset.
-        self.chromossome_train_path = (f"./chromossome_train.arff") # Problem if use threads    
-        self.chromossome_test_path = (f"./chromossome_test.arff") # Problem if use threads
+        self.chromossome_train_path = (f"./generated-files/chromossome_train.arff") # Problem if use threads    
+        self.chromossome_test_path = (f"./generated-files/chromossome_test.arff") # Problem if use threads
 
     def five_folds(self, path_dataset: str) -> None:
         """Divide the dataset into 5 parts, and each part is saved in a .arff file.
@@ -56,9 +56,11 @@ class Population:
         X_test = df_test.iloc[:, :-1]   # Separating the attributes and 
         y_test = df_test.iloc[:, -1]    # the classes for test dataset
 
+        if len(dataset.dataset_objects) < 20:
+            raise ValueError("The dataset is too small to be divided into 5 folds. Minimum of 20 objects.")
+
         # Using StratifiedKFold to maintain class proportions during cross-validation for test dataset
-        skf_test = StratifiedKFold(n_splits=5)
-        
+        skf_test = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
         warnings.filterwarnings("ignore", category=UserWarning)
         for i, (train_index_test, test_index_test) in enumerate(skf_test.split(X_test, y_test)):
 
@@ -82,7 +84,6 @@ class Population:
             dataset.dataset_dict['data'] = fold_data
             dataset.save_dataset(path)
             dataset.dataset_dict['description'] = description
-
         warnings.catch_warnings()
         
 
@@ -185,11 +186,11 @@ class Population:
             
         elif type == "best_chromossome_test":
             description = "Best Chromossome of the test dataset"
-            save_path = "./best_chromossome_test.arff"
+            save_path = "./generated-files/best_chromossome_test.arff"
 
         elif type == "best_chromossome_train":
             description = "Best Chromossome of the train dataset"
-            save_path = "./best_chromossome_train.arff"
+            save_path = "./generated-files/best_chromossome_train.arff"
 
         new_dataset.dataset_dict['description'] = description
         new_dataset.save_dataset(save_path)

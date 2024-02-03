@@ -24,6 +24,8 @@ train_path = config["train_path"]
 output_path_test = test_path.split(".")[0] + "_preprocessed.arff"
 output_path_train = train_path.split(".")[0] + "_preprocessed.arff"
 
+output_path_test = test_path
+output_path_train = train_path
 
 # Genetic Algorithm variables
 population_size = config["population_size"]
@@ -51,6 +53,6 @@ preprocessing.minimum_classes(output_path_train, output_path_train) # Delete the
 
 # Genetic Algorithm object
 Algorithm = GeneticAlgorithm(output_path_test, output_path_train, population_size, num_generations, 
-                             crossover_rate, mutation_rate, tournament_winner_rate, timer) 
+                            crossover_rate, mutation_rate, tournament_winner_rate, timer) 
 
                              
