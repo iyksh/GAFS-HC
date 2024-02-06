@@ -1,9 +1,9 @@
 {
 
-        "test_path": "/home/yksh/Desktop/temp/CellCycle_test.arff",
-        "train_path": "/home/yksh/Desktop/temp/CellCycle_train.arff",
+        "test_path": "/home/yksh/Desktop/temp/Gasch1_test.arff",
+        "train_path": "/home/yksh/Desktop/temp/Gasch1_train.arff",
 
-        "population_size": 30,
+        "population_size": 100,
         "num_generations": 100,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,

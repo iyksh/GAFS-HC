@@ -33,7 +33,7 @@ class Population:
         self.utils = Utils()
         self.train_data = Dataset(train_dataset_path) 
         self.test_data = Dataset(test_dataset_path)
-        
+
         # Saving the paths.
         self.train_filepath = train_dataset_path
         self.test_filepath = test_dataset_path

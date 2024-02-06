@@ -69,7 +69,8 @@ class GeneticAlgorithm:
         self.utils.clear_log()
         self.utils.debug(f"Test file: {population.train_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"Train file: {population.test_filepath}", "info") # check if the file is correct on the object
-        
+        self.utils.debug(f"N. of attributes: {len(population.test_data.dataset_attributes)}", "info") # check the number of attributes
+
     # ==============================================================================
     # Main loop of the genetic algorithm
     # ==============================================================================
@@ -111,6 +112,7 @@ class GeneticAlgorithm:
         self.utils.plot_fitness_history(self.fitness_history) # Plotting the average fitness history
         self.utils.plot_fitness_history(self.best_fitness_history, title = 'Best-Fitness History') # Plotting the best fitness history
 
+        self.utils.debug(f"Number of attributes selected: {sum(self.best_chromosome[0])}", type="info")
         
 
 
@@ -133,14 +135,17 @@ class GeneticAlgorithm:
         self.stop_input = str(input())
         
     def stop_check(self, generation, start, end) -> bool:
-        self.utils.debug(f"Generation {generation} took {(end - start):.2f} seconds", type="info")
-        self.utils.debug(f"Approximate time to finish: {(end - start) * (self.num_generations - generation) / 3600:.2f} hours", type="info")
+        self.utils.debug(f"Generation {generation} took {(end - start):.2f} seconds")
+        hours_finish = (end - start) * (self.num_generations - generation) / 3600
+        minutes_finish = (hours_finish - int(hours_finish)) * 60
+
+        self.utils.debug(f"Approximate time to finish: {hours_finish:.2f} hours and {minutes_finish:.2f} minutes")
 
         if self.timer == 0:
             return False
 
         #check if the user wants to stop
-        self.utils.debug(f"Stop at generation {generation}? (y/n)", type="info")
+        self.utils.debug(f"Stop at generation {generation}? (y/n)")
         thread = threading.Thread(target=self.get_user_input)
         thread.start()
 

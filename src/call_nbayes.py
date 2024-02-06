@@ -1,5 +1,4 @@
 import os
-from utils import Utils
 import ctypes
 
 def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'n') -> float:
