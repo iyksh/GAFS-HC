@@ -27,7 +27,7 @@ from sklearn.model_selection import StratifiedKFold
 
 class Population:
 
-    def __init__(self, test_dataset_path:str, train_dataset_path:str) -> None:
+    def __init__(self, test_dataset_path:str, train_dataset_path:str, thread_folder = None) -> None:
         
         # Creating the objects.
         self.utils = Utils()
@@ -39,9 +39,14 @@ class Population:
         self.test_filepath = test_dataset_path
         self.num_folds = 5
 
-        # The train and test dataset.
-        self.chromossome_train_path = (f"./generated-files/chromossome_train.arff") # Problem if use threads    
-        self.chromossome_test_path = (f"./generated-files/chromossome_test.arff") # Problem if use threads
+        if thread_folder != None: # If use threads, the files need to be saved in different folders to avoid conflicts
+            self.chromossome_train_path = (f"./generated-files/{thread_folder}/chromossome_train.arff")
+            self.chromossome_test_path = (f"./generated-files/{thread_folder}/chromossome_test.arff")
+        
+        else:
+            # The train and test dataset.
+            self.chromossome_train_path = (f"./generated-files/chromossome_train.arff")  
+            self.chromossome_test_path = (f"./generated-files/chromossome_test.arff") 
 
     def five_folds(self, path_dataset: str) -> None:
         """Divide the dataset into 5 parts, and each part is saved in a .arff file.

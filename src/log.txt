@@ -2,66 +2,8 @@ info: Test file: /home/yksh/Desktop/temp/CellCycle_train.arff
 info: Train file: /home/yksh/Desktop/temp/CellCycle_test.arff 
 info: N. of attributes: 78 
 debug: Generation 0:  
-debug: Best fitness: 41.130 
-debug: Average fitness: 40.795 
-debug: Worst fitness: 40.656 
-debug: Generation 0 took 16.59 seconds 
-debug: Approximate time to finish: 0.05 hours and 2.76 minutes 
-debug: Generation 1:  
-debug: Best fitness: 41.153 
-debug: Average fitness: 41.011 
-debug: Worst fitness: 40.785 
-debug: Generation 1 took 14.33 seconds 
-debug: Approximate time to finish: 0.04 hours and 2.15 minutes 
-debug: Generation 2:  
-debug: Best fitness: 41.153 
-debug: Average fitness: 41.048 
-debug: Worst fitness: 40.953 
-debug: Generation 2 took 13.32 seconds 
-debug: Approximate time to finish: 0.03 hours and 1.78 minutes 
-debug: Generation 3:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.905 
-debug: Worst fitness: 40.760 
-debug: Generation 3 took 13.40 seconds 
-debug: Approximate time to finish: 0.03 hours and 1.56 minutes 
-debug: Generation 4:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.905 
-debug: Worst fitness: 40.760 
-debug: Generation 4 took 13.21 seconds 
-debug: Approximate time to finish: 0.02 hours and 1.32 minutes 
-debug: Generation 5:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.863 
-debug: Worst fitness: 40.591 
-debug: Generation 5 took 13.29 seconds 
-debug: Approximate time to finish: 0.02 hours and 1.11 minutes 
-debug: Generation 6:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.953 
-debug: Worst fitness: 40.953 
-debug: Generation 6 took 13.25 seconds 
-debug: Approximate time to finish: 0.01 hours and 0.88 minutes 
-debug: Generation 7:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.949 
-debug: Worst fitness: 40.936 
-debug: Generation 7 took 13.12 seconds 
-debug: Approximate time to finish: 0.01 hours and 0.66 minutes 
-debug: Generation 8:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.905 
-debug: Worst fitness: 40.760 
-debug: Generation 8 took 13.17 seconds 
-debug: Approximate time to finish: 0.01 hours and 0.44 minutes 
-debug: Generation 9:  
-debug: Best fitness: 40.953 
-debug: Average fitness: 40.905 
-debug: Worst fitness: 40.760 
-debug: Generation 9 took 13.57 seconds 
-debug: Approximate time to finish: 0.00 hours and 0.23 minutes 
-success: Best Chromosome found and saved at ./best_chromossome.arff 
-debug: Original Dataset GMNbayes: 40.87431716918945 
-debug: Best chromossome found fitness: 40.869564056396484 
-info: Number of attributes selected: 40 
+debug: Best fitness: 41.215 
+debug: Average fitness: 41.030 
+debug: Worst fitness: 40.899 
+debug: Generation 0 took 83.45 seconds 
+debug: Approximate time to finish: 0.23 hours and 13.91 minutes 

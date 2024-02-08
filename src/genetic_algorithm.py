@@ -11,6 +11,7 @@ import threading
 import time
 
 from population_manipulator import Population
+from fitness_threads import *
 from genetic_operators import *
 from dataset import *
 
@@ -83,7 +84,8 @@ class GeneticAlgorithm:
         for generation in range(num_generations): # Main loop of the genetic algorithm
             start = time.time()
 
-            population_fitness = population.cross_validation(population_list) # Evaluating the fitness of each chromosome
+            #population_fitness = population.cross_validation(population_list) # Evaluating the fitness of each chromosome
+            population_fitness = cross_validation_threading(population_list, train_filepath, test_filepath) # Evaluating the fitness of each chromosome
             self.get_history(population_fitness, population_list) # Getting the history of the fitness
 
             population_list = operators.tournament_selection(population_list, population_fitness, k= tournament_winner_rate) # Selection
