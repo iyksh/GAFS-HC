@@ -126,8 +126,8 @@ class Population:
 
         folds = []
 
-        if cross_validation_folds != None and type == 'test':            
-            filepath_fold = filepath.split(".")[0] + "_fold(" + cross_validation_folds + ").arff"
+        if cross_validation_folds != None and type == 'test':       
+            filepath_fold = filepath.split(".")[0] + "_fold(" + str(cross_validation_folds) + ").arff"
             temporary = Dataset(filepath_fold)
             folds.append(temporary)
 
@@ -163,10 +163,11 @@ class Population:
         # ==============================================================================
 
         objects = [] # set of objects of the folds
-        
+        descriptions = []
+
         # for each fold
         for i in range(len(folds)): 
-            
+            descriptions.append(folds[i].dataset_dict['description'])
             # for each line of the objects
             for j in range(len(folds[i].dataset_objects)): 
                 line = [] # subset of objects of the folds
@@ -188,13 +189,13 @@ class Population:
         new_dataset = Dataset(filepath)
         new_dataset.dataset_dict['attributes'] = attributes
         new_dataset.dataset_dict['data'] = objects
+        description = str(descriptions.copy())
+
 
         if type == 'test':
-            description = "Test Chromossome - 5 folds"
             save_path = self.chromossome_test_path
 
         elif type == 'train':
-            description = "Train Chromossome - 5 folds"
             save_path = self.chromossome_train_path
             
         elif type == "best_chromossome_test":
@@ -211,22 +212,25 @@ class Population:
 
     def cross_validation(self, population:list[int]) -> list[float]:
         chromossomes_fitness = []
-        cross_validation_values = []
+
 
         for chromosome in population:
-            test_index = self.num_folds - 1
+
+            cross_validation_values = []
+            test_index = self.num_folds 
+
             for i in range(self.num_folds):
-                train_index = [i for i in range(self.num_folds) if i != test_index]
                 test_index = test_index - 1
+
+                train_index = [i for i in range(self.num_folds) if i != test_index]
 
                 self.convert_chromossome_to_file(chromosome, self.test_filepath, 'test', cross_validation_folds = test_index)
 
                 self.convert_chromossome_to_file(chromosome, self.train_filepath, 'train', cross_validation_folds = train_index)
 
                 cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
-
-            print(cross_validation_values / self.num_folds)
-            chromossomes_fitness.append(cross_validation_values / self.num_folds)
+            
+            chromossomes_fitness.append(sum(cross_validation_values) / self.num_folds)
         
         return chromossomes_fitness
 

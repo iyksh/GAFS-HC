@@ -1,10 +1,10 @@
 {
 
-        "test_path": "/home/yksh/Desktop/temp/Church_test.arff",
-        "train_path": "/home/yksh/Desktop/temp/Church_train.arff",
+        "test_path": "/home/yksh/Desktop/temp/CellCycle_test.arff",
+        "train_path": "/home/yksh/Desktop/temp/CellCycle_train.arff",
 
-        "population_size": 100,
-        "num_generations": 100,
+        "population_size": 5,
+        "num_generations": 10,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,

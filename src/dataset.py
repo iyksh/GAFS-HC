@@ -10,7 +10,7 @@ import arff
 import numpy as np
 
 from sklearn.preprocessing import KBinsDiscretizer
-from src.utils import Utils
+from utils import Utils
 
 # ==============================================================================
 # # This class is used just to extract the dataset information
