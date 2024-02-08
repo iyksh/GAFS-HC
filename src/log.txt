@@ -1,3 +1,117 @@
 info: Test file: /home/yksh/Desktop/temp/Gasch1_train.arff 
 info: Train file: /home/yksh/Desktop/temp/Gasch1_test.arff 
 info: N. of attributes: 174 
+debug: Generation 0:  
+debug: Best fitness: 41.141 
+debug: Average fitness: 40.896 
+debug: Worst fitness: 40.591 
+debug: Generation 0 took 418.00 seconds 
+debug: Approximate time to finish: 11.61 hours and 36.67 minutes 
+debug: Generation 1:  
+debug: Best fitness: 41.205 
+debug: Average fitness: 40.920 
+debug: Worst fitness: 40.603 
+debug: Generation 1 took 404.06 seconds 
+debug: Approximate time to finish: 11.11 hours and 6.70 minutes 
+debug: Generation 2:  
+debug: Best fitness: 41.585 
+debug: Average fitness: 40.927 
+debug: Worst fitness: 40.700 
+debug: Generation 2 took 375.13 seconds 
+debug: Approximate time to finish: 10.21 hours and 12.71 minutes 
+debug: Generation 3:  
+debug: Best fitness: 41.594 
+debug: Average fitness: 40.962 
+debug: Worst fitness: 40.680 
+debug: Generation 3 took 393.92 seconds 
+debug: Approximate time to finish: 10.61 hours and 36.83 minutes 
+debug: Changing class R.11.02.03.01 with 2 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 3 instances from R.12.04 
+debug: Changing class R.11.02.03 with 2 instances from R.11.02 
+debug: Changing class R.12.04 with 3 instances from R.12 
+debug: Changing class R.11.02 with 2 instances from R.11 
+debug: Changing class R.12 with 3 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 3 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 2 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 3 instances from R.12.04 
+debug: Changing class R.11.02.03 with 2 instances from R.11.02 
+debug: Changing class R.12.04 with 3 instances from R.12 
+debug: Changing class R.11.02 with 2 instances from R.11 
+debug: Changing class R.12 with 3 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 3 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 4 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 4 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 4 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 4 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 4 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 5 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 5 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 4 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 5 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 5 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 4 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 5 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 5 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 3 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 4 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 4 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 3 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 3 instances from R.12.04 
+debug: Changing class R.11.02.03 with 3 instances from R.11.02 
+debug: Changing class R.12.04 with 3 instances from R.12 
+debug: Changing class R.11.02 with 3 instances from R.11 
+debug: Changing class R.12 with 3 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11.02.03.01 with 2 instances from R.11.02.03 
+debug: Changing class R.12.04.02 with 3 instances from R.12.04 
+debug: Changing class R.11.02.03 with 2 instances from R.11.02 
+debug: Changing class R.12.04 with 3 instances from R.12 
+debug: Changing class R.11.02 with 2 instances from R.11 
+debug: Changing class R.12 with 4 instances from R 
+info: The class is root, removing it. 
+debug: Changing class R.11 with 3 instances from R 
+info: The class is root, removing it. 

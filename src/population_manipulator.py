@@ -34,9 +34,10 @@ class Population:
         self.train_data = Dataset(train_dataset_path) 
         self.test_data = Dataset(test_dataset_path)
 
-        # Saving the paths.
+        # Saving Variables
         self.train_filepath = train_dataset_path
         self.test_filepath = test_dataset_path
+        self.num_folds = 5
 
         # The train and test dataset.
         self.chromossome_train_path = (f"./generated-files/chromossome_train.arff") # Problem if use threads    
@@ -111,7 +112,7 @@ class Population:
         return population
 
         
-    def convert_chromossome_to_file(self, chromosome: list, filepath:str, type:str, num_folds = 5) -> None:
+    def convert_chromossome_to_file(self, chromosome: list, filepath:str, type:str, num_folds = 5, cross_validation_folds = None) -> None:
         """
         - Convert a chromosome list with binary encoding (e.g., [0, 1, 0, 1]) to a .arff file.
         - Attributes will be get from the first fold, and the objects will be get from the all folds.
@@ -125,10 +126,22 @@ class Population:
 
         folds = []
 
-        for i in range(num_folds): # Read all folds
-            filepath_fold = filepath.split(".")[0] + "_fold(" + str(i) + ").arff"
+        if cross_validation_folds != None and type == 'test':            
+            filepath_fold = filepath.split(".")[0] + "_fold(" + cross_validation_folds + ").arff"
             temporary = Dataset(filepath_fold)
             folds.append(temporary)
+
+        elif cross_validation_folds != None and type == 'train':
+            for i in range(num_folds): # Read all folds
+                if i in cross_validation_folds:
+                    filepath_fold = filepath.split(".")[0] + "_fold(" + str(i) + ").arff"
+                    temporary = Dataset(filepath_fold)
+                    folds.append(temporary)
+        else:
+            for i in range(num_folds): # Read all folds
+                filepath_fold = filepath.split(".")[0] + "_fold(" + str(i) + ").arff"
+                temporary = Dataset(filepath_fold)
+                folds.append(temporary)
 
         # ==============================================================================
         # Getting the attributes of the folds and the attribute class
@@ -198,13 +211,22 @@ class Population:
 
     def cross_validation(self, population:list[int]) -> list[float]:
         chromossomes_fitness = []
+        cross_validation_values = []
 
         for chromosome in population:
-            self.convert_chromossome_to_file(chromosome, self.test_filepath, 'test')
-            self.convert_chromossome_to_file(chromosome, self.train_filepath, 'train')
+            test_index = self.num_folds - 1
+            for i in range(self.num_folds):
+                train_index = [i for i in range(self.num_folds) if i != test_index]
+                test_index = test_index - 1
 
-            value = call_nbayes(self.chromossome_train_path, self.chromossome_test_path)
+                self.convert_chromossome_to_file(chromosome, self.test_filepath, 'test', cross_validation_folds = test_index)
 
-            chromossomes_fitness.append(value)
+                self.convert_chromossome_to_file(chromosome, self.train_filepath, 'train', cross_validation_folds = train_index)
+
+                cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
+
+            print(cross_validation_values / self.num_folds)
+            chromossomes_fitness.append(cross_validation_values / self.num_folds)
+        
         return chromossomes_fitness
 

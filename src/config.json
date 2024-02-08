@@ -1,7 +1,7 @@
 {
 
-        "test_path": "/home/yksh/Desktop/temp/Gasch1_test.arff",
-        "train_path": "/home/yksh/Desktop/temp/Gasch1_train.arff",
+        "test_path": "/home/yksh/Desktop/temp/Church_test.arff",
+        "train_path": "/home/yksh/Desktop/temp/Church_train.arff",
 
         "population_size": 100,
         "num_generations": 100,

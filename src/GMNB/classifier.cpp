@@ -98,7 +98,18 @@ long double Classifier::applyClassifier(){
   string bestClassId, classOfTestExample;
   long double p, bestP, temp, hP, hR, hP_new, result;
 
-  openResultFile();
+  //openResultFile();
+
+  /* ***          WARNING         ***
+  
+  // When using threads, all fout should be commented due to the fact that the file is shared among threads.
+  
+  
+  */
+
+  
+
+
 
 
   for(exte = 0; exte < numberOfTestExamples; exte++){//Para cada instancia da base de teste...
@@ -142,18 +153,19 @@ long double Classifier::applyClassifier(){
     sumP+= sizeP;
     sumT+= sizeT;
 		sumMinPT+= minValue(sizeP,sizeT);
-		fout << "Example " << exte << " ("<< auxCLCTE->getClassTestSet(exte)  << ") -> " << bestClassId << endl;
+		//fout << "Example " << exte << " ("<< auxCLCTE->getClassTestSet(exte)  << ") -> " << bestClassId << endl;
   }
+  
   hP_new = (double)numerator/(double)sumMinPT;
   hP = (double)numerator/(double)sumP;
   hR = (double)numerator/(double)sumT;
-  fout << "***Performance***" << endl;
-  fout << "hP = " << hP_new*100 << "\nhR = " << hR*100 << "\nhF = " << 100*(2*hP_new*hR)/(hP_new+hR) << endl;
-  fout << "***Performance Antiga***" << endl;
+  //fout << "***Performance***" << endl;
+  //fout << "hP = " << hP_new*100 << "\nhR = " << hR*100 << "\nhF = " << 100*(2*hP_new*hR)/(hP_new+hR) << endl;
+  //fout << "***Performance Antiga***" << endl;
   result = 100*(2*hP*hR)/(hP+hR);
 
-  fout << "hP = " << hP*100 << "\nhR = " << hR*100 << "\nhF = " << result;
-  closeResultFile();
+  //fout << "hP = " << hP*100 << "\nhR = " << hR*100 << "\nhF = " << result;
+  //closeResultFile();
   return result;
 }
 

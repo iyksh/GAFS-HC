@@ -1,15 +1,15 @@
 #include <string>
 #include "./GMNB/nbayes.h"
 
-/*
-
-    c++ code intermediary between the GMNB output
-
-    g++ -shared -fPIC -o ./src/nbayes.so ./src/GMNB/*.cpp ./src/call_nbayes.cpp
-
-
-*/
-
+/************************************************************************************
+ * 
+ *      This file is the intermediary between the GMNB output and the C++ code
+ * 
+ *      Compile the GMNB output and this file into a shared object file:
+ *      
+ *      g++ -shared -fPIC -o ./src/nbayes.so ./src/GMNB/*.cpp ./src/call_nbayes.cpp
+ * 
+ * **********************************************************************************/
 
 extern "C" {
 

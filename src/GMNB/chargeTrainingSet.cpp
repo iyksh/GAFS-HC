@@ -1,6 +1,5 @@
 #include<iostream>
 #include "chargeTrainingSet.h"
-#include"time.h"
 
 using namespace std;
 
