@@ -1,9 +1,0 @@
-info: Test file: /home/yksh/Desktop/temp/CellCycle_train.arff 
-info: Train file: /home/yksh/Desktop/temp/CellCycle_test.arff 
-info: N. of attributes: 78 
-debug: Generation 0:  
-debug: Best fitness: 41.215 
-debug: Average fitness: 41.030 
-debug: Worst fitness: 40.899 
-debug: Generation 0 took 83.45 seconds 
-debug: Approximate time to finish: 0.23 hours and 13.91 minutes 
