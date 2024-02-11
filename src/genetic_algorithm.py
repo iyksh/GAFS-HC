@@ -10,10 +10,10 @@
 import threading
 import time
 
-from population_manipulator import Population
-from fitness_threads import *
-from genetic_operators import *
-from dataset import *
+from src.population_manager import Population
+from src.threads_manager import ThreadsManager
+from src.genetic_operators import *
+from src.dataset import *
 
 class GeneticAlgorithm:
     """
@@ -21,11 +21,17 @@ class GeneticAlgorithm:
     This class is responsible for the genetic algorithm.
 
     `Constructor:`
-    - training_filename: The path of the training file.
-    - test_filename: The path of the test file.
-    - population_size: The size of the population. `Default: 10`
-    - num_generations: The number of generations. `Default: 20`
-    - cross_validation: If True, the fitness function will be the cross-validation. `Default: True`
+    - test_filepath: The path of the test file
+    - train_filepath: The path of the train file
+    - population_size: The size of the population
+    - num_generations: The number of generations
+    - crossover_rate: The rate of the crossover
+    - mutation_rate: The rate of the mutation
+    - tournament_winner_rate: The rate of the tournament winner
+    - timer: The time to check if the user wants to stop the algorithm
+    - num_threads: The number of threads to be used
+    - enable_threading: If the threading will be used or not
+    
 
     `Enconding:`
         - binary lists, 0 means that the attribute will not be selected and 1 means that the attribute will be selected.
@@ -50,12 +56,14 @@ class GeneticAlgorithm:
     # ==============================================================================
 
     def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, 
-                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer = 5) -> None:
+                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer:int = 5, num_threads:int = 1,
+                 enable_threading:bool = True) -> None:
         
         # Creating the objects
         population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
         operators = genetic_operators() # Object that manipulates the genetic operators
         self.utils = Utils() # Object that manipulates the utils functions
+        self.threads = ThreadsManager() # Object that manipulates the threads
 
         # Initializing the variables
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
@@ -71,6 +79,7 @@ class GeneticAlgorithm:
         self.utils.debug(f"Test file: {population.train_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"Train file: {population.test_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"N. of attributes: {len(population.test_data.dataset_attributes)}", "info") # check the number of attributes
+        self.start_time = time.time() # Start the timer to check the time of the algorithm
 
     # ==============================================================================
     # Main loop of the genetic algorithm
@@ -84,8 +93,12 @@ class GeneticAlgorithm:
         for generation in range(num_generations): # Main loop of the genetic algorithm
             start = time.time()
 
-            #population_fitness = population.cross_validation(population_list) # Evaluating the fitness of each chromosome
-            population_fitness = cross_validation_threading(population_list, train_filepath, test_filepath) # Evaluating the fitness of each chromosome
+            if enable_threading:
+                population_fitness = self.threads.cross_validation_threading(population_list, train_filepath, test_filepath, num_threads) # Evaluating the fitness of each chromosome            
+            else:
+                population_fitness = population.cross_validation(population_list)
+            
+            
             self.get_history(population_fitness, population_list) # Getting the history of the fitness
 
             population_list = operators.tournament_selection(population_list, population_fitness, k= tournament_winner_rate) # Selection
@@ -104,7 +117,8 @@ class GeneticAlgorithm:
     # End of the genetic algorithm, some functions are called to plot the graphs
     # ==============================================================================       
 
-
+        self.end_time = time.time() # End the timer to check the time of the algorithm
+        self.utils.debug(f"The algorithm took {(self.end_time - self.start_time):.2f} seconds to run", type="info")
         self.utils.debug(f"Best Chromosome found and saved at ./best_chromossome.arff", type="success")
 
         population.convert_chromossome_to_file(self.best_chromosome[0], population.test_filepath, type="best_chromossome_test") # Saving the best chromosome in a file

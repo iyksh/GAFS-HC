@@ -3,12 +3,14 @@
         "test_path": "/home/yksh/Desktop/temp/CellCycle_test.arff",
         "train_path": "/home/yksh/Desktop/temp/CellCycle_train.arff",
 
-        "population_size": 5,
-        "num_generations": 10,
+        "population_size": 50,
+        "num_generations": 100,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
-        "timer_stop_algorithm": 0
+        "timer_stop_algorithm": 0,
+        "enable_threading": true,
+        "num_threads": 7
     
           
     }

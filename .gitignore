@@ -1,3 +1,4 @@
 ./result.arff
 __pycache__/
 *.arff
+.vscode

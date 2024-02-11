@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 class Utils:
 
     def __init__(self) -> None:
-        self.log_file = "src/log.txt"
+        self.log_file = "generated-files/log.txt"
 
         
 
