@@ -6,7 +6,6 @@
 # Last edited: 2024-02-11 
 # ==============================================================================
                                                                                 
-import json
 from src.genetic_algorithm import GeneticAlgorithm
 from src.dataset import DatasetManipulator
 
@@ -14,11 +13,9 @@ from src.dataset import DatasetManipulator
 # Paths and variables, read the config.json file and change the variables there
 # ==============================================================================
 
-def __init__():
-    
-    with open("./src/config.json", "r") as FILE:
-        config = json.load(FILE)                                                      
-
+def __main__(config: dict) -> None:
+    """ - Warning: This function will discretize the dataset and delete the attributes with less than 10 classes."""
+                                                  
     #Paths variables
     test_path = config["test_path"]
     train_path = config["train_path"]

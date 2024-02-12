@@ -7,7 +7,9 @@
 # ==============================================================================
 
 import os
-from src.__main__ import __init__
+import json
+
+from src.__main__ import __main__
 
 dirs = os.listdir()
 
@@ -15,4 +17,7 @@ if "src" not in dirs:
     Exception("The src folder is not in the current directory")
 
 else:
-    __init__()
+    with open("./.json", "r") as FILE:
+        config = json.load(FILE)    
+
+    __main__(config)

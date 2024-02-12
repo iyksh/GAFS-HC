@@ -63,7 +63,7 @@ class GeneticAlgorithm:
         population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
         operators = genetic_operators() # Object that manipulates the genetic operators
         self.utils = Utils() # Object that manipulates the utils functions
-        self.threads = ThreadsManager() # Object that manipulates the threads
+        self.threads = ThreadsManager(num_threads) # Object that manipulates the threads
 
         # Initializing the variables
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
@@ -94,9 +94,9 @@ class GeneticAlgorithm:
             start = time.time()
 
             if enable_threading:
-                population_fitness = self.threads.cross_validation_threading(population_list, train_filepath, test_filepath, num_threads) # Evaluating the fitness of each chromosome            
+                population_fitness = self.threads.cross_validation_threading(population_list, train_filepath, test_filepath) # Evaluating the fitness of each chromosome            
             else:
-                population_fitness = population.cross_validation(population_list)
+                population_fitness = population.cross_validation(population_list, sequential_run = True)
             
             
             self.get_history(population_fitness, population_list) # Getting the history of the fitness
@@ -152,10 +152,9 @@ class GeneticAlgorithm:
         
     def stop_check(self, generation, start, end) -> bool:
         self.utils.debug(f"Generation {generation} took {(end - start):.2f} seconds")
-        hours_finish = (end - start) * (self.num_generations - generation) / 3600
-        minutes_finish = (hours_finish - int(hours_finish)) * 60
+        seconds_finish = (end - start) * (self.num_generations - generation)
 
-        self.utils.debug(f"Approximate time to finish: {hours_finish:.2f} hours and {minutes_finish:.2f} minutes")
+        self.utils.debug(f"Approximate time to finish: {seconds_finish:.0f} seconds", type="info")
 
         if self.timer == 0:
             return False

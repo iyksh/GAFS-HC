@@ -5,10 +5,26 @@ import os
 
 class ThreadsManager:
 
-    def __init__(self) -> None:
+    def __init__(self, num_threads) -> None:
         self.created_folders = False
         self.num_threads_warning = False
         self.utils = Utils()
+        self.num_threads = num_threads
+
+    def first_run(self, population_list: list[list[int]]):
+        self.utils.debug(f"Using {self.num_threads} threads", "info")
+        self.utils.debug(f"ThreadsManager object created with {self.num_threads} threads")
+        self.utils.debug("Max cores available: " + str(multiprocessing.cpu_count()))
+        self.utils.debug("First time running the threads, creating the folders", "info")
+
+        for i in range(len(population_list)):
+                folder = f"thread_{i}"
+                self.create_folder(folder)
+        
+        self.num_threads_warning = True
+        self.created_folders = True
+
+
 
     def create_folder(self, folder_name:str):
         try:
@@ -18,7 +34,7 @@ class ThreadsManager:
             self.utils.debug(f"Folder '{folder_path}' created successfully.", "success")
 
         except FileExistsError:
-            self.utils.debug(f"Folder '{folder_path}' already exists, ignoring...", "warning")
+            return
 
         except Exception as e:
                 self.utils.debug(f"Error creating the folder '{folder_path}': {e}", "error")
@@ -41,51 +57,25 @@ class ThreadsManager:
 
 
 
-    def cross_validation_threading(self, population_list: list[list[int]], train_filepaths: str, test_filepaths: str, num_threads: int = 1) -> list[list[float]]:
-        population_classes = []
-        num_threads = min(num_threads, len(population_list))
+    def cross_validation_threading(self, population_list: list[list[int]], train_filepaths: str, test_filepaths: str) -> list[list[float]]:
 
         if not self.num_threads_warning:
-            self.utils.debug(f"Using {num_threads} threads", "info")
-            self.num_threads_warning = True
+             self.first_run(population_list)
 
-        if not self.created_folders:
-            self.utils.debug("First time running the threads, creating the folders", "info")
-            for i in range(len(population_list)):
-                folder = f"thread_{i}"
-                self.create_folder(folder)
-                population_classes.append(Population(train_filepaths, test_filepaths, folder))
-            self.created_folders = True
-
-        else:
-            for i in range(len(population_list)):
-                folder = f"thread_{i}"
-                population_classes.append(Population(train_filepaths, test_filepaths, folder))
+        population_classes = []    
+        for i in range(len(population_list)):
+            folder = f"thread_{i}"
+            population_classes.append(Population(train_filepaths, test_filepaths, folder))
 
 
         # Start the threads
 
-        while True:
-
-            #start = time.time()
-
-            with multiprocessing.Pool(processes=num_threads) as pool:
+        with multiprocessing.Pool(processes = self.num_threads) as pool:
                 results = pool.starmap(self.get_fitness, zip(population_classes, population_list))
-            results = [item for sublist in results for item in sublist]
+        
+        results = [item for sublist in results for item in sublist]
+        return results
 
-            #thread_time = time.time() - start
 
 
-            #start = time.time() 
-
-            #sequential = Population(train_filepaths, test_filepaths)
-            #sequential_values = sequential.cross_validation(population_list)
-
-            #sequential_time = time.time() - start
             
-            #if results == sequential_values:
-                #self.utils.debug("Results are equal", "success")
-                #self.utils.debug(f"Threads is {((sequential_time-thread_time)/sequential_time * 100):.2f}% faster than sequential", "success")
-
-
-            return results

@@ -215,11 +215,13 @@ class Population:
         new_dataset.save_dataset(save_path)
 
 
-    def cross_validation(self, population:list[int]) -> list[float]:
+    def cross_validation(self, population:list[int], sequential_run = False) -> list[float]:
         chromossomes_fitness = []
 
 
         for chromosome in population:
+            if sequential_run:
+                self.utils.debug(f"Chromosome: {population.index(chromosome)}", "info")
 
             cross_validation_values = []
             test_index = self.num_folds 
