@@ -32,7 +32,8 @@ def __main__(config: dict) -> None:
     mutation_rate = config["mutation_rate"]
     tournament_winner_rate = config["tournament_winner_rate"]
     timer = config["timer_stop_algorithm"]
-    enable_threading = config["enable_threading"]
+    enable_parallelism = config["enable_parallelism"]
+    max_parallelism_subprocess = config["max_parallelism_subprocess"]
 
     # ==============================================================================
     # Preprocessing the dataset
@@ -53,6 +54,6 @@ def __main__(config: dict) -> None:
     # Genetic Algorithm object
     Algorithm = GeneticAlgorithm(output_path_test, output_path_train, population_size, num_generations, 
                                 crossover_rate, mutation_rate, tournament_winner_rate, timer,
-                                enable_threading) 
+                                enable_parallelism, max_parallelism_subprocess) 
 
                                 

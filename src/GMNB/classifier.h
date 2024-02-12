@@ -27,9 +27,6 @@ public:
   vector < string > t;
   vector < string > p;
 
-  void openResultFile();
-  void closeResultFile();
-
 
   long double computeProbabilityAttributeClass(const unsigned int &numberOfLevels, const unsigned int &attributeId, const string &classId);
   double computeProbabilityTrainingClass(const string &classId);

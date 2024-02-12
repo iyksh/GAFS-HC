@@ -57,7 +57,7 @@ class GeneticAlgorithm:
 
     def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, 
                  crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer:int = 5,
-                 enable_threading:bool = True) -> None:
+                 enable_threading:bool = True, max_parallelism_subprocess:int = 10) -> None:
         
         # Creating the objects
         population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
@@ -93,7 +93,7 @@ class GeneticAlgorithm:
             generation_start_time = time.time()
 
             if enable_threading:
-                population_fitness = self.threads.cross_validation_threading(population_list, train_filepath, test_filepath) # Evaluating the fitness of each chromosome            
+                population_fitness = self.threads.cross_validation_multiprocessing(population_list, train_filepath, test_filepath, max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
             else:
                 population_fitness = population.cross_validation(population_list, sequential_run = True)
             
@@ -150,9 +150,7 @@ class GeneticAlgorithm:
         self.stop_input = str(input())
         
     def stop_check(self, generation, start, end) -> bool:
-        self.utils.debug(f"Generation {generation} took {(end - start):.2f} seconds")
         seconds_finish = (end - start) * (self.num_generations - generation)
-
         self.utils.debug(f"Approximate time to finish: {seconds_finish:.0f} seconds", type="info")
 
         if self.timer == 0:

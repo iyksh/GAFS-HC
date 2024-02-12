@@ -22,7 +22,6 @@ class ThreadsManager:
         try:
             folder_path = "./generated-files/" + folder_name
             os.mkdir(folder_path)
-            self.utils.debug(f"Folder '{folder_path}' created successfully.", "success")
         except FileExistsError:
             return
         except Exception as e:
@@ -36,23 +35,34 @@ class ThreadsManager:
     def process_population(self, population_class, population, result_queue):
         result_queue.put(self.get_fitness(population_class, population))
 
-    def cross_validation_threading(self, population_list: list[list[int]], train_filepaths: str, test_filepaths: str) -> list[list[float]]:
+    def cross_validation_multiprocessing(self, population_list: list[list[int]], train_filepaths: str, test_filepaths: str, max_processes: int = 5) -> list[list[float]]:
         if not self.created_folders:
-             self.first_run(population_list)
+            self.first_run(population_list)
 
         population_classes = []    
         for i in range(len(population_list)):
             folder = f"thread_{i}"
             population_classes.append(Population(train_filepaths, test_filepaths, folder))
 
-        # Use multiprocessing Process
         result_queue = multiprocessing.Queue()
         processes = []
+        running_processes = 0
 
         for pop_class, population in zip(population_classes, population_list):
-            process = multiprocessing.Process(target=self.process_population, args=(pop_class, population, result_queue))
-            processes.append(process)
-            process.start()
+            if running_processes < max_processes:
+                process = multiprocessing.Process(target=self.process_population, args=(pop_class, population, result_queue))
+                processes.append(process)
+                process.start()
+                running_processes += 1
+            else:
+                for p in processes:
+                    p.join()
+                processes = []
+                running_processes = 0
+                process = multiprocessing.Process(target=self.process_population, args=(pop_class, population, result_queue))
+                processes.append(process)
+                process.start()
+                running_processes += 1
 
         for process in processes:
             process.join()
@@ -60,5 +70,9 @@ class ThreadsManager:
         results = []
         while not result_queue.empty():
             results.extend(result_queue.get())
+
+        if len(results) != len(population_list):
+            self.utils.debug(f"Error in the number of results in threads, fitness len: {len(results)}", "error")
+            return []
 
         return results

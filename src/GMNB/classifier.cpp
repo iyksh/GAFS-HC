@@ -5,17 +5,6 @@ using namespace std;
 ChargeTrainingSet *Classifier::auxCLCTR;
 ChargeTestSet *Classifier::auxCLCTE;
 
-void Classifier::openResultFile(){
-  fout.open(resultFile.c_str());
-  if(!fout){
-	cout << "\nError opening result file " << resultFile << endl;
-	exit(1);
-  }
-}
-
-void Classifier::closeResultFile(){
-  fout.close();
-}
 
 //#################Compute Probability Section########################
 long double Classifier::computeProbabilityAttributeClass(const unsigned int &exte, const unsigned int &attributeId, const string &classId){
@@ -97,20 +86,6 @@ long double Classifier::applyClassifier(){
   unsigned int exte = 0, extr = 0, attributeId = 0, numerator = 0, sumP = 0, sumT = 0, sumMinPT = 0, sizeP, sizeT;
   string bestClassId, classOfTestExample;
   long double p, bestP, temp, hP, hR, hP_new, result;
-
-  //openResultFile();
-
-  /* ***          WARNING         ***
-  
-  // When using threads, all fout should be commented due to the fact that the file is shared among threads.
-  
-  
-  */
-
-  
-
-
-
 
   for(exte = 0; exte < numberOfTestExamples; exte++){//Para cada instancia da base de teste...
     bestP = -numeric_limits<long double>::max();

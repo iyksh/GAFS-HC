@@ -1,112 +1,17 @@
 info: Test file: /home/yksh/Desktop/temp/CellCycle_train.arff 
 info: Train file: /home/yksh/Desktop/temp/CellCycle_test.arff 
 info: N. of attributes: 78 
-info: Chromosome: 0 
-info: Chromosome: 1 
-info: Chromosome: 2 
-info: Chromosome: 3 
-info: Chromosome: 4 
-info: Chromosome: 5 
-info: Chromosome: 6 
-info: Chromosome: 7 
-info: Chromosome: 8 
-info: Chromosome: 9 
-info: Chromosome: 10 
-info: Chromosome: 11 
-info: Chromosome: 12 
-info: Chromosome: 13 
-info: Chromosome: 14 
-info: Chromosome: 15 
-info: Chromosome: 16 
-info: Chromosome: 17 
-info: Chromosome: 18 
-info: Chromosome: 19 
-info: Chromosome: 20 
-info: Chromosome: 21 
-info: Chromosome: 22 
-info: Chromosome: 23 
-info: Chromosome: 24 
-info: Chromosome: 25 
-info: Chromosome: 26 
-info: Chromosome: 27 
-info: Chromosome: 28 
-info: Chromosome: 29 
-info: Chromosome: 30 
-info: Chromosome: 31 
-info: Chromosome: 32 
-info: Chromosome: 33 
-info: Chromosome: 34 
-info: Chromosome: 35 
-info: Chromosome: 36 
-info: Chromosome: 37 
-info: Chromosome: 38 
-info: Chromosome: 39 
-info: Chromosome: 40 
-info: Chromosome: 41 
-info: Chromosome: 42 
-info: Chromosome: 43 
-info: Chromosome: 44 
-info: Chromosome: 45 
-info: Chromosome: 46 
-info: Chromosome: 47 
-info: Chromosome: 48 
-info: Chromosome: 49 
-info: Chromosome: 50 
-info: Chromosome: 51 
-info: Chromosome: 52 
-info: Chromosome: 53 
-info: Chromosome: 54 
-info: Chromosome: 55 
-info: Chromosome: 56 
-info: Chromosome: 57 
-info: Chromosome: 58 
-info: Chromosome: 59 
-info: Chromosome: 60 
-info: Chromosome: 61 
-info: Chromosome: 62 
-info: Chromosome: 63 
-info: Chromosome: 64 
-info: Chromosome: 65 
-info: Chromosome: 66 
-info: Chromosome: 67 
-info: Chromosome: 68 
-info: Chromosome: 69 
-info: Chromosome: 70 
-info: Chromosome: 71 
-info: Chromosome: 72 
-info: Chromosome: 73 
-info: Chromosome: 74 
-info: Chromosome: 75 
-info: Chromosome: 76 
-info: Chromosome: 77 
-info: Chromosome: 78 
-info: Chromosome: 79 
-info: Chromosome: 80 
-info: Chromosome: 81 
-info: Chromosome: 82 
-info: Chromosome: 83 
-info: Chromosome: 84 
-info: Chromosome: 85 
-info: Chromosome: 86 
-info: Chromosome: 87 
-info: Chromosome: 88 
-info: Chromosome: 89 
-info: Chromosome: 90 
-info: Chromosome: 91 
-info: Chromosome: 92 
-info: Chromosome: 93 
-info: Chromosome: 94 
-info: Chromosome: 95 
-info: Chromosome: 96 
-info: Chromosome: 97 
-info: Chromosome: 98 
-info: Chromosome: 99 
+debug: Max cores available: 8 
+info: First time running the threads, creating the folders 
 debug: Generation 0:  
-debug: Best fitness: 41.207 
-debug: Average fitness: 40.717 
-debug: Worst fitness: 40.261 
-debug: Generation 0 took 288.35 seconds 
-info: Approximate time to finish: 28835 seconds 
-info: Chromosome: 0 
-info: Chromosome: 1 
-info: Chromosome: 2 
+debug: Best fitness: 41.394 
+debug: Average fitness: 41.043 
+debug: Worst fitness: 40.876 
+info: Approximate time to finish: 4667 seconds 
+debug: Stop at generation 0? (y/n) 
+debug: Generation 1:  
+debug: Best fitness: 41.394 
+debug: Average fitness: 41.082 
+debug: Worst fitness: 40.857 
+info: Approximate time to finish: 5133 seconds 
+debug: Stop at generation 1? (y/n) 
