@@ -9,8 +9,7 @@
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
         "timer_stop_algorithm": 0,
-        "enable_threading": true,
-        "num_threads": 10
+        "enable_threading": false
     
           
     }

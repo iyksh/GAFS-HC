@@ -56,14 +56,14 @@ class GeneticAlgorithm:
     # ==============================================================================
 
     def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, 
-                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer:int = 5, num_threads:int = 1,
+                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer:int = 5,
                  enable_threading:bool = True) -> None:
         
         # Creating the objects
         population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
         operators = genetic_operators() # Object that manipulates the genetic operators
         self.utils = Utils() # Object that manipulates the utils functions
-        self.threads = ThreadsManager(num_threads) # Object that manipulates the threads
+        self.threads = ThreadsManager() # Object that manipulates the threads
 
         # Initializing the variables
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
@@ -84,14 +84,13 @@ class GeneticAlgorithm:
     # ==============================================================================
     # Main loop of the genetic algorithm
     # ==============================================================================
+        
         population.five_folds(train_filepath) # Creating the 5 folds of the train file        
         population.five_folds(test_filepath) # Creating the 5 folds of the test file
-        
-
         population_list = population.create_population(population_size) # Creating the initial population 
 
         for generation in range(num_generations): # Main loop of the genetic algorithm
-            start = time.time()
+            generation_start_time = time.time()
 
             if enable_threading:
                 population_fitness = self.threads.cross_validation_threading(population_list, train_filepath, test_filepath) # Evaluating the fitness of each chromosome            
@@ -107,9 +106,9 @@ class GeneticAlgorithm:
 
             self.utils.print_population_fitness(population_fitness, generation) # Printing the population fitness
             
-            end = time.time()
+            generation_end_time = time.time()
 
-            if self.stop_check(generation, start, end): #checking if the user wants to stop the algorithm
+            if self.stop_check(generation, generation_start_time, generation_end_time): #checking if the user wants to stop the algorithm
                 break
 
 

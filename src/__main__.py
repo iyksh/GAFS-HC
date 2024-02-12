@@ -32,7 +32,6 @@ def __main__(config: dict) -> None:
     mutation_rate = config["mutation_rate"]
     tournament_winner_rate = config["tournament_winner_rate"]
     timer = config["timer_stop_algorithm"]
-    num_threads = config["num_threads"]
     enable_threading = config["enable_threading"]
 
     # ==============================================================================
@@ -53,7 +52,7 @@ def __main__(config: dict) -> None:
 
     # Genetic Algorithm object
     Algorithm = GeneticAlgorithm(output_path_test, output_path_train, population_size, num_generations, 
-                                crossover_rate, mutation_rate, tournament_winner_rate, timer, num_threads,
+                                crossover_rate, mutation_rate, tournament_winner_rate, timer,
                                 enable_threading) 
 
                                 
