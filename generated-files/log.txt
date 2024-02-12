@@ -1,17 +1,18 @@
-info: Test file: /home/yksh/Desktop/temp/CellCycle_train.arff 
-info: Train file: /home/yksh/Desktop/temp/CellCycle_test.arff 
+info: Test file: /home/yksh/Desktop/temp/CellCycle_preprocessed.arff 
+info: Train file: /home/yksh/Desktop/temp/CellCycle_test_preprocessed.arff 
 info: N. of attributes: 78 
+info: N. of objects: 3381 
+info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 40.89533996582031 
+info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 40.637210845947266 
+info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 40.7843132019043 
+info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.7474365234375 
+info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 40.9145622253418 
+info: Dataset fitness: 40.795772552490234 
 debug: Max cores available: 8 
 info: First time running the threads, creating the folders 
+info: Using 4 processes 
 debug: Generation 0:  
-debug: Best fitness: 41.394 
-debug: Average fitness: 41.043 
-debug: Worst fitness: 40.876 
-info: Approximate time to finish: 4667 seconds 
-debug: Stop at generation 0? (y/n) 
-debug: Generation 1:  
-debug: Best fitness: 41.394 
-debug: Average fitness: 41.082 
-debug: Worst fitness: 40.857 
-info: Approximate time to finish: 5133 seconds 
-debug: Stop at generation 1? (y/n) 
+debug: Best fitness: 41.033 
+debug: Average fitness: 40.816 
+debug: Worst fitness: 40.602 
+info: Approximate time to finish: 27434 seconds 

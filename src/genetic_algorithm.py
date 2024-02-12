@@ -7,8 +7,8 @@
 # Last edited: 2023-01-23
 # ==============================================================================
 
-import threading
 import time
+import multiprocessing
 
 from src.population_manager import Population
 from src.threads_manager import ThreadsManager
@@ -75,40 +75,56 @@ class GeneticAlgorithm:
 
         # Debugging the variables before the algorithm starts
         self.utils.clear_screen()                # Clear the terminal screen before the starts
-        self.utils.clear_log()
+        self.utils.clear_log()                   # Clear the log file before the starts
+
+        # Getting the dataset default values
         self.utils.debug(f"Test file: {population.train_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"Train file: {population.test_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"N. of attributes: {len(population.test_data.dataset_attributes)}", "info") # check the number of attributes
-        self.start_time = time.time() # Start the timer to check the time of the algorithm
-
+        self.utils.debug(f"N. of objects: {len(population.test_data.dataset_objects)}", "info") # check the number of objects
+        
     # ==============================================================================
     # Main loop of the genetic algorithm
     # ==============================================================================
         
         population.five_folds(train_filepath) # Creating the 5 folds of the train file        
         population.five_folds(test_filepath) # Creating the 5 folds of the test file
+
+
+        dataset_fitness = population.cross_validation(population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
+        self.utils.debug(f"Dataset fitness: {dataset_fitness[0]}", "info") # check if the cross-validation is working
         population_list = population.create_population(population_size) # Creating the initial population 
 
+        self.start_time = time.time() # Start the timer to check the time of the algorithm
         for generation in range(num_generations): # Main loop of the genetic algorithm
-            generation_start_time = time.time()
 
-            if enable_threading:
-                population_fitness = self.threads.cross_validation_multiprocessing(population_list, train_filepath, test_filepath, max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
-            else:
-                population_fitness = population.cross_validation(population_list, sequential_run = True)
-            
-            
-            self.get_history(population_fitness, population_list) # Getting the history of the fitness
+            try:
+                generation_start_time = time.time()
 
-            population_list = operators.tournament_selection(population_list, population_fitness, k= tournament_winner_rate) # Selection
-            population_list = operators.pmx_crossover(population_list, crossover_rate) # Applying the crossover
-            population_list = operators.swap_mutation(population_list, mutation_rate) # Applying the mutation
+                if enable_threading:
+                    population_fitness = self.threads.cross_validation_multiprocessing(population_list, train_filepath, test_filepath, max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
+                else:
+                    population_fitness = population.cross_validation(population_list, sequential_run = True)
+                
+                
+                self.get_history(population_fitness, population_list) # Getting the history of the fitness
 
-            self.utils.print_population_fitness(population_fitness, generation) # Printing the population fitness
-            
-            generation_end_time = time.time()
+                population_list = operators.tournament_selection(population_list, population_fitness, k= tournament_winner_rate) # Selection
+                population_list = operators.pmx_crossover(population_list, crossover_rate) # Applying the crossover
+                population_list = operators.swap_mutation(population_list, mutation_rate) # Applying the mutation
+                generation_end_time = time.time()
 
-            if self.stop_check(generation, generation_start_time, generation_end_time): #checking if the user wants to stop the algorithm
+                self.utils.print_population_fitness(population_fitness, generation, num_generations, generation_start_time, generation_end_time) # Printing the population fitness
+                
+                
+
+            except KeyboardInterrupt:
+                self.utils.debug(f"Stopped at generation {generation}", type="info")
+                if enable_threading:
+                    processes = multiprocessing.active_children()  # Corrected here
+                    for process in processes:
+                        process.terminate()
+
                 break
 
 
@@ -117,19 +133,20 @@ class GeneticAlgorithm:
     # ==============================================================================       
 
         self.end_time = time.time() # End the timer to check the time of the algorithm
-        self.utils.debug(f"The algorithm took {(self.end_time - self.start_time):.2f} seconds to run", type="info")
+        self.utils.debug(f"The algorithm took {(self.end_time - self.start_time):.2f} seconds to run", type="success")
         self.utils.debug(f"Best Chromosome found and saved at ./best_chromossome.arff", type="success")
+        self.utils.debug(f"Best Fitness: {self.best_chromosome[1]}", type="success")
+        self.utils.debug(f"Number of attributes selected: {sum(self.best_chromosome[0])}", type="success")
+
+        porcentage_better = ((dataset_fitness[0] - self.best_chromosome[1]) / dataset_fitness[0] * 100) * - 1
+        self.utils.debug(f"The algorithm found a solution {porcentage_better:.2f}% better than the dataset fitness", type="success")
 
         population.convert_chromossome_to_file(self.best_chromosome[0], population.test_filepath, type="best_chromossome_test") # Saving the best chromosome in a file
         population.convert_chromossome_to_file(self.best_chromosome[0], population.train_filepath, type="best_chromossome_train") # Saving the best chromosome in a file
 
-        operators.check_chromossome(train_filepath, test_filepath) # Checking if the best chromosome is correct
+        
         self.utils.plot_fitness_history(self.fitness_history) # Plotting the average fitness history
         self.utils.plot_fitness_history(self.best_fitness_history, title = 'Best-Fitness History') # Plotting the best fitness history
-
-        self.utils.debug(f"Number of attributes selected: {sum(self.best_chromosome[0])}", type="info")
-        
-
 
     # ==============================================================================
     # Functions 
@@ -148,28 +165,11 @@ class GeneticAlgorithm:
 
     def get_user_input(self):
         self.stop_input = str(input())
+    
         
-    def stop_check(self, generation, start, end) -> bool:
-        seconds_finish = (end - start) * (self.num_generations - generation)
-        self.utils.debug(f"Approximate time to finish: {seconds_finish:.0f} seconds", type="info")
 
-        if self.timer == 0:
-            return False
 
-        #check if the user wants to stop
-        self.utils.debug(f"Stop at generation {generation}? (y/n)")
-        thread = threading.Thread(target=self.get_user_input)
-        thread.start()
 
-        # Wait for the thread to finish or the specified time to elapse
-        thread.join(self.timer)
-
-        # Check the user input
-        if self.stop_input == 'y':
-            self.utils.debug(f"Stopped at generation {generation}", type="info")
-            return True
-            
-        return False
 
 
 

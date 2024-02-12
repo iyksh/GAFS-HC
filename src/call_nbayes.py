@@ -1,7 +1,7 @@
 import os
 import ctypes
 
-def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'n') -> float:
+def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'y') -> float:
     """Call nbayes function from nbayes.so, read docs/GMNB_2009_Silla.pdf for more information.
     
     `Args:`

@@ -38,6 +38,7 @@ class ThreadsManager:
     def cross_validation_multiprocessing(self, population_list: list[list[int]], train_filepaths: str, test_filepaths: str, max_processes: int = 5) -> list[list[float]]:
         if not self.created_folders:
             self.first_run(population_list)
+            self.utils.debug(f"Using {max_processes} processes", "info")
 
         population_classes = []    
         for i in range(len(population_list)):

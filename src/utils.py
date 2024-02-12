@@ -6,8 +6,6 @@ class Utils:
     def __init__(self) -> None:
         self.log_file = "generated-files/log.txt"
 
-        
-
     def delete_chromossomes(self):
         current_directory = "./"
         files = os.listdir(current_directory)
@@ -16,12 +14,10 @@ class Utils:
                 file_path = os.path.join(current_directory, file)
                 os.remove(file_path)
                 
-                
     def pause(self):
         input("Press the <ENTER> key to continue...")
 
-
-    def print_population_fitness(self, population_fitness, generation):
+    def print_population_fitness(self, population_fitness, generation, num_generations, start, end):
         best_fitness = f"{max(population_fitness):.3f}"
         average_fitness = f"{sum(population_fitness) / len(population_fitness):.3f}"
         worst_fitness = f"{min(population_fitness):.3f}"
@@ -30,6 +26,8 @@ class Utils:
         self.debug(f"Best fitness: {best_fitness}")
         self.debug(f"Average fitness: {average_fitness}")
         self.debug(f"Worst fitness: {worst_fitness}")
+        seconds_finish = (end - start) * (num_generations - generation)
+        self.debug(f"Approximate time to finish: {seconds_finish:.0f} seconds", type="info")
 
     def clear_screen(self):
         print("\033[H\033[J")
@@ -83,8 +81,6 @@ class Utils:
         plt.plot(best_fitness_history, label=f'Report {report_num} - Best Fitness')
 
         plt.ylabel(f'{report_num} - Best Fitness: {best_fitness}')
-
-
 
     def parse_report_line(self, line):
         return line.split()[2:]

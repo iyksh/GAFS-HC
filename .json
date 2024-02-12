@@ -1,16 +1,18 @@
 {
 
-        "test_path": "/home/yksh/Desktop/temp/CellCycle_test.arff",
-        "train_path": "/home/yksh/Desktop/temp/CellCycle_train.arff",
+    "train_path": "/home/yksh/Desktop/temp/CellCycle.arff",
+    "test_path": null,
+        
 
-        "population_size": 10,
+
+        "population_size": 16,
         "num_generations": 300,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
-        "timer_stop_algorithm": 2,
+        "timer_stop_algorithm": 0,
         "enable_parallelism": true,
-        "max_parallelism_subprocess": 20
+        "max_parallelism_subprocess": 4
     
           
     }

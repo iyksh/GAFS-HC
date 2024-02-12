@@ -141,6 +141,7 @@ long double Classifier::applyClassifier(){
 
   //fout << "hP = " << hP*100 << "\nhR = " << hR*100 << "\nhF = " << result;
   //closeResultFile();
+
   return result;
 }
 

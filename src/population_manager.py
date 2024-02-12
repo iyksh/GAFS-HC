@@ -49,24 +49,24 @@ class Population:
             self.chromossome_test_path = (f"./generated-files/chromossome_test.arff") 
 
     def five_folds(self, path_dataset: str) -> None:
-        """Divide the dataset into 5 parts, and each part is saved in a .arff file.
-        
-        The dataset is divided using StratifiedKFold,
-        to maintain class proportions during cross-validation.
-        
+        """Divide o conjunto de dados em 5 partes, e cada parte é salva em um arquivo .arff.
+
+        O conjunto de dados é dividido usando StratifiedKFold,
+        para manter as proporções das classes durante a validação cruzada.
+
         """
-        # Load datasets
+        # Carregar conjunto de dados
         dataset = Dataset(path_dataset)
         data_list_test = dataset.dataset_objects
         df_test = pd.DataFrame(data_list_test)
-        X_test = df_test.iloc[:, :-1]   # Separating the attributes and 
-        y_test = df_test.iloc[:, -1]    # the classes for test dataset
+        X_test = df_test.iloc[:, :-1]   # Separando os atributos
+        y_test = df_test.iloc[:, -1]    # Mantendo as classes
 
         if len(dataset.dataset_objects) < 20:
-            raise ValueError("The dataset is too small to be divided into 5 folds. Minimum of 20 objects.")
+            raise ValueError("The dataset needs to have at least 20 objects")
 
-        # Using StratifiedKFold to maintain class proportions during cross-validation for test dataset
-        skf_test = StratifiedKFold(n_splits=5, random_state=42, shuffle=True)
+        # Usando StratifiedKFold para manter as proporções das classes durante a validação cruzada para o conjunto de dados de teste
+        skf_test = StratifiedKFold(n_splits=5)
         warnings.filterwarnings("ignore", category=UserWarning)
         for i, (train_index_test, test_index_test) in enumerate(skf_test.split(X_test, y_test)):
 
@@ -76,7 +76,7 @@ class Population:
             test_data_test = pd.concat([X_test_test, y_test_test], axis=1).astype(str).values.tolist()
             test_df_test = pd.DataFrame(test_data_test, columns=df_test.columns)
             
-            # Saving the DataFrames to .arff files
+            # Salvando os DataFrames em arquivos .arff
             path = path_dataset.split(".")[0] + "_fold(" + str(i + 0) + ").arff"
             test_df_test.to_csv(path, index=False, header=False)
 
@@ -94,7 +94,7 @@ class Population:
         
 
 
-    def create_population(self, population_size: int) -> list[list[int]]:
+    def create_population(self, population_size: int, default_dataset = False) -> list[list[int]]:
         """
         Create the initial population with random genes (0 or 1).
         
@@ -104,6 +104,9 @@ class Population:
 
         len_attributes = len(self.train_data.dataset_attributes[:-1]) # Exclude the #ATTRIBUTE class
         population = []
+
+        if default_dataset:
+            return [[1 for _ in range(len_attributes)] for _ in range(population_size)]
 
         for _ in range(population_size):
             chromosome = [random.randint(0, 1) for _ in range(len_attributes)]
@@ -220,8 +223,6 @@ class Population:
 
 
         for chromosome in population:
-            if sequential_run:
-                self.utils.debug(f"Chromosome: {population.index(chromosome)}", "info")
 
             cross_validation_values = []
             test_index = self.num_folds 
@@ -236,6 +237,9 @@ class Population:
                 self.convert_chromossome_to_file(chromosome, self.train_filepath, 'train', cross_validation_folds = train_index)
 
                 cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
+
+                if sequential_run:
+                    self.utils.debug(f"Default-Dataset - Train-Index: {train_index} - Test-index - {test_index} Fitness: {cross_validation_values[-1]}", "info")
             
             chromossomes_fitness.append(sum(cross_validation_values) / self.num_folds)
         

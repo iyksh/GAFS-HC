@@ -85,19 +85,6 @@ class DatasetManipulator:
     # ==============================================================================
 
     def discretize_data(self, dataset_path: str, output_path: str) -> None:
-
-        """Discretize data using KBinsDiscretizer
-
-        `Args:`
-        
-            - dataset_path (str): the path of the dataset to be discretized
-            - output_path (str): the path of the discretized dataset output
-            
-        `Returns:`
-
-            - A new dataset with the discretized data.
-            
-        """
         dataset = Dataset(dataset_path) # Create dataset object
 
         attributes = dataset.dataset_attributes # Get dataset attributes
@@ -107,11 +94,16 @@ class DatasetManipulator:
         classes_data = []
 
         for i in range(len(data)):
-            float_data.append([float(x) for x in data[i][:-1]]) # strings -> floats
-            classes_data.append(data[i][-1]) # Add classes to lists
-    
+            try:
+                float_data.append([float(x) for x in data[i][:-1]]) # strings -> floats
+                classes_data.append(data[i][-1]) # Add classes to lists
+            except:
+                print(f"Error in line {i} of the dataset, removing it.")
+                exit()
+
+
         # Discretize data using KBinsDiscretizer
-        est = KBinsDiscretizer(n_bins=20, encode='ordinal', strategy='uniform', subsample=None)
+        est = KBinsDiscretizer(n_bins=20, encode='ordinal', strategy='uniform', subsample=200)
         est.fit(float_data)
         discretized_data = est.transform(float_data)
         variance_per_feature = list([int(value) for value in np.unique(discretized_data)])
@@ -157,7 +149,7 @@ class DatasetManipulator:
         recursion_check = False
 
         for attribute in attributes_class[1]:
-            if attribute != 'R':
+            if attribute != 'R' and attribute != None:
                 filtered_attributes.append(attribute)
         for object in objects:
             if object[-1] != 'R':
