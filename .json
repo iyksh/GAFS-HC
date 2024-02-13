@@ -1,7 +1,7 @@
 {
 
-    "train_path": "/home/yksh/Desktop/temp/CellCycle.arff",
-    "test_path": null,
+    "train_path": "/home/yksh/Desktop/temp/CellCycle_train.arff",
+    "test_path": "/home/yksh/Desktop/temp/CellCycle_test.arff",
         
 
 
