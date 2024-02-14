@@ -10,7 +10,7 @@ import arff
 import numpy as np
 
 from sklearn.preprocessing import KBinsDiscretizer
-from src.utils import Utils
+from utils import Utils
 
 # ==============================================================================
 # # This class is used just to extract the dataset information
@@ -66,6 +66,40 @@ class Dataset:
         except Exception as e:
             self.utils.debug("Error saving the dataset.", type="error")
             print(e)
+
+    def get_dataset_info(self):
+        return self.dataset_name, self.dataset_attributes, self.dataset_objects
+
+    def get_numeric_categorical_info(self):
+        numeric_indices = []
+        categorical_indices = []
+        for i, (attr_name, attr_type) in enumerate(self.dataset_attributes):
+            if 'numeric' in attr_type.lower():
+                numeric_indices.append(i)
+            else:
+                categorical_indices.append(i)
+        return numeric_indices, categorical_indices
+    
+    def read_dataset(self):
+        data = []
+        a_class = []
+        dist_class = []
+        header_attr = []
+        f_type = []
+
+        for line in self.dataset_objects:
+            v_value = []
+            for i, value in enumerate(line[:-1]):
+                v_value.append(float(value))
+                if len(f_type) <= i:
+                    f_type.append(1 if isinstance(value, (int, float)) else 2)
+            classe = line[-1]
+            if classe not in dist_class:
+                dist_class.append(classe)
+            a_class.append(classe)
+            data.append(v_value)
+
+        return data, a_class, dist_class, header_attr, f_type
   
 # ==============================================================================
 # # This class is used to manipulate the dataset
@@ -83,6 +117,7 @@ class DatasetManipulator:
     # ==============================================================================
     #  Functions to manipulate the datas
     # ==============================================================================
+        
 
     def discretize_data(self, dataset_path: str, output_path: str) -> None:
         dataset = Dataset(dataset_path) # Create dataset object

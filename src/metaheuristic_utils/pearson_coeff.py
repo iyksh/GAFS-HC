@@ -1,18 +1,18 @@
 import numpy as np
 
-def sum_vc(a):
+def sum_vc(a:list) -> float:
     return sum(a)
 
-def mean(b):
+def mean(b:list) -> float:
     return sum_vc(b) / len(b)
 
-def sqsum(a):
+def sqsum(a:list) -> float:
     s = 0
     for i in range(len(a)):
         s += a[i]**2
     return s
 
-def stdev(a):
+def stdev(a:list) -> float:
     return sqsum(a)**0.5
 
 def operator_subtract(a, b):
@@ -27,7 +27,7 @@ def operator_multiply(a, b):
         retvect[i] = a[i] * b[i]
     return retvect
 
-def pearsoncoeff(a, b):
+def pearsoncoeff(a:list, b:list) -> float:
     dif_a, dif_b, mul = a.copy(), a.copy(), a.copy()
 
     mean_a = mean(a)
