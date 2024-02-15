@@ -15,7 +15,7 @@ from src.threads_manager import ThreadsManager
 from src.cfs_hierarchical import CorrelationFeatureSelection
 from src.genetic_operators import *
 from src.dataset import *
-from src.call_nbayes import call_nbayes
+from cpp_converter import call_nbayes
 
 class GeneticAlgorithm:
     """
@@ -150,7 +150,7 @@ class GeneticAlgorithm:
 
 
         
-        dataset_fitness= (call_nbayes(train_filepath, "generated-files/best_chromossome_test.arff"), dataset_fitness[1])
+        self.best_chromosome = (call_nbayes(train_filepath, "generated-files/best_chromossome_test.arff"), dataset_fitness[1])
         porcentage_better = ((dataset_fitness[0] - self.best_chromosome[1]) / dataset_fitness[0] * 100) * - 1
         self.utils.debug(f"The algorithm found a solution {porcentage_better:.2f}% better than the dataset fitness", type="success")
 

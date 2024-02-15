@@ -1,7 +1,7 @@
 import random
 
 from src.utils import *
-from src.call_nbayes import call_nbayes
+from cpp_converter import call_nbayes
 
 class genetic_operators:
 

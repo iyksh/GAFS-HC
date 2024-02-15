@@ -1,13 +1,14 @@
 #include <string>
 #include "./GMNB/nbayes.h"
 
+
 /************************************************************************************
  * 
- *      This file is the intermediary between the GMNB output and the C++ code
+ *      This file is the intermediary between python and the C++ sources objects.
  * 
  *      Compile the GMNB output and this file into a shared object file:
  *      
- *      g++ -shared -fPIC -o ./src/nbayes.so ./src/GMNB/*.cpp ./src/call_nbayes.cpp
+ *      g++ -shared -fPIC -o ./src/nbayes.so ./src/GMNB/*.cpp ./src/CBFS_GA_subset_hierar_UK/*.cpp ./src/call_nbayes.cpp
  * 
  * **********************************************************************************/
 
@@ -25,4 +26,5 @@ extern "C" {
 
         return floatValue_result;
     }
+
 }
