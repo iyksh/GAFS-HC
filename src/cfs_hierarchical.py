@@ -1,18 +1,24 @@
-from dataset import Dataset
-from metaheuristic_utils.utils_cfs import *
-from metaheuristic_utils.pearson_coeff import *
+from src.dataset import Dataset
+from src.metaheuristic_utils.utils_cfs import *
+from src.metaheuristic_utils.pearson_coeff import *
+from src.population_manager import Population
 
+import random
 
 class CorrelationFeatureSelection:
     """ Correlation Feature Selection (CFS) with hierarchical labels
     
     `Constructor:`
         - dataset_path (str): the path of the dataset.
+    
+    `Warning:`
+        - The datastpath need to be divided by five folds.
+    
     """
 
     def __init__(self, dataset_path:str) -> None:
         self.dataset_path = dataset_path
-        
+
         pass
 
     def correlation_fl_hierarchical(self, class_vec, data, f_type, class_level, w_0, classes_per_level):
@@ -25,6 +31,7 @@ class CorrelationFeatureSelection:
             sum_weight += (pow(w_0, k+1)*classes_per_level[k])
         
         for k in range(tam_features):
+            print(f"Calculating correlation between feature {k} of {tam_features - 1} and labels")
             feature = get_column(data, k)
             sum_correlation = 0
 
@@ -49,6 +56,7 @@ class CorrelationFeatureSelection:
         tam_features = len(data[0])
 
         for k in range(tam_features - 1):
+            print(f"Calculating correlation between features {k} of {tam_features - 1}")
             correlation = []
             for j in range(k + 1, tam_features):
                 f1 = get_column(data, k)
@@ -72,15 +80,18 @@ class CorrelationFeatureSelection:
     def get_dataset_correlations(self) -> tuple[list[float], list[float]]:
         """ - Returns the correlation between features and labels and the correlation between features and features"""
 
+        print(f"Reading dataset: {self.dataset_path}")
         dataset_obj = Dataset(self.dataset_path)
         data, a_class, dist_class, header_attr, f_type = dataset_obj.read_dataset()
 
+        print(f"Calculating correlations")
         possible_classes = possible_class_hierarchy(a_class, dist_class)
         a_class_vec = a_class_to_vec(a_class, possible_classes)
         classes_level = class_level(possible_classes)
         max_level = getMaxLevel(dist_class)
         number_classes_per_level = classes_per_level(max_level, classes_level)
 
+        print(f"Calculating correlation between features and labels")
         correlation_fl_hierar = self.correlation_fl_hierarchical(a_class_vec, data, f_type, classes_level, 0.75, number_classes_per_level)
         ccorrelation_f_to_f = self.correlation_ff_hierarchical(data, f_type)
 
@@ -116,51 +127,38 @@ class CorrelationFeatureSelection:
 
         return (tam_features * sum_correlation_fl)/merit_denominator # merit value
     
-    def evaluate(self, fitness:list[float], population:list[list[int]], 
-                 correlation_f_to_f:list[float], correlation_fl_hierar:list[float]) -> tuple[list[float]]:
-        """
-        Evaluate the fitness of the individuals in the population
+    
+    
+    def evaluate_population(self, population:list[list[int]], 
+                 correlation_f_to_f:list[float], correlation_fl_hierar:list[float],
+                 filepath) -> tuple[list[float]]:
 
-        `Args:`
-            - fitness: list[float] - list of fitness values
-            - population: list[list[int]] - list of lists of binary festures
-            - correlation_f_to_f: list[float] - correlation between features and features
-            - correlation_fl_hierar: list[float] - correlation between features and labels
-        
+        pop_manager = Population(self.dataset_path, self.dataset_path)
+        fitness = [0 for i in range(len(population))]
 
-        """
-        # Not working yet 
-        # maybe chromossome -> file, evaluate -> merit of the file 
-
-        dataset = Dataset(self.dataset_path)
-        """             
         att_analyses = []
         att_vec_avg = []
         best_att = worse_att = avg_att = 0
         best_merit = 0
         worse_merit = 100
         for i, individual in enumerate(population):
-            att = dataset.save_dataset(individual)
-            size_set = len(att)
-            merit_open = in_list_candidate(size_set, att, open_candidates)
-            if merit_open == -1:
-                new_set = Candidate()
-                new_set.att = att
-                set_vec = list(att)
-                if len(set_vec) < 1:
-                    fitness[i] = 0.0
-                elif len(set_vec) == 1:
-                    fitness[i] = correlation_fl_vec[set_vec[0]]
-                else:
-                    fo_cfs_hierarq = merit_cfs(set_vec, correlation_ff_mat, correlation_fl_vec)
-                    new_set.merit = fo_cfs_hierarq[0]
-                    new_set.size_set = size_set
-                    open_candidates.append(new_set)
-                    new_set_queue = CandidateQueue(new_set.merit, len(open_candidates) - 1)
-                    heappush(open_queue, new_set_queue)
-                    fitness[i] = new_set.merit
+            att = pop_manager.convert_chromossome_to_file(individual, self.dataset_path, 'test')
+            size_set = sum(individual)
+
+            set_vec = []
+            for j in range(len(individual)):
+                if individual[j] == 1:
+                    set_vec.append(j)
+
+            if len(set_vec) < 1:
+                fitness[i] = 0.0
+            elif len(set_vec) == 1:
+                fitness[i] = correlation_fl_hierar[set_vec[0]]
+            
             else:
-                fitness[i] = merit_open
+                fo_cfs_hierarq = self.merit(set_vec, correlation_f_to_f, correlation_fl_hierar)
+                new_set_merit = fo_cfs_hierarq
+                fitness[i] = new_set_merit
 
             if fitness[i] > best_merit:
                 best_merit = fitness[i]
@@ -174,26 +172,66 @@ class CorrelationFeatureSelection:
         avg_att = mean(att_vec_avg)
         att_analyses.extend([best_att, worse_att, avg_att])
         
-        return att_analyses
+        return fitness, att_analyses
+    
+    def hierarchicalCFS(self, population, fl, ff) -> tuple[list[float], list[float]]:
+        """ - Run the hierarchical CFS algorithm
+        
+        `Args:`
+            - population: list[list[int]] - the population to be evaluated
+        
+        `Returns:`
+            - tuple[list[float], list[float]] - the fitness of the population and the analyses of the features
+            
         """
+        dataset_path = self.dataset_path  
+        fitness, analyses = self.evaluate_population(population, ff, fl, dataset_path)
+
+        return fitness, analyses
+    
+        
+        
 
 
 # ==============================================================================
 # Example of use
 # ==============================================================================
 
+def create_population(population_size: int, default_dataset = False, chromossome_len = 0) -> list[list[int]]:
 
-if __name__ == "__main__":
+        len_attributes = chromossome_len
+        population = []
+
+        if default_dataset:
+            return [[1 for _ in range(len_attributes)] for _ in range(population_size)]
+
+        for _ in range(population_size):
+            chromosome = [random.randint(0, 1) for _ in range(len_attributes)]
+
+            # Ensure at least one attributes is selected
+            if chromosome.count(1) == 0:
+                chromosome[random.randint(0, len_attributes - 1)] = 1
+
+            population.append(chromosome)
+
+        return population
+
+def cfs_example_usage() -> None:
+
     dataset_path = "/home/yksh/Desktop/temp/SPO_test.arff"
-    
     cfs = CorrelationFeatureSelection(dataset_path)
 
-    fl, ff = cfs.get_dataset_correlations()
-    fitness = [0 for i in range(2)]
-    s = [1, 0]
-    merit = cfs.merit(s, ff, fl)  # receives the att vector of the solution and calculates multilabel merit
-    fitness = cfs.evaluate(fitness, s, ff, fl)
 
-    print(f"Merit: {merit}")
+    dataset = Dataset(dataset_path)
+    population = create_population(10, False, len(dataset.dataset_attributes) - 1)
+    fl, ff = cfs.get_dataset_correlations()  
+
+    fitness, analyses = cfs.hierarchicalCFS(population, fl , ff)
+    
+    
+    print(f"Fitness: {fitness}")
+    print(f"Analyses: {analyses}")
+
+
 
 

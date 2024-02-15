@@ -126,7 +126,11 @@ class Population:
         - Attributes will be get from the first fold, and the objects will be get from the all folds.
     
         Parameters:
-            chromosome (list): Binary-encoded chromosome representing attribute selection.
+            - chromosome (list): Binary-encoded chromosome representing attribute selection.
+            - filepath (str): The path of the dataset file.
+            - type (str): The type of the dataset file. It can be 'test' or 'train'.
+            - num_folds (int): The number of folds of the dataset file.
+            - cross_validation_folds (list): The list of folds to be used in the cross-validation. If None, all folds will be used.
 
         Note:
             The resulting .arff file is saved as `chromossome.arff`, by the default self.chromossome_path.

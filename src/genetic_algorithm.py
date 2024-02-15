@@ -12,8 +12,10 @@ import multiprocessing
 
 from src.population_manager import Population
 from src.threads_manager import ThreadsManager
+from src.cfs_hierarchical import CorrelationFeatureSelection
 from src.genetic_operators import *
 from src.dataset import *
+from src.call_nbayes import call_nbayes
 
 class GeneticAlgorithm:
     """
@@ -28,9 +30,10 @@ class GeneticAlgorithm:
     - crossover_rate: The rate of the crossover
     - mutation_rate: The rate of the mutation
     - tournament_winner_rate: The rate of the tournament winner
-    - timer: The time to check if the user wants to stop the algorithm
-    - num_threads: The number of threads to be used
+    - timer: The time to check if the user wants to stop the algorithm (Not used anymore, you can stop with ctrl+c)
     - enable_threading: If the threading will be used or not
+    - max_parallelism_subprocess: The number of threads to be used
+    - HCFS: If the hierarchical CFS will be used or not
     
 
     `Enconding:`
@@ -57,13 +60,15 @@ class GeneticAlgorithm:
 
     def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, 
                  crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer:int = 5,
-                 enable_threading:bool = True, max_parallelism_subprocess:int = 10) -> None:
+                 enable_threading:bool = True, max_parallelism_subprocess:int = 10, HCFS = True) -> None:
         
         # Creating the objects
         population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
         operators = genetic_operators() # Object that manipulates the genetic operators
         self.utils = Utils() # Object that manipulates the utils functions
         self.threads = ThreadsManager() # Object that manipulates the threads
+        self.cfs = CorrelationFeatureSelection(train_filepath) # Object that manipulates the hierarchical CFS
+
 
         # Initializing the variables
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
@@ -90,6 +95,8 @@ class GeneticAlgorithm:
         population.five_folds(train_filepath) # Creating the 5 folds of the train file        
         population.five_folds(test_filepath) # Creating the 5 folds of the test file
 
+        if HCFS:
+            self.fl, self.ff = self.cfs.get_dataset_correlations() # Getting the correlations of the dataset
 
         dataset_fitness = population.cross_validation(population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
         self.utils.debug(f"Dataset fitness: {dataset_fitness[0]}", "info") # check if the cross-validation is working
@@ -101,10 +108,13 @@ class GeneticAlgorithm:
             try:
                 generation_start_time = time.time()
 
-                if enable_threading:
+                if enable_threading and not HCFS:
                     population_fitness = self.threads.cross_validation_multiprocessing(population_list, train_filepath, test_filepath, max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
-                else:
+                elif not enable_threading and not HCFS:
                     population_fitness = population.cross_validation(population_list, sequential_run = True)
+                elif HCFS:
+                    population_fitness, analysis = self.cfs.hierarchicalCFS(population_list, self.fl, self.ff) # Evaluating the fitness of each chromosome
+                
                 
                 
                 self.get_history(population_fitness, population_list) # Getting the history of the fitness
@@ -138,6 +148,9 @@ class GeneticAlgorithm:
         self.utils.debug(f"Best Fitness: {self.best_chromosome[1]}", type="success")
         self.utils.debug(f"Number of attributes selected: {sum(self.best_chromosome[0])}", type="success")
 
+
+        
+        dataset_fitness= (call_nbayes(train_filepath, "generated-files/best_chromossome_test.arff"), dataset_fitness[1])
         porcentage_better = ((dataset_fitness[0] - self.best_chromosome[1]) / dataset_fitness[0] * 100) * - 1
         self.utils.debug(f"The algorithm found a solution {porcentage_better:.2f}% better than the dataset fitness", type="success")
 

@@ -37,6 +37,7 @@ def __main__(config: dict) -> None:
     timer = config["timer_stop_algorithm"]
     enable_parallelism = config["enable_parallelism"]
     max_parallelism_subprocess = config["max_parallelism_subprocess"]
+    HCFS = config["HCFS"]
 
     # ==============================================================================
     # Preprocessing the dataset
@@ -56,6 +57,6 @@ def __main__(config: dict) -> None:
 
     Algorithm = GeneticAlgorithm(output_path_test, output_path_train, population_size, num_generations, 
                                 crossover_rate, mutation_rate, tournament_winner_rate, timer,
-                                enable_parallelism, max_parallelism_subprocess) 
+                                enable_parallelism, max_parallelism_subprocess, HCFS) 
 
                                 

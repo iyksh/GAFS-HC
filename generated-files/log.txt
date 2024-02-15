@@ -1,13 +1,4 @@
 info: Test file: /home/yksh/Desktop/temp/CellCycle_train_preprocessed.arff 
-info: Train file: /home/yksh/Desktop/temp/CellCycle_test_preprocessed.arff 
+info: Train file: /home/yksh/Desktop/temp/CellCycle_train_test_preprocessed.arff 
 info: N. of attributes: 78 
-info: N. of objects: 371 
-info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 40.0 
-info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 40.54794692993164 
-info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 40.65040588378906 
-info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.54794692993164 
-info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 41.96185302734375 
-info: Dataset fitness: 40.74163055419922 
-debug: Max cores available: 8 
-info: First time running the threads, creating the folders 
-info: Using 4 processes 
+info: N. of objects: 3381 

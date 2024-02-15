@@ -10,7 +10,7 @@ import arff
 import numpy as np
 
 from sklearn.preprocessing import KBinsDiscretizer
-from utils import Utils
+from src.utils import Utils
 
 # ==============================================================================
 # # This class is used just to extract the dataset information
@@ -36,8 +36,15 @@ class Dataset:
     def __init__(self, file_path) -> None:
 
         self.utils = Utils() # Debugging object
+        
+        try:
+            self.dataset_dict = arff.load(open(file_path, 'r')) # a dictionary with the dataset information
 
-        self.dataset_dict = arff.load(open(file_path, 'r')) # a dictionary with the dataset information
+        except Exception as e:
+            self.utils.debug("Error reading the dataset.", type="error")
+            self.utils.debug(f"File path: {file_path}", type="error")
+            print(e)
+            exit()
 
         self.dataset_description = self.dataset_dict['description'] # a inlined string
 
