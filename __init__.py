@@ -28,8 +28,6 @@ import os
 import json
 import shutil
 from src.__main__ import __main__
-from src.cfs_hierarchical import cfs_example_usage  # noqa
-from cpp_converter import call_nbayes  # 
 
 def remove_thread_folders():
     dirs = os.listdir()
@@ -51,8 +49,6 @@ def remove_thread_folders():
 if __name__ == "__main__":
 
     remove_thread_folders()
-
-    #cfs_example_usage() 
 
     with open("./.json", "r") as FILE:
         config = json.load(FILE)    

@@ -3,7 +3,9 @@ from src.metaheuristic_utils.utils_cfs import *
 from src.metaheuristic_utils.pearson_coeff import *
 from src.population_manager import Population
 
+import multiprocessing
 import random
+import numpy as np
 
 class CorrelationFeatureSelection:
     """ Correlation Feature Selection (CFS) with hierarchical labels
@@ -54,22 +56,24 @@ class CorrelationFeatureSelection:
     def correlation_ff_hierarchical(self, data, f_type):
         correlation_matrix = []
         tam_features = len(data[0])
+        data = np.array(data)
 
         for k in range(tam_features - 1):
             print(f"Calculating correlation between features {k} of {tam_features - 1}")
             correlation = []
+            f1 = data[:, k]
+            
             for j in range(k + 1, tam_features):
-                f1 = get_column(data, k)
-                f2 = get_column(data, j)
-
+                f2 = data[:, j]
+                
                 if f_type[k] == 1 and f_type[j] == 1:  
-                    pearson = pearsoncoeff(f1, f2) # numeric and numeric
+                    pearson = np.corrcoef(f1, f2)[0, 1]  # numeric and numeric
                 elif f_type[k] == 1 and f_type[j] == 2:  
-                    pearson = pearsoncoeff_cat_num(f2, f1) # numeric and categorical
+                    pearson = pearsoncoeff_cat_num(f2, f1)  # numeric and categorical
                 elif f_type[k] == 2 and f_type[j] == 1:  
-                    pearson = pearsoncoeff_cat_num(f1, f2) # categorical and numeric
+                    pearson = pearsoncoeff_cat_num(f1, f2)  # categorical and numeric
                 else:  
-                    pearson = pearsoncoeff_cat_cat(f1, f2) # categorical and categorical
+                    pearson = pearsoncoeff_cat_cat(f1, f2)  # categorical and categorical
 
                 correlation.append(pearson)
 
@@ -91,12 +95,18 @@ class CorrelationFeatureSelection:
         max_level = getMaxLevel(dist_class)
         number_classes_per_level = classes_per_level(max_level, classes_level)
 
-        print(f"Calculating correlation between features and labels")
-        correlation_fl_hierar = self.correlation_fl_hierarchical(a_class_vec, data, f_type, classes_level, 0.75, number_classes_per_level)
-        ccorrelation_f_to_f = self.correlation_ff_hierarchical(data, f_type)
 
+        with multiprocessing.Pool(processes=2) as pool:
+            # Run the functions in parallel
+            fl = pool.apply_async(self.correlation_fl_hierarchical, (a_class_vec, data, f_type, classes_level, 0.75, number_classes_per_level))
+            ff = pool.apply_async(self.correlation_ff_hierarchical, (data, f_type))
 
-        return (correlation_fl_hierar, ccorrelation_f_to_f)
+            # Get the results
+            correlation_fl_hierar = fl.get()
+            correlation_f_to_f = ff.get()
+
+        return correlation_fl_hierar, correlation_f_to_f
+
 
 
     def merit(self, s:list, correlation_ff:list, correlation_fl:list) -> float:

@@ -21,7 +21,7 @@ import pandas as pd
 
 from src.dataset import Dataset
 from src.utils import Utils
-from cpp_converter import call_nbayes
+from src.cpp_converter import call_nbayes
 from sklearn.model_selection import StratifiedKFold
 
 

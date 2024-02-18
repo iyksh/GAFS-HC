@@ -7,6 +7,8 @@
 # ==============================================================================
 
 import arff
+import random
+
 import numpy as np
 
 from sklearn.preprocessing import KBinsDiscretizer
@@ -32,7 +34,7 @@ class Dataset:
     # ==============================================================================
     # Constructor, all the variables and the algorithm are initialized here
     # ==============================================================================
-
+    
     def __init__(self, file_path) -> None:
 
         self.utils = Utils() # Debugging object
@@ -124,7 +126,36 @@ class DatasetManipulator:
     # ==============================================================================
     #  Functions to manipulate the datas
     # ==============================================================================
-        
+
+    def split_dataset(self, original_path: str, test_path: str, train_path: str) -> None:
+        # Load the original dataset
+        original_dataset = arff.load(open(original_path, 'r'))
+
+        # Get the data and shuffle it
+        data = original_dataset['data']
+        random.shuffle(data)
+
+        # Calculate the split points
+        test_size = len(data) // 5
+        train_size = len(data) - test_size
+
+        # Split the data into test and train datasets
+        test_data = data[:test_size]
+        train_data = data[test_size:]
+
+        # Create the test dataset
+        test_dataset = original_dataset.copy()
+        test_dataset['data'] = test_data
+
+        # Create the train dataset
+        train_dataset = original_dataset.copy()
+        train_dataset['data'] = train_data
+
+        # Save the test dataset to a new file
+        arff.dump(test_dataset, open(test_path, 'w'))
+
+        # Save the train dataset to a new file
+        arff.dump(train_dataset, open(train_path, 'w'))
 
     def discretize_data(self, dataset_path: str, output_path: str) -> None:
         dataset = Dataset(dataset_path) # Create dataset object
