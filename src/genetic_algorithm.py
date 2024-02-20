@@ -58,7 +58,7 @@ class GeneticAlgorithm:
     # ==============================================================================
 
     def __init__(self, test_filepath:str, train_filepath:str, population_size:int, num_generations:int, 
-                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float, timer:int = 5,
+                 crossover_rate:float, mutation_rate:float, tournament_winner_rate:float,
                  enable_threading:bool = True, max_parallelism_subprocess:int = 10, HCFS = True) -> None:
         
         # Creating the objects
@@ -73,7 +73,6 @@ class GeneticAlgorithm:
         self.best_chromosome = (None, 0)    #(chromosome [binary], fitness)
         self.fitness_history = []           #list of the average fitness of each generation, will be used to plot the graph
         self.best_fitness_history = []      #list of the best fitness of each generation, will be used to plot the graph
-        self.timer = timer                  #timer to check if stops the algorithm
         self.stop_input = None              #input to check if stops the algorithm
         
         # Saving the parameters
@@ -153,7 +152,7 @@ class GeneticAlgorithm:
 
     def GMNBwPC(self):
         """Genetic Algorithm with the GMNB with CPU Parallelism cross-validation"""
-        self.utils.debug(f"Starting the Genetic Algorithm with GMNB cross-validation with Parallelism", type="info")
+        self.utils.debug(f"Starting the Genetic Algorithm with GMNB with Parallel cross-validation", type="info")
         dataset_fitness = self.population.cross_validation(self.population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
         population_list = self.population.create_population(self.population_size) # Creating the initial population 
 
@@ -183,6 +182,55 @@ class GeneticAlgorithm:
 
         self.end_time = time.time() # End the timer to check the time of the algorithm
         self.show_results("GMNBwPC", dataset_fitness, self.best_chromosome, self.end_time, self.start_time, population_fitness, 
+                          self.best_fitness_history, self.fitness_history)
+        
+    # ==============================================================================
+    # Genetic Algorithm Global Model Naive Bayes with Parallelism
+    #
+    # This algorithm uses the GMNB cross-validation to evaluate the fitness of the
+    # chromosomes, with CPU Parallelism.
+    # ============================================================================== 
+
+    def HCFSwGMNBwPC(self, GMNB_generations = 10):
+        """Hierarchical CFS with GMNB with Parallel cross-validation
+        - Function set to 10 generations using GMNB and the rest using HCFS"""
+
+        self.utils.debug(f"Starting the Genetic Algorithm with Hierarchical CFS and GMNB with Parallel cross-validation", type="info")
+        dataset_fitness = self.population.cross_validation(self.population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
+        population_list = self.population.create_population(self.population_size) # Creating the initial population 
+
+        self.start_time = time.time() # Start the timer to check the time of the algorithm
+        
+        for generation in range(self.num_generations): # Main loop of the genetic algorithm
+            
+            try:
+                generation_start_time = time.time()
+
+                if generation < GMNB_generations: # Using GMNB for the first x generations
+                    population_fitness = self.threads.cross_validation_multiprocessing(population_list, self.train_filepath, self.test_filepath, self.max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
+                
+                else: # Using HCFS for the rest of the generations
+
+                    pass
+                
+                self.get_history(population_fitness, population_list) # Getting the history of the fitness
+                population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
+                population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover
+                population_list = self.operators.swap_mutation(population_list, self.mutation_rate) # Applying the mutation
+                generation_end_time = time.time()
+
+                self.utils.print_population_fitness(population_fitness, generation, self.num_generations, generation_start_time, generation_end_time) # Printing the population fitness
+                
+            except KeyboardInterrupt:
+                self.utils.debug(f"Stopped at generation {generation}", type="info")
+                processes = multiprocessing.active_children()  # Corrected here
+                for process in processes:
+                    process.terminate()
+
+                break   
+
+        self.end_time = time.time() # End the timer to check the time of the algorithm
+        self.show_results("HCFSwGMNBwPC", dataset_fitness, self.best_chromosome, self.end_time, self.start_time, population_fitness, 
                           self.best_fitness_history, self.fitness_history)
 
     # ==============================================================================

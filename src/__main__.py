@@ -29,7 +29,6 @@ def __main__(config: dict) -> None:
     crossover_rate = config["crossover_rate"]
     mutation_rate = config["mutation_rate"]
     tournament_winner_rate = config["tournament_winner_rate"]
-    timer = config["timer_stop_algorithm"]
     enable_parallelism = config["enable_parallelism"]
     max_parallelism_subprocess = config["max_parallelism_subprocess"]
     HCFS = config["HCFS"]
@@ -53,7 +52,12 @@ def __main__(config: dict) -> None:
     # ==============================================================================
 
     Algorithm = GeneticAlgorithm(test_path, train_path, population_size, num_generations, 
-                                crossover_rate, mutation_rate, tournament_winner_rate, timer,
+                                crossover_rate, mutation_rate, tournament_winner_rate,
                                 enable_parallelism, max_parallelism_subprocess, HCFS) 
 
-    Algorithm.GMNBwPC()
+    if enable_parallelism:
+        Algorithm.GMNBwPC()
+
+    elif not enable_parallelism:
+        Algorithm.GMNBwC()
+    

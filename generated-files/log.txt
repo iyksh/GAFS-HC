@@ -1,69 +1,85 @@
-info: Test file: /home/yksh/Desktop/temp/SPO_train.arff 
-info: Train file: /home/yksh/Desktop/temp/SPO_test.arff 
-info: N. of attributes: 42 
-info: N. of objects: 132 
-info: Starting the Genetic Algorithm with GMNB cross-validation with Parallelism 
-info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 38.51852035522461 
-info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 41.269840240478516 
-info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 40.31007766723633 
-info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.0 
-info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 39.70588302612305 
-debug: Max cores available: 8 
-info: First time running the threads, creating the folders 
-info: Using 8 processes 
+info: Test file: /home/yksh/Desktop/temp/Church_train.arff 
+info: Train file: /home/yksh/Desktop/temp/Church_test.arff 
+info: N. of attributes: 28 
+info: N. of objects: 743 
+info: Starting the Genetic Algorithm with GMNB cross-validation 
+info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 41.69013977050781 
+info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 41.11111068725586 
+info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 41.50417709350586 
+info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 41.620113372802734 
+info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 41.2171516418457 
 debug: Generation 0:  
-debug: Best fitness: 41.025 
-debug: Average fitness: 40.868 
-debug: Worst fitness: 40.500 
-info: Approximate time to finish: 77 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.428 
+debug: Worst fitness: 41.417 
+info: Approximate time to finish: 17397 seconds 
 debug: Generation 1:  
-debug: Best fitness: 41.196 
-debug: Average fitness: 40.860 
-debug: Worst fitness: 40.487 
-info: Approximate time to finish: 74 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 16450 seconds 
 debug: Generation 2:  
-debug: Best fitness: 41.301 
-debug: Average fitness: 40.978 
-debug: Worst fitness: 40.770 
-info: Approximate time to finish: 63 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.428 
+debug: Worst fitness: 41.405 
+info: Approximate time to finish: 15390 seconds 
 debug: Generation 3:  
-debug: Best fitness: 41.217 
-debug: Average fitness: 40.989 
-debug: Worst fitness: 40.693 
-info: Approximate time to finish: 50 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 15888 seconds 
 debug: Generation 4:  
-debug: Best fitness: 41.301 
-debug: Average fitness: 41.063 
-debug: Worst fitness: 40.731 
-info: Approximate time to finish: 45 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 15904 seconds 
 debug: Generation 5:  
-debug: Best fitness: 41.310 
-debug: Average fitness: 41.068 
-debug: Worst fitness: 40.815 
-info: Approximate time to finish: 39 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.428 
+debug: Worst fitness: 41.417 
+info: Approximate time to finish: 15962 seconds 
 debug: Generation 6:  
-debug: Best fitness: 41.342 
-debug: Average fitness: 40.977 
-debug: Worst fitness: 40.650 
-info: Approximate time to finish: 31 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 15967 seconds 
 debug: Generation 7:  
-debug: Best fitness: 41.342 
-debug: Average fitness: 40.996 
-debug: Worst fitness: 40.650 
-info: Approximate time to finish: 24 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 16126 seconds 
 debug: Generation 8:  
-debug: Best fitness: 41.221 
-debug: Average fitness: 40.937 
-debug: Worst fitness: 40.518 
-info: Approximate time to finish: 16 seconds 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 16152 seconds 
 debug: Generation 9:  
-debug: Best fitness: 41.221 
-debug: Average fitness: 41.014 
-debug: Worst fitness: 40.755 
-info: Approximate time to finish: 8 seconds 
-success: The algorithm took 78.34 seconds to run 
-success: Best Chromosome saved at ./best_chromossome.arff 
-info: Default Dataset fitness: 39.9608642578125 
-success: GMNBwP Best Chromosome Fitness: 41.34212112426758 
-success: Number of at tributes selected with GMNBwP: 20 
-success: The algorithm found a solution 3.46% better than the dataset fitness, using GMNBwP 
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.428 
+debug: Worst fitness: 41.417 
+info: Approximate time to finish: 16294 seconds 
+debug: Generation 10:  
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 16405 seconds 
+debug: Generation 11:  
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 16175 seconds 
+debug: Generation 12:  
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 15846 seconds 
+debug: Generation 13:  
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 15942 seconds 
+debug: Generation 14:  
+debug: Best fitness: 41.429 
+debug: Average fitness: 41.429 
+debug: Worst fitness: 41.429 
+info: Approximate time to finish: 15705 seconds 

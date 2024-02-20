@@ -1,17 +1,18 @@
 {
 
-    "dataset_path": "/home/yksh/Desktop/temp/SPO_single.arff",
+    "dataset_path": "/home/yksh/Desktop/temp/Church_single.arff",
         
 
 
-        "population_size": 10,
-        "num_generations": 10,
+        "population_size": 24,
+        "num_generations": 300,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
-        "timer_stop_algorithm": 0,
-        "enable_parallelism": true,
-        "max_parallelism_subprocess": 8,
+        
+        "enable_parallelism": false,
+        "max_parallelism_subprocess": 6,
+
         "HCFS": true
     
           
