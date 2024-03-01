@@ -15,6 +15,7 @@ from src.threads_manager import ThreadsManager
 from src.cfs_hierarchical import CorrelationFeatureSelection
 from src.genetic_operators import *
 from src.dataset import *
+from src.cpp_converter import evaluate_by_cfs
 
 class GeneticAlgorithm:
     """
@@ -210,7 +211,7 @@ class GeneticAlgorithm:
                     population_fitness = self.threads.cross_validation_multiprocessing(population_list, self.train_filepath, self.test_filepath, self.max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
                 
                 else: # Using HCFS for the rest of the generations
-
+                    population_fitness = evaluate_by_cfs(self.population.train_filepath, population_list) # Evaluating the fitness of each chromosome
                     pass
                 
                 self.get_history(population_fitness, population_list) # Getting the history of the fitness
@@ -244,6 +245,11 @@ class GeneticAlgorithm:
         
         self.population.convert_chromossome_to_file(best_chromosome[0], self.population.test_filepath, type="best_chromossome_test") # Saving the best chromosome in a file
         self.population.convert_chromossome_to_file(best_chromosome[0], self.population.train_filepath, type="best_chromossome_train") # Saving the best chromosome in a file
+        if type_of_algorithm == "HCFSwGMNBwPC":
+            fitness = self.population.cross_validation([best_chromosome[0]], sequential_run = True)
+            fitness = fitness[0]
+            best_chromosome = (best_chromosome[0], fitness)
+        
         porcentage_better = ((dataset_fitness[0] - best_chromosome[1]) / dataset_fitness[0] * 100) * - 1
         
         self.utils.debug(f"The algorithm took {(end_time - start_time):.2f} seconds to run", type="success")

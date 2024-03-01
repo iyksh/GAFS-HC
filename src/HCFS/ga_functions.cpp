@@ -36,7 +36,6 @@ vector<double> evaluate(list <candidate> &open, priority_queue <candidate_queue>
     long double best_merit=0, worse_merit=100;
     for(int i = 0; i < population.size(); ++i){
         set<int> aux = binary_to_subset(population[i]);
-        cout << "stopper 2" << endl;
         
         int size_set = aux.size();
         long double merit_open = in_list_candidate(size_set, aux, open);
@@ -82,12 +81,6 @@ vector<double> evaluate(list <candidate> &open, priority_queue <candidate_queue>
         //inclui size_set no att_vec_avg para calculo da media
         att_vec_avg.push_back(double(size_set));
     }
-
-    cout << "stopper 3" << endl;
-
-    for (unsigned int i = 0; i < fitness.size(); ++i)
-        cout << " " << fitness[i];
-
     
     avg_att = mean(att_vec_avg);
     att_analises.push_back(best_att);

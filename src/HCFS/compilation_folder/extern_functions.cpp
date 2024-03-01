@@ -57,6 +57,25 @@ static inline std::string &str_lower(std::string &data) {
 }
 
 
+void writeFitnessVectorToFile(const std::string& filename, const std::vector<long double>& fitnessVector) {
+    // Open the file in truncate mode to erase its contents
+    std::ofstream file(filename, std::ios::trunc);
+    
+    if (file.is_open()) {
+        // Write the fitness vector to the file
+        for (const auto& fitness : fitnessVector) {
+            file << fitness << " ";
+        }
+        
+        // Close the file
+        file.close();
+        
+        std::cout << "Fitness vector successfully written to " << filename << std::endl;
+    } else {
+        std::cerr << "Error: Unable to open file " << filename << " for writing!" << std::endl;
+    }
+}
+
 int evaluate_by_cfs(const char* path_chars, int population_size)
       
     
@@ -160,11 +179,7 @@ int evaluate_by_cfs(const char* path_chars, int population_size)
     current_att_results.erase(current_att_results.begin(),current_att_results.end());
 
 
-    // Printa tudo:
+    writeFitnessVectorToFile("generated-files/HCFS_FITNESS.txt", fitness);
     
-    cout << "Best: " << att_best_evo[0] << endl;
-    cout << "Worse: " << att_worse_evo[0] << endl;
-    cout << "Avg: " << att_avg_evo[0] << endl;
-
     return 0;
 }

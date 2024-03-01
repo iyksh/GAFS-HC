@@ -36,7 +36,7 @@ def __main__(config: dict) -> None:
     # ==============================================================================
     # Preprocessing the dataset
     # ==============================================================================
-
+    
     preprocessing = DatasetManipulator()
 
     preprocessing.split_dataset(dataset_path, test_path, train_path) # Split the dataset into test and train datasets
@@ -55,7 +55,10 @@ def __main__(config: dict) -> None:
                                 crossover_rate, mutation_rate, tournament_winner_rate,
                                 enable_parallelism, max_parallelism_subprocess, HCFS) 
 
-    if enable_parallelism:
+    if HCFS:
+        Algorithm.HCFSwGMNBwPC(GMNB_generations=0)
+
+    elif enable_parallelism:
         Algorithm.GMNBwPC()
 
     elif not enable_parallelism:

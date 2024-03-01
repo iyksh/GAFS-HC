@@ -64,6 +64,12 @@ def evaluate_by_cfs(dataset_path, population):
         fitness = merit_dll.return_cfs(dataset_path, population_size)
         print("Fitness:", fitness)
 
+        with open('generated-files/HCFS_FITNESS.txt', 'r') as FILE:
+            fitness = FILE.read()
+
+        fitness = list(map(float, fitness.split()))
+        return fitness  
+
     except OSError as e:
         print("Error:", e)
    

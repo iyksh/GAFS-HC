@@ -4,8 +4,8 @@
         
 
 
-        "population_size": 24,
-        "num_generations": 300,
+        "population_size": 500,
+        "num_generations": 100,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
