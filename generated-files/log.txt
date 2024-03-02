@@ -1,521 +1,521 @@
-info: Test file: /home/yksh/Desktop/temp/Church_train.arff 
-info: Train file: /home/yksh/Desktop/temp/Church_test.arff 
-info: N. of attributes: 28 
-info: N. of objects: 744 
-info: Starting the Genetic Algorithm with Hierarchical CFS and GMNB with Parallel cross-validation 
-info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 41.16828918457031 
-info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 40.82191848754883 
-info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 41.27423858642578 
-info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.107669830322266 
-info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 40.93406677246094 
+info: Test file: /home/kali/Desktop/GAFS-HC/data/CellCycle_train.arff 
+info: Train file: /home/kali/Desktop/GAFS-HC/data/CellCycle_test.arff 
+info: N. of attributes: 77 
+info: N. of objects: 742 
+info: Starting the Genetic Algorithm with Neural Networks and GMNB with Parallel cross-validation 
+info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 40.659339904785156 
+info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 40.32697677612305 
+info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 40.32697677612305 
+info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.16172409057617 
+info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 40.37940216064453 
 debug: Generation 0:  
-debug: Best fitness: 0.088 
-debug: Average fitness: 0.071 
-debug: Worst fitness: 0.060 
-info: Approximate time to finish: 4201 seconds 
+debug: Best fitness: 52.622 
+debug: Average fitness: 40.905 
+debug: Worst fitness: 27.531 
+info: Approximate time to finish: 2103 seconds 
 debug: Generation 1:  
-debug: Best fitness: 0.086 
-debug: Average fitness: 0.073 
-debug: Worst fitness: 0.062 
-info: Approximate time to finish: 4170 seconds 
+debug: Best fitness: 54.296 
+debug: Average fitness: 41.943 
+debug: Worst fitness: 29.573 
+info: Approximate time to finish: 13 seconds 
 debug: Generation 2:  
-debug: Best fitness: 0.087 
-debug: Average fitness: 0.074 
-debug: Worst fitness: 0.063 
-info: Approximate time to finish: 4276 seconds 
+debug: Best fitness: 51.965 
+debug: Average fitness: 42.915 
+debug: Worst fitness: 34.536 
+info: Approximate time to finish: 14 seconds 
 debug: Generation 3:  
-debug: Best fitness: 0.092 
-debug: Average fitness: 0.075 
-debug: Worst fitness: 0.063 
-info: Approximate time to finish: 4568 seconds 
+debug: Best fitness: 53.789 
+debug: Average fitness: 44.737 
+debug: Worst fitness: 33.095 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 4:  
-debug: Best fitness: 0.098 
-debug: Average fitness: 0.076 
-debug: Worst fitness: 0.061 
-info: Approximate time to finish: 4492 seconds 
+debug: Best fitness: 56.452 
+debug: Average fitness: 45.609 
+debug: Worst fitness: 34.691 
+info: Approximate time to finish: 14 seconds 
 debug: Generation 5:  
-debug: Best fitness: 0.109 
-debug: Average fitness: 0.077 
-debug: Worst fitness: 0.064 
-info: Approximate time to finish: 4450 seconds 
+debug: Best fitness: 54.917 
+debug: Average fitness: 46.651 
+debug: Worst fitness: 36.050 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 6:  
-debug: Best fitness: 0.109 
-debug: Average fitness: 0.078 
-debug: Worst fitness: 0.066 
-info: Approximate time to finish: 4378 seconds 
+debug: Best fitness: 57.896 
+debug: Average fitness: 47.445 
+debug: Worst fitness: 37.716 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 7:  
-debug: Best fitness: 0.109 
-debug: Average fitness: 0.080 
-debug: Worst fitness: 0.065 
-info: Approximate time to finish: 4317 seconds 
+debug: Best fitness: 57.515 
+debug: Average fitness: 47.977 
+debug: Worst fitness: 38.186 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 8:  
-debug: Best fitness: 0.106 
-debug: Average fitness: 0.080 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 4251 seconds 
+debug: Best fitness: 57.515 
+debug: Average fitness: 48.949 
+debug: Worst fitness: 38.969 
+info: Approximate time to finish: 13 seconds 
 debug: Generation 9:  
-debug: Best fitness: 0.101 
-debug: Average fitness: 0.082 
-debug: Worst fitness: 0.070 
-info: Approximate time to finish: 4215 seconds 
+debug: Best fitness: 60.470 
+debug: Average fitness: 50.034 
+debug: Worst fitness: 41.434 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 10:  
-debug: Best fitness: 0.107 
-debug: Average fitness: 0.083 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 4154 seconds 
+debug: Best fitness: 58.583 
+debug: Average fitness: 50.014 
+debug: Worst fitness: 41.190 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 11:  
-debug: Best fitness: 0.109 
-debug: Average fitness: 0.084 
-debug: Worst fitness: 0.067 
-info: Approximate time to finish: 4153 seconds 
+debug: Best fitness: 58.219 
+debug: Average fitness: 51.603 
+debug: Worst fitness: 42.318 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 12:  
-debug: Best fitness: 0.109 
-debug: Average fitness: 0.086 
-debug: Worst fitness: 0.067 
-info: Approximate time to finish: 4190 seconds 
+debug: Best fitness: 58.113 
+debug: Average fitness: 52.353 
+debug: Worst fitness: 40.387 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 13:  
-debug: Best fitness: 0.110 
-debug: Average fitness: 0.088 
-debug: Worst fitness: 0.054 
-info: Approximate time to finish: 4106 seconds 
+debug: Best fitness: 60.540 
+debug: Average fitness: 53.283 
+debug: Worst fitness: 42.318 
+info: Approximate time to finish: 14 seconds 
 debug: Generation 14:  
-debug: Best fitness: 0.117 
-debug: Average fitness: 0.089 
-debug: Worst fitness: 0.073 
-info: Approximate time to finish: 4037 seconds 
+debug: Best fitness: 61.832 
+debug: Average fitness: 54.993 
+debug: Worst fitness: 45.993 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 15:  
-debug: Best fitness: 0.114 
-debug: Average fitness: 0.090 
-debug: Worst fitness: 0.063 
-info: Approximate time to finish: 3986 seconds 
+debug: Best fitness: 62.354 
+debug: Average fitness: 55.818 
+debug: Worst fitness: 45.959 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 16:  
-debug: Best fitness: 0.115 
-debug: Average fitness: 0.092 
-debug: Worst fitness: 0.074 
-info: Approximate time to finish: 3934 seconds 
+debug: Best fitness: 63.153 
+debug: Average fitness: 56.474 
+debug: Worst fitness: 47.540 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 17:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.094 
-debug: Worst fitness: 0.073 
-info: Approximate time to finish: 3948 seconds 
+debug: Best fitness: 64.183 
+debug: Average fitness: 57.761 
+debug: Worst fitness: 47.995 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 18:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.095 
-debug: Worst fitness: 0.059 
-info: Approximate time to finish: 4116 seconds 
+debug: Best fitness: 63.627 
+debug: Average fitness: 58.663 
+debug: Worst fitness: 53.818 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 19:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.098 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 3751 seconds 
+debug: Best fitness: 63.869 
+debug: Average fitness: 58.942 
+debug: Worst fitness: 52.573 
+info: Approximate time to finish: 12 seconds 
 debug: Generation 20:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.098 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 3677 seconds 
+debug: Best fitness: 64.585 
+debug: Average fitness: 59.440 
+debug: Worst fitness: 53.517 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 21:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.100 
-debug: Worst fitness: 0.035 
-info: Approximate time to finish: 3600 seconds 
+debug: Best fitness: 65.321 
+debug: Average fitness: 59.655 
+debug: Worst fitness: 52.537 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 22:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.102 
-debug: Worst fitness: 0.059 
-info: Approximate time to finish: 3598 seconds 
+debug: Best fitness: 65.404 
+debug: Average fitness: 60.515 
+debug: Worst fitness: 55.446 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 23:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.103 
-debug: Worst fitness: 0.059 
-info: Approximate time to finish: 3600 seconds 
+debug: Best fitness: 65.971 
+debug: Average fitness: 61.043 
+debug: Worst fitness: 55.867 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 24:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.104 
-debug: Worst fitness: 0.047 
-info: Approximate time to finish: 3544 seconds 
+debug: Best fitness: 65.146 
+debug: Average fitness: 61.295 
+debug: Worst fitness: 55.800 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 25:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.106 
-debug: Worst fitness: 0.047 
-info: Approximate time to finish: 3468 seconds 
+debug: Best fitness: 65.919 
+debug: Average fitness: 61.705 
+debug: Worst fitness: 55.926 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 26:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.106 
-debug: Worst fitness: 0.042 
-info: Approximate time to finish: 3484 seconds 
+debug: Best fitness: 66.768 
+debug: Average fitness: 62.535 
+debug: Worst fitness: 57.347 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 27:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.107 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 3438 seconds 
+debug: Best fitness: 66.357 
+debug: Average fitness: 62.880 
+debug: Worst fitness: 57.369 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 28:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.108 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 3307 seconds 
+debug: Best fitness: 65.992 
+debug: Average fitness: 63.205 
+debug: Worst fitness: 57.471 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 29:  
-debug: Best fitness: 0.119 
-debug: Average fitness: 0.108 
-debug: Worst fitness: 0.064 
-info: Approximate time to finish: 3213 seconds 
+debug: Best fitness: 66.562 
+debug: Average fitness: 63.893 
+debug: Worst fitness: 59.505 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 30:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.109 
-debug: Worst fitness: 0.056 
-info: Approximate time to finish: 3215 seconds 
+debug: Best fitness: 67.265 
+debug: Average fitness: 63.971 
+debug: Worst fitness: 59.590 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 31:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.109 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 3178 seconds 
+debug: Best fitness: 67.685 
+debug: Average fitness: 64.192 
+debug: Worst fitness: 60.492 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 32:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.110 
-debug: Worst fitness: 0.066 
-info: Approximate time to finish: 3203 seconds 
+debug: Best fitness: 67.338 
+debug: Average fitness: 64.437 
+debug: Worst fitness: 59.745 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 33:  
-debug: Best fitness: 0.120 
-debug: Average fitness: 0.111 
-debug: Worst fitness: 0.072 
-info: Approximate time to finish: 3150 seconds 
+debug: Best fitness: 67.578 
+debug: Average fitness: 64.266 
+debug: Worst fitness: 58.395 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 34:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.111 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 3100 seconds 
+debug: Best fitness: 67.666 
+debug: Average fitness: 64.620 
+debug: Worst fitness: 60.027 
+info: Approximate time to finish: 11 seconds 
 debug: Generation 35:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.111 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 3028 seconds 
+debug: Best fitness: 67.578 
+debug: Average fitness: 64.774 
+debug: Worst fitness: 60.535 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 36:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.113 
-debug: Worst fitness: 0.056 
-info: Approximate time to finish: 2977 seconds 
+debug: Best fitness: 67.169 
+debug: Average fitness: 65.172 
+debug: Worst fitness: 62.055 
+info: Approximate time to finish: 8 seconds 
 debug: Generation 37:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.113 
-debug: Worst fitness: 0.066 
-info: Approximate time to finish: 2926 seconds 
+debug: Best fitness: 67.388 
+debug: Average fitness: 65.410 
+debug: Worst fitness: 61.719 
+info: Approximate time to finish: 8 seconds 
 debug: Generation 38:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.113 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 2898 seconds 
+debug: Best fitness: 67.388 
+debug: Average fitness: 65.627 
+debug: Worst fitness: 62.411 
+info: Approximate time to finish: 10 seconds 
 debug: Generation 39:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.114 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 2860 seconds 
+debug: Best fitness: 69.244 
+debug: Average fitness: 65.875 
+debug: Worst fitness: 62.529 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 40:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 2868 seconds 
+debug: Best fitness: 68.815 
+debug: Average fitness: 66.068 
+debug: Worst fitness: 62.385 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 41:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.116 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 2785 seconds 
+debug: Best fitness: 69.245 
+debug: Average fitness: 66.537 
+debug: Worst fitness: 62.197 
+info: Approximate time to finish: 8 seconds 
 debug: Generation 42:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.116 
-debug: Worst fitness: 0.068 
-info: Approximate time to finish: 2750 seconds 
+debug: Best fitness: 69.058 
+debug: Average fitness: 66.982 
+debug: Worst fitness: 62.197 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 43:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 2598 seconds 
+debug: Best fitness: 70.267 
+debug: Average fitness: 67.352 
+debug: Worst fitness: 64.132 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 44:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 2228 seconds 
+debug: Best fitness: 69.751 
+debug: Average fitness: 67.622 
+debug: Worst fitness: 64.582 
+info: Approximate time to finish: 8 seconds 
 debug: Generation 45:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 2186 seconds 
+debug: Best fitness: 69.751 
+debug: Average fitness: 68.082 
+debug: Worst fitness: 65.608 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 46:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.080 
-info: Approximate time to finish: 2148 seconds 
+debug: Best fitness: 70.052 
+debug: Average fitness: 68.489 
+debug: Worst fitness: 66.468 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 47:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.080 
-info: Approximate time to finish: 2117 seconds 
+debug: Best fitness: 70.618 
+debug: Average fitness: 68.663 
+debug: Worst fitness: 66.381 
+info: Approximate time to finish: 8 seconds 
 debug: Generation 48:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 2076 seconds 
+debug: Best fitness: 70.810 
+debug: Average fitness: 68.853 
+debug: Worst fitness: 66.584 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 49:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.085 
-info: Approximate time to finish: 2031 seconds 
+debug: Best fitness: 70.818 
+debug: Average fitness: 69.188 
+debug: Worst fitness: 66.932 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 50:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.083 
-info: Approximate time to finish: 1985 seconds 
+debug: Best fitness: 71.036 
+debug: Average fitness: 69.355 
+debug: Worst fitness: 67.193 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 51:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.087 
-info: Approximate time to finish: 1945 seconds 
+debug: Best fitness: 70.723 
+debug: Average fitness: 69.532 
+debug: Worst fitness: 67.635 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 52:  
-debug: Best fitness: 0.122 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.076 
-info: Approximate time to finish: 1908 seconds 
+debug: Best fitness: 71.273 
+debug: Average fitness: 69.678 
+debug: Worst fitness: 67.457 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 53:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.077 
-info: Approximate time to finish: 1866 seconds 
+debug: Best fitness: 71.020 
+debug: Average fitness: 69.785 
+debug: Worst fitness: 66.492 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 54:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.085 
-info: Approximate time to finish: 1828 seconds 
+debug: Best fitness: 71.278 
+debug: Average fitness: 69.940 
+debug: Worst fitness: 67.975 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 55:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 1791 seconds 
+debug: Best fitness: 71.354 
+debug: Average fitness: 69.948 
+debug: Worst fitness: 67.753 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 56:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.087 
-info: Approximate time to finish: 1748 seconds 
+debug: Best fitness: 71.544 
+debug: Average fitness: 69.959 
+debug: Worst fitness: 65.768 
+info: Approximate time to finish: 7 seconds 
 debug: Generation 57:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.120 
-debug: Worst fitness: 0.090 
-info: Approximate time to finish: 1705 seconds 
+debug: Best fitness: 71.354 
+debug: Average fitness: 70.049 
+debug: Worst fitness: 65.768 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 58:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.120 
-debug: Worst fitness: 0.083 
-info: Approximate time to finish: 1675 seconds 
+debug: Best fitness: 71.354 
+debug: Average fitness: 70.272 
+debug: Worst fitness: 65.768 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 59:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 1706 seconds 
+debug: Best fitness: 71.536 
+debug: Average fitness: 70.371 
+debug: Worst fitness: 66.021 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 60:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 1620 seconds 
+debug: Best fitness: 71.564 
+debug: Average fitness: 70.509 
+debug: Worst fitness: 68.632 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 61:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.120 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 1592 seconds 
+debug: Best fitness: 71.564 
+debug: Average fitness: 70.554 
+debug: Worst fitness: 67.854 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 62:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 1534 seconds 
+debug: Best fitness: 71.768 
+debug: Average fitness: 70.574 
+debug: Worst fitness: 67.854 
+info: Approximate time to finish: 6 seconds 
 debug: Generation 63:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.080 
-info: Approximate time to finish: 1565 seconds 
+debug: Best fitness: 72.049 
+debug: Average fitness: 70.588 
+debug: Worst fitness: 68.710 
+info: Approximate time to finish: 9 seconds 
 debug: Generation 64:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.082 
-info: Approximate time to finish: 1533 seconds 
+debug: Best fitness: 72.049 
+debug: Average fitness: 70.629 
+debug: Worst fitness: 68.975 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 65:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.119 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 1472 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 70.581 
+debug: Worst fitness: 67.802 
+info: Approximate time to finish: 4 seconds 
 debug: Generation 66:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.077 
-info: Approximate time to finish: 1461 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 70.735 
+debug: Worst fitness: 68.516 
+info: Approximate time to finish: 4 seconds 
 debug: Generation 67:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 1419 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 70.983 
+debug: Worst fitness: 69.584 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 68:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.077 
-info: Approximate time to finish: 1426 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 71.104 
+debug: Worst fitness: 69.801 
+info: Approximate time to finish: 4 seconds 
 debug: Generation 69:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 1294 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.103 
+debug: Worst fitness: 68.712 
+info: Approximate time to finish: 5 seconds 
 debug: Generation 70:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.082 
-info: Approximate time to finish: 1224 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.151 
+debug: Worst fitness: 68.956 
+info: Approximate time to finish: 4 seconds 
 debug: Generation 71:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 1200 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.115 
+debug: Worst fitness: 69.211 
+info: Approximate time to finish: 4 seconds 
 debug: Generation 72:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 1239 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.164 
+debug: Worst fitness: 69.731 
+info: Approximate time to finish: 4 seconds 
 debug: Generation 73:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.118 
-debug: Worst fitness: 0.083 
-info: Approximate time to finish: 1210 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.179 
+debug: Worst fitness: 69.286 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 74:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 1156 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 71.199 
+debug: Worst fitness: 69.014 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 75:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.067 
-info: Approximate time to finish: 1056 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.337 
+debug: Worst fitness: 69.309 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 76:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.067 
-info: Approximate time to finish: 998 seconds 
+debug: Best fitness: 72.162 
+debug: Average fitness: 71.310 
+debug: Worst fitness: 68.806 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 77:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.116 
-debug: Worst fitness: 0.065 
-info: Approximate time to finish: 951 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 71.272 
+debug: Worst fitness: 69.537 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 78:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.117 
-debug: Worst fitness: 0.065 
-info: Approximate time to finish: 905 seconds 
+debug: Best fitness: 72.028 
+debug: Average fitness: 71.333 
+debug: Worst fitness: 69.594 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 79:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.116 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 891 seconds 
+debug: Best fitness: 72.451 
+debug: Average fitness: 71.418 
+debug: Worst fitness: 68.690 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 80:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.116 
-debug: Worst fitness: 0.069 
-info: Approximate time to finish: 829 seconds 
+debug: Best fitness: 72.451 
+debug: Average fitness: 71.447 
+debug: Worst fitness: 68.610 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 81:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 756 seconds 
+debug: Best fitness: 72.383 
+debug: Average fitness: 71.521 
+debug: Worst fitness: 69.960 
+info: Approximate time to finish: 2 seconds 
 debug: Generation 82:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.116 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 718 seconds 
+debug: Best fitness: 72.348 
+debug: Average fitness: 71.548 
+debug: Worst fitness: 70.027 
+info: Approximate time to finish: 3 seconds 
 debug: Generation 83:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 677 seconds 
+debug: Best fitness: 72.383 
+debug: Average fitness: 71.574 
+debug: Worst fitness: 70.748 
+info: Approximate time to finish: 2 seconds 
 debug: Generation 84:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 638 seconds 
+debug: Best fitness: 72.383 
+debug: Average fitness: 71.604 
+debug: Worst fitness: 70.819 
+info: Approximate time to finish: 2 seconds 
 debug: Generation 85:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 597 seconds 
+debug: Best fitness: 72.383 
+debug: Average fitness: 71.682 
+debug: Worst fitness: 70.738 
+info: Approximate time to finish: 2 seconds 
 debug: Generation 86:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.080 
-info: Approximate time to finish: 557 seconds 
+debug: Best fitness: 72.383 
+debug: Average fitness: 71.715 
+debug: Worst fitness: 69.058 
+info: Approximate time to finish: 2 seconds 
 debug: Generation 87:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.080 
-info: Approximate time to finish: 517 seconds 
+debug: Best fitness: 72.522 
+debug: Average fitness: 71.630 
+debug: Worst fitness: 69.031 
+info: Approximate time to finish: 2 seconds 
 debug: Generation 88:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.114 
-debug: Worst fitness: 0.066 
-info: Approximate time to finish: 478 seconds 
+debug: Best fitness: 72.428 
+debug: Average fitness: 71.726 
+debug: Worst fitness: 69.652 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 89:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 438 seconds 
+debug: Best fitness: 72.522 
+debug: Average fitness: 71.708 
+debug: Worst fitness: 70.171 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 90:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 398 seconds 
+debug: Best fitness: 72.522 
+debug: Average fitness: 71.688 
+debug: Worst fitness: 69.712 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 91:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.115 
-debug: Worst fitness: 0.085 
-info: Approximate time to finish: 358 seconds 
+debug: Best fitness: 72.522 
+debug: Average fitness: 71.739 
+debug: Worst fitness: 69.920 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 92:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.114 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 319 seconds 
+debug: Best fitness: 72.954 
+debug: Average fitness: 71.821 
+debug: Worst fitness: 69.440 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 93:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.113 
-debug: Worst fitness: 0.081 
-info: Approximate time to finish: 279 seconds 
+debug: Best fitness: 72.954 
+debug: Average fitness: 71.937 
+debug: Worst fitness: 70.518 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 94:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.113 
-debug: Worst fitness: 0.071 
-info: Approximate time to finish: 239 seconds 
+debug: Best fitness: 72.954 
+debug: Average fitness: 71.955 
+debug: Worst fitness: 68.476 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 95:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.114 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 199 seconds 
+debug: Best fitness: 73.007 
+debug: Average fitness: 72.031 
+debug: Worst fitness: 69.791 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 96:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.113 
-debug: Worst fitness: 0.069 
-info: Approximate time to finish: 159 seconds 
+debug: Best fitness: 73.132 
+debug: Average fitness: 72.097 
+debug: Worst fitness: 70.170 
+info: Approximate time to finish: 1 seconds 
 debug: Generation 97:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.112 
-debug: Worst fitness: 0.073 
-info: Approximate time to finish: 119 seconds 
+debug: Best fitness: 73.132 
+debug: Average fitness: 72.202 
+debug: Worst fitness: 69.360 
+info: Approximate time to finish: 0 seconds 
 debug: Generation 98:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.112 
-debug: Worst fitness: 0.075 
-info: Approximate time to finish: 80 seconds 
+debug: Best fitness: 73.261 
+debug: Average fitness: 72.332 
+debug: Worst fitness: 70.204 
+info: Approximate time to finish: 0 seconds 
 debug: Generation 99:  
-debug: Best fitness: 0.123 
-debug: Average fitness: 0.112 
-debug: Worst fitness: 0.079 
-info: Approximate time to finish: 40 seconds 
-info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 41.16828918457031 
-info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 40.82191848754883 
-info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 41.27423858642578 
-info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.107669830322266 
-info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 40.93406677246094 
-success: The algorithm took 4324.90 seconds to run 
+debug: Best fitness: 73.261 
+debug: Average fitness: 72.405 
+debug: Worst fitness: 69.800 
+info: Approximate time to finish: 0 seconds 
+info: Default-Dataset - Train-Index: [0, 1, 2, 3] - Test-index - 4 Fitness: 40.659339904785156 
+info: Default-Dataset - Train-Index: [0, 1, 2, 4] - Test-index - 3 Fitness: 40.32697677612305 
+info: Default-Dataset - Train-Index: [0, 1, 3, 4] - Test-index - 2 Fitness: 40.32697677612305 
+info: Default-Dataset - Train-Index: [0, 2, 3, 4] - Test-index - 1 Fitness: 40.16172409057617 
+info: Default-Dataset - Train-Index: [1, 2, 3, 4] - Test-index - 0 Fitness: 40.37940216064453 
+success: The algorithm took 34.25 seconds to run 
 success: Best Chromosome saved at ./best_chromossome.arff 
-info: Default Dataset fitness: 40.861236572265625 
-success: HCFSwGMNBwPC Best Chromosome Fitness: 40.861236572265625 
-success: Number of at tributes selected with HCFSwGMNBwPC: 8 
+info: Default Dataset fitness: 40.37088394165039 
+success: HCFSwGMNBwPC Best Chromosome Fitness: 40.37088394165039 
+success: Number of at tributes selected with HCFSwGMNBwPC: 65 
 success: The algorithm found a solution -0.00% better than the dataset fitness, using HCFSwGMNBwPC 

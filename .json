@@ -1,20 +1,20 @@
 {
 
-    "dataset_path": "/home/yksh/Desktop/temp/Church_single.arff",
+    "dataset_path": "/home/kali/Desktop/GAFS-HC/data/CellCycle_single.arff",
         
 
 
-        "population_size": 500,
+        "population_size": 100,
         "num_generations": 100,
         "crossover_rate": 0.9,
         "mutation_rate": 0.1,
         "tournament_winner_rate": 0.75,
         
         "enable_parallelism": false,
-        "max_parallelism_subprocess": 6,
+        "max_parallelism_subprocess": 3,
 
-        "HCFS": true
-    
+        "HCFS": true,
+        "NeuralNetwork": true
           
     }
   

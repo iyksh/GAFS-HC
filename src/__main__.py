@@ -55,12 +55,5 @@ def __main__(config: dict) -> None:
                                 crossover_rate, mutation_rate, tournament_winner_rate,
                                 enable_parallelism, max_parallelism_subprocess, HCFS) 
 
-    if HCFS:
-        Algorithm.HCFSwGMNBwPC(GMNB_generations=0)
-
-    elif enable_parallelism:
-        Algorithm.GMNBwPC()
-
-    elif not enable_parallelism:
-        Algorithm.GMNBwC()
     
+    Algorithm.NNwGMNBwPC() # Run the genetic algorithm

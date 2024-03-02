@@ -16,6 +16,7 @@ from src.cfs_hierarchical import CorrelationFeatureSelection
 from src.genetic_operators import *
 from src.dataset import *
 from src.cpp_converter import evaluate_by_cfs
+from src.neural_network import NeuralNetwork
 
 class GeneticAlgorithm:
     """
@@ -68,6 +69,10 @@ class GeneticAlgorithm:
         self.utils = Utils() # Object that manipulates the utils functions
         self.threads = ThreadsManager() # Object that manipulates the threads
         self.cfs = CorrelationFeatureSelection(train_filepath) # Object that manipulates the hierarchical CFS
+        
+        self.num_attributes = len(self.population.test_data.dataset_attributes) - 1 # Number of attributes - attribute class
+        
+        self.NN = NeuralNetwork(self.num_attributes)# Object that manipulates the Neural Network
         self.num_generations_GMNB = 10
 
         # Initializing the variables
@@ -75,6 +80,7 @@ class GeneticAlgorithm:
         self.fitness_history = []           #list of the average fitness of each generation, will be used to plot the graph
         self.best_fitness_history = []      #list of the best fitness of each generation, will be used to plot the graph
         self.stop_input = None              #input to check if stops the algorithm
+        self.neuralNetwork_data = "generated-files/train_data.txt" #path of the file to save the train data
         
         # Saving the parameters
         self.num_generations = num_generations   #number of generations
@@ -94,7 +100,7 @@ class GeneticAlgorithm:
         self.utils.clear_log()                   # Clear the log file before the starts
         self.utils.debug(f"Test file: {self.population.train_filepath}", "info") # check if the file is correct on the object
         self.utils.debug(f"Train file: {self.population.test_filepath}", "info") # check if the file is correct on the object
-        self.utils.debug(f"N. of attributes: {len(self.population.test_data.dataset_attributes)}", "info") # check the number of attributes
+        self.utils.debug(f"N. of attributes: {self.num_attributes}", "info") # check the number of attributes
         self.utils.debug(f"N. of objects: {len(self.population.test_data.dataset_objects)}", "info") # check the number of objects
         self.population.five_folds(train_filepath) # Creating the 5 folds of the train file        
         self.population.five_folds(test_filepath) # Creating the 5 folds of the test file
@@ -233,6 +239,67 @@ class GeneticAlgorithm:
         self.end_time = time.time() # End the timer to check the time of the algorithm
         self.show_results("HCFSwGMNBwPC", dataset_fitness, self.best_chromosome, self.end_time, self.start_time, population_fitness, 
                           self.best_fitness_history, self.fitness_history)
+        
+        
+    # ==============================================================================
+    # Genetic Algorithm Global Model Naive Bayes with Parallelism and Neural Networks
+    #
+    # This algorithm uses the GMNB cross-validation to evaluate the fitness of the
+    # chromosomes, with CPU Parallelism, after thatt, will use Neural Networks to
+    # evaluate the fitness of the best chromosomes.
+    # ============================================================================== 
+
+    def NNwGMNBwPC(self, GMNB_generations = 10):
+        """Neural Networks with GMNB with Parallel cross-validation
+        - Function set to 10 generations using GMNB and the rest using HCFS"""
+
+        self.utils.debug(f"Starting the Genetic Algorithm with Neural Networks and GMNB with Parallel cross-validation", type="info")
+        dataset_fitness = self.population.cross_validation(self.population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
+        population_list = self.population.create_population(self.population_size) # Creating the initial population 
+
+        self.start_time = time.time() # Start the timer to check the time of the algorithm
+        
+        save_train_data = True
+        model_trained = False
+        
+        for generation in range(self.num_generations): # Main loop of the genetic algorithm
+            
+            try:
+                generation_start_time = time.time()
+
+                if generation < GMNB_generations: # Using GMNB for the first x generations
+                    population_fitness = self.threads.cross_validation_multiprocessing(population_list, self.train_filepath, self.test_filepath, self.max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
+                
+                else: # Using NN for the rest of the generations
+                    
+                    if not model_trained:
+                        self.NN.train_nn(self.neuralNetwork_data, epochs=100)
+                        self.NN.save_nn("generated-files/NN_model")
+                        self.NN.load_nn("generated-files/NN_model")
+                        model_trained = True
+                    
+                    population_fitness = self.NN.evaluate_list_of_lists(population_list) # Evaluating the fitness of each chromosome
+                    pass
+                
+                self.get_history(population_fitness, population_list, save_train_data) # Getting the history of the fitness
+                population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
+                population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover
+                population_list = self.operators.swap_mutation(population_list, self.mutation_rate) # Applying the mutation
+                generation_end_time = time.time()
+
+                self.utils.print_population_fitness(population_fitness, generation, self.num_generations, generation_start_time, generation_end_time) # Printing the population fitness
+                
+            except KeyboardInterrupt:
+                self.utils.debug(f"Stopped at generation {generation}", type="info")
+                processes = multiprocessing.active_children()  # Corrected here
+                for process in processes:
+                    process.terminate()
+
+                break   
+
+        self.end_time = time.time() # End the timer to check the time of the algorithm
+        self.show_results("NNwGMNBwPC", dataset_fitness, self.best_chromosome, self.end_time, self.start_time, population_fitness, 
+                          self.best_fitness_history, self.fitness_history)
 
     # ==============================================================================
     # Uselful functions
@@ -245,7 +312,7 @@ class GeneticAlgorithm:
         
         self.population.convert_chromossome_to_file(best_chromosome[0], self.population.test_filepath, type="best_chromossome_test") # Saving the best chromosome in a file
         self.population.convert_chromossome_to_file(best_chromosome[0], self.population.train_filepath, type="best_chromossome_train") # Saving the best chromosome in a file
-        if type_of_algorithm == "HCFSwGMNBwPC":
+        if type_of_algorithm == "HCFSwGMNBwPC" or "NNwGMNBwPC":
             fitness = self.population.cross_validation([best_chromosome[0]], sequential_run = True)
             fitness = fitness[0]
             best_chromosome = (best_chromosome[0], fitness)
@@ -263,7 +330,7 @@ class GeneticAlgorithm:
         self.utils.plot_fitness_history(self.best_fitness_history, title = f'{type_of_algorithm} Best-Fitness History') # Plotting the best fitness history
 
 
-    def get_history(self, population_fitness, population_list): # Function to get the history of the best fitness and the average fitness
+    def get_history(self, population_fitness, population_list, save_train_data = False): # Function to get the history of the best fitness and the average fitness
         if max(population_fitness) > self.best_chromosome[1]:
             index = population_fitness.index(max(population_fitness))
             self.best_chromosome = (population_list[index], population_fitness[index])      
@@ -271,9 +338,12 @@ class GeneticAlgorithm:
         else:
             self.best_fitness_history.append(self.best_chromosome[1])     
 
-
         self.fitness_history.append(sum(population_fitness) / len(population_fitness))
 
+        if save_train_data:
+            with open(self.neuralNetwork_data, "a+") as file:
+                for i in range(len(population_list)):
+                    file.write((str(population_list[i]) + "," + str(population_fitness[i])) + "\n")
     
         
 
