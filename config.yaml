@@ -1,0 +1,42 @@
+# ================================================================================================================================================
+#       
+# Define your configuration options here
+# 
+#
+#
+#
+# Author: Guilherme Santos
+# Last edited: 02/March/2024 
+# ========================================================================================================================================================
+
+dataset_path: /home/kali/Desktop/GAFS-HC/data/CellCycle_single.arff
+
+HCFS:
+  activate: false
+  GMNB_generations: 0
+
+NeuralNetwork: 
+  activate: true
+  GMNB_generations: 0
+  train_epochs: 500
+  
+  save_model: true
+  save_path: ./model_CellCycle
+
+
+  load_model: false
+  load_path: ./model_CellCycle
+
+  data_path: ./generated-files/train_data.txt
+
+
+GeneticAlgorithm:
+  population_size: 100
+  num_generations: 100
+  crossover_rate: 0.9
+  mutation_rate: 0.1
+  tournament_winner_rate: 0.75
+  enable_parallelism: false
+  max_parallelism_subprocess: 5
+
+        

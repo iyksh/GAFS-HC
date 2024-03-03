@@ -241,11 +241,7 @@ class Population:
                 self.convert_chromossome_to_file(chromosome, self.train_filepath, 'train', cross_validation_folds = train_index)
 
                 cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
-
-                if sequential_run:
-                    self.utils.debug(f"Default-Dataset - Train-Index: {train_index} - Test-index - {test_index} Fitness: {cross_validation_values[-1]}", "info")
             
             chromossomes_fitness.append(sum(cross_validation_values) / self.num_folds)
         
         return chromossomes_fitness
-

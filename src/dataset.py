@@ -133,8 +133,7 @@ class DatasetManipulator:
 
         # Get the data and shuffle it
         data = original_dataset['data']
-        random.shuffle(data)
-
+        
         # Calculate the split points
         test_size = len(data) // 5
         train_size = len(data) - test_size
@@ -176,7 +175,7 @@ class DatasetManipulator:
 
 
         # Discretize data using KBinsDiscretizer
-        est = KBinsDiscretizer(n_bins=20, encode='ordinal', strategy='uniform', subsample=200)
+        est = KBinsDiscretizer(n_bins=20, encode='ordinal', strategy='uniform')
         est.fit(float_data)
         discretized_data = est.transform(float_data)
         variance_per_feature = list([int(value) for value in np.unique(discretized_data)])

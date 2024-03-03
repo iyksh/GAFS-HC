@@ -1,31 +1,12 @@
 # ================================================================================================================================================
-# Main file init to run the genetic algorithm, read the config.json file and change the variables there
-# 
-# .json file example:
-# 
-# { 
-#     "train_path": "./CellCycle.arff", # The path of the train file (required)
-#     "test_path": null,                # The path of the test file (optional), if null, the train file will be used to create the test file
-#     "population_size": 16,            # The size of the population, recommended a number that is a multiple of the max_parallelism_subprocess
-#     "num_generations": 300,           # The number of generations
-#     "crossover_rate": 0.9,            # The rate of the crossover
-#     "mutation_rate": 0.1,             # The rate of the mutation
-#     "tournament_winner_rate": 0.75,   # The rate of the tournament winner
-#     "timer_stop_algorithm": 0,        # The time to check if the user wants to stop the algorithm (Not used anymore, you can stop with ctrl+c)
-#     "enable_parallelism": true,       # If the threading will be used or not
-#     "max_parallelism_subprocess": 4   # The number of threads to be used
-#
-# }
-#
-#
-#
+# Main file init to run the genetic algorithm, read the config.json file and change the variables there to run the algorithm
 #
 # Author: Guilherme Santos
 # Last edited: 2024-02-11 
 # ========================================================================================================================================================
 
 import os
-import json
+import yaml
 import shutil
 from src.__main__ import __main__
 
@@ -44,13 +25,21 @@ def remove_thread_folders():
                 
             except OSError as e:
                 print(f"[+] Error removing folder: {e}")
+    
+    for files in os.listdir(folders_path):
+        if files.endswith(".arff"):
+            try:
+                os.remove(os.path.join(folders_path, files))
+                
+            except OSError as e:
+                print(f"[+] Error removing file: {e}")
 
 
 if __name__ == "__main__":
 
     remove_thread_folders()
 
-    with open("./.json", "r") as FILE:
-        config = json.load(FILE)    
+    with open("./config.yaml", "r") as FILE:
+        config = yaml.safe_load(FILE)
         
         __main__(config)

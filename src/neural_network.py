@@ -9,16 +9,18 @@ class NeuralNetwork:
         self.model = self._create_model()
 
     def _create_model(self):
-        # Define the model architecture (same as previous example)
+        # Define the model architecture (starting with a simpler configuration)
         model = keras.Sequential([
-            keras.layers.Dense(128, activation="relu", input_shape=(self.num_features,)),
-            keras.layers.Dense(64, activation="relu"),
-            keras.layers.Dense(1)
+            keras.layers.Dense(32, activation="relu", input_shape=(self.num_features,)),
+            keras.layers.Dense(16, activation="relu"),
+            keras.layers.Dense(1, activation="linear")  # Assuming continuous fitness (no activation)
         ])
-        # Compile the model
-        model.compile(optimizer="adam", loss="mse")
+
+        # Compile the model with appropriate loss function and optimizer
+        model.compile(optimizer="adam", loss="mse", metrics=["mae"])  # Mean Squared Error (MSE) and Mean Absolute Error (MAE)
+
         return model
-    
+        
     def read_file(self, filename):
         """
         Read a file with binary lists and fitness values.

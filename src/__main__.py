@@ -24,14 +24,25 @@ def __main__(config: dict) -> None:
     train_path = dataset_path.split("_")[0] + "_train.arff"
 
     # Genetic Algorithm variables
-    population_size = config["population_size"]
-    num_generations = config["num_generations"]
-    crossover_rate = config["crossover_rate"]
-    mutation_rate = config["mutation_rate"]
-    tournament_winner_rate = config["tournament_winner_rate"]
-    enable_parallelism = config["enable_parallelism"]
-    max_parallelism_subprocess = config["max_parallelism_subprocess"]
-    HCFS = config["HCFS"]
+    population_size = config["GeneticAlgorithm"]["population_size"]
+    num_generations = config["GeneticAlgorithm"]["num_generations"]
+    crossover_rate = config["GeneticAlgorithm"]["crossover_rate"]
+    mutation_rate = config["GeneticAlgorithm"]["mutation_rate"]
+    tournament_winner_rate = config["GeneticAlgorithm"]["tournament_winner_rate"]
+    enable_parallelism = config["GeneticAlgorithm"]["enable_parallelism"]
+    max_parallelism_subprocess = config["GeneticAlgorithm"]["max_parallelism_subprocess"]
+    
+    HCFS = config["HCFS"]["activate"]
+    GMNB_generations = config["HCFS"]["GMNB_generations"] if HCFS else 0
+    
+    NeuralNetwork = config["NeuralNetwork"]["activate"]
+    train_epochs = config["NeuralNetwork"]["train_epochs"]
+    save_model = config["NeuralNetwork"]["save_model"]
+    save_path = config["NeuralNetwork"]["save_path"]
+    load_model = config["NeuralNetwork"]["load_model"]
+    load_path = config["NeuralNetwork"]["load_path"]
+    GMNB_generations = config["NeuralNetwork"]["GMNB_generations"] if NeuralNetwork else GMNB_generations
+    
 
     # ==============================================================================
     # Preprocessing the dataset
@@ -53,7 +64,12 @@ def __main__(config: dict) -> None:
 
     Algorithm = GeneticAlgorithm(test_path, train_path, population_size, num_generations, 
                                 crossover_rate, mutation_rate, tournament_winner_rate,
-                                enable_parallelism, max_parallelism_subprocess, HCFS) 
+                                enable_parallelism, max_parallelism_subprocess, HCFS,
+                                NeuralNetwork, train_epochs, save_model, save_path, load_model, load_path,
+                                GMNB_generations)
+                                
+                                
+                                
 
     
     Algorithm.NNwGMNBwPC() # Run the genetic algorithm
