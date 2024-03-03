@@ -37,6 +37,6 @@ GeneticAlgorithm:
   mutation_rate: 0.1
   tournament_winner_rate: 0.75
   enable_parallelism: false
-  max_parallelism_subprocess: 5
+  max_parallelism_subprocess: 4
 
         

@@ -105,8 +105,25 @@ class NeuralNetwork:
 
         data = tf.cast(binary_list, dtype=tf.float32)
         data = tf.expand_dims(data, axis=0)
-        fitness = self.model.predict(data)[0][0]
+        fitness = self.model.predict(data, verbose=0)[0][0]
         return fitness
+    
+    def evaluate_population(self, population):
+        """
+        Evaluate the fitness of each binary list in a population.
+
+        Args:
+            population: A list of binary lists.
+
+        Returns:
+            A list of fitness values corresponding to each binary list.
+        """
+
+        fitness = self.model.predict(np.array(population), verbose=0)
+        fitness.tolist()
+        fitness = [x[0] for x in fitness]
+        return fitness
+        
     
     def evaluate_list_of_lists(self, list_of_binary_lists):
         """
@@ -118,20 +135,6 @@ class NeuralNetwork:
         Returns:
             A list of fitness values corresponding to each binary list.
         """
-
-        if len(list_of_binary_lists) == 1:
-            return [self.evaluate_fitness(list_of_binary_lists[0])]
-        
-
-        
-        fitness = self.model.predict(list_of_binary_lists, batch_size=32, verbose=1)
-        
-        fitness = fitness.tolist()
-        fitness = [x[0] for x in fitness]
-        
-
-        return fitness
-        
         fitness_values = []
         for binary_list in list_of_binary_lists:
             fitness = self.evaluate_fitness(binary_list)
@@ -144,7 +147,10 @@ class NeuralNetwork:
 if __name__ == "__main__":
     network = NeuralNetwork(num_features=77)  # Replace X with actual number of features
 
+    network.load_nn("model_CellCycle")
     #network.train_nn("generated-files/train_data.txt")
     #network.save_nn("my_model.h5")
     chromossome = [1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1]
     fitness = network.evaluate_fitness(chromossome)
+
+    print(fitness)

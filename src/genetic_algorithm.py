@@ -265,8 +265,12 @@ class GeneticAlgorithm:
         - Function set to 10 generations using GMNB and the rest using HCFS"""
         
         GMNB_generations = self.GMNB_generations
-        dataset_fitness = self.population.cross_validation(self.population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
-        population_list = self.population.create_population(self.population_size) # Creating the initial population 
+        chromossome_with_all_attributes = [1] * self.num_attributes
+        dataset_fitness = self.population.cross_validation([chromossome_with_all_attributes])
+        
+        with open(self.neuralNetwork_data, "a+") as file:
+                    file.write(str(chromossome_with_all_attributes) + "," + str(dataset_fitness[0]) + "\n")
+        
         save_train_data = True
         model_trained = False
 
@@ -275,6 +279,8 @@ class GeneticAlgorithm:
         self.utils.debug(f"Starting the Genetic Algorithm with Neural Networks and GMNB {GMNB_generations} generations, with Parallel cross-validation", type="info")
         self.utils.debug(f"Train Save model: {self.save_model}, Load model: {self.load_model}", type="info")
         self.utils.debug(f"Dataset fitness: {dataset_fitness}", type="debug")
+        self.utils.debug(f"Random population for the first {GMNB_generations} generations, to avoid overfitting", type="debug")
+        population_list = self.population.create_population(self.population_size)
         
         for generation in range(self.num_generations): # Main loop of the genetic algorithm
             
@@ -282,6 +288,10 @@ class GeneticAlgorithm:
                 generation_start_time = time.time()
 
                 if generation < GMNB_generations: # Using GMNB for the first x generations
+                    
+                    # To train the model, is better to create random populations in each generation,
+                    # to avoid overfitting
+                    population_list = self.population.create_population(self.population_size) 
                     population_fitness = self.threads.cross_validation_multiprocessing(population_list, self.train_filepath, self.test_filepath, self.max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
                 
                 else: # Using NN for the rest of the generations
@@ -299,9 +309,9 @@ class GeneticAlgorithm:
                         model_trained = True
                         save_train_data = False # Saving the train data only with the correct model (GMNB)
                     
-                    population_fitness = self.NN.evaluate_list_of_lists(population_list) # Evaluating the fitness of each chromosome
+                    population_fitness = self.NN.evaluate_population(population_list) # Evaluating the fitness of each chromosome
                 
-                self.get_history(population_fitness, population_list, save_train_data) # Getting the history of the fitness
+                self.get_history(population_fitness, population_list, save_train_data) # Getting the history of the fitnesss
                 population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
                 population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover
                 population_list = self.operators.swap_mutation(population_list, self.mutation_rate) # Applying the mutation
@@ -333,7 +343,12 @@ class GeneticAlgorithm:
         self.population.convert_chromossome_to_file(best_chromosome[0], self.population.test_filepath, type="best_chromossome_test") # Saving the best chromosome in a file
         self.population.convert_chromossome_to_file(best_chromosome[0], self.population.train_filepath, type="best_chromossome_train") # Saving the best chromosome in a file
         if type_of_algorithm == "HCFSwGMNBwPC" or "NNwGMNBwPC":
-            fitness = self.population.cross_validation([best_chromosome[0]], sequential_run = True)
+            if type_of_algorithm == "NNwGMNBwPC":
+                self.utils.debug(f"Train data saved at {self.neuralNetwork_data}", type="info")
+                self.utils.debug(f"Model saved at {self.save_model_path}", type="info")
+                self.utils.debug(f"Fitness found by the Neural Network: {best_chromosome[1]}", type="info")
+                
+            fitness = self.population.cross_validation([best_chromosome[0]])
             fitness = fitness[0]
             best_chromosome = (best_chromosome[0], fitness)
         
