@@ -18,25 +18,25 @@ HCFS:
 NeuralNetwork: 
   activate: true
   GMNB_generations: 0
-  train_epochs: 500
+  train_epochs: 100
   
-  save_model: true
-  save_path: ./model_CellCycle
+  save_model: false
+  save_path: ./model_CellCycle.h5 # Do not forget to put .h5 extension 
 
 
-  load_model: false
-  load_path: ./model_CellCycle
+  load_model: true # Use this option if you want to load a pre-trained model
+  load_path: ./model_CellCycle.h5 # Use this option if you want to load a pre-trained model
 
-  data_path: ./generated-files/train_data.txt
+  data_path: /home/kali/Desktop/GAFS-HC/model_CellCycle.h5 # Do not forget to put .h5 extension
 
 
 GeneticAlgorithm:
-  population_size: 100
-  num_generations: 100
+  population_size: 1000
+  num_generations: 200
   crossover_rate: 0.9
   mutation_rate: 0.1
   tournament_winner_rate: 0.75
   enable_parallelism: false
-  max_parallelism_subprocess: 4
+  max_parallelism_subprocess: 3
 
         

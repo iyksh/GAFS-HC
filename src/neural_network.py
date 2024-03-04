@@ -5,19 +5,21 @@ import numpy as np
 class NeuralNetwork:
 
     def __init__(self, num_features):
-        self.num_features = num_features
+        self.num_features = int(num_features)
         self.model = self._create_model()
-
+        
     def _create_model(self):
         # Define the model architecture (starting with a simpler configuration)
+
         model = keras.Sequential([
-            keras.layers.Dense(32, activation="relu", input_shape=(self.num_features,)),
-            keras.layers.Dense(16, activation="relu"),
-            keras.layers.Dense(1, activation="linear")  # Assuming continuous fitness (no activation)
+            keras.layers.Dense(self.num_features, activation='relu', input_shape=(self.num_features,), kernel_initializer='he_uniform'),
+            keras.layers.Dense(32, activation='relu', kernel_initializer='he_uniform'),
+            keras.layers.Dense(32, activation='relu', kernel_initializer='he_uniform'),
+            keras.layers.Dense(1, activation='linear')  # A saída é uma estimativa da correlação hierárquica
         ])
 
-        # Compile the model with appropriate loss function and optimizer
-        model.compile(optimizer="adam", loss="mse", metrics=["mae"])  # Mean Squared Error (MSE) and Mean Absolute Error (MAE)
+        # Compilação do modelo
+        model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mse'])
 
         return model
         
@@ -67,7 +69,7 @@ class NeuralNetwork:
         X_train = X_train.reshape(-1, self.num_features)
         
         # Compile the model
-        self.model.fit(X_train, Y_train, epochs=epochs, verbose=1)
+        self.model.fit(X_train, Y_train, epochs=epochs, verbose=1, workers=4, use_multiprocessing=True)
         
     
     def save_nn(self, filename):
@@ -118,8 +120,8 @@ class NeuralNetwork:
         Returns:
             A list of fitness values corresponding to each binary list.
         """
-
-        fitness = self.model.predict(np.array(population), verbose=0)
+    
+        fitness = self.model.predict(np.array(population), verbose=0, workers=4, use_multiprocessing=True)
         fitness.tolist()
         fitness = [x[0] for x in fitness]
         return fitness

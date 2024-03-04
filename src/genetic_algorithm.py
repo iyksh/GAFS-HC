@@ -268,9 +268,6 @@ class GeneticAlgorithm:
         chromossome_with_all_attributes = [1] * self.num_attributes
         dataset_fitness = self.population.cross_validation([chromossome_with_all_attributes])
         
-        with open(self.neuralNetwork_data, "a+") as file:
-                    file.write(str(chromossome_with_all_attributes) + "," + str(dataset_fitness[0]) + "\n")
-        
         save_train_data = True
         model_trained = False
 
@@ -347,6 +344,7 @@ class GeneticAlgorithm:
                 self.utils.debug(f"Train data saved at {self.neuralNetwork_data}", type="info")
                 self.utils.debug(f"Model saved at {self.save_model_path}", type="info")
                 self.utils.debug(f"Fitness found by the Neural Network: {best_chromosome[1]}", type="info")
+                self.utils.debug(f"Number of at tributes selected with Neural Network: {sum(best_chromosome[0])}", type="info")
                 
             fitness = self.population.cross_validation([best_chromosome[0]])
             fitness = fitness[0]
