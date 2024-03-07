@@ -9,14 +9,14 @@
 # Last edited: 02/March/2024 
 # ========================================================================================================================================================
 
-dataset_path: /home/kali/Desktop/GAFS-HC/data/CellCycle_single.arff
+dataset_path: /home/kali/Desktop/GAFS-HC/data/Gasch2_single.arff
 
 HCFS:
-  activate: false
+  activate: true
   GMNB_generations: 0
 
 NeuralNetwork: 
-  activate: true
+  activate: false
   GMNB_generations: 0
   train_epochs: 100
   
@@ -31,12 +31,12 @@ NeuralNetwork:
 
 
 GeneticAlgorithm:
-  population_size: 1000
-  num_generations: 200
+  population_size: 300
+  num_generations: 500
   crossover_rate: 0.9
   mutation_rate: 0.1
   tournament_winner_rate: 0.75
-  enable_parallelism: false
-  max_parallelism_subprocess: 3
+  enable_parallelism: true
+  max_parallelism_subprocess: 10
 
         

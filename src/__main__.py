@@ -57,19 +57,27 @@ def __main__(config: dict) -> None:
 
     preprocessing.minimum_classes(test_path, test_path) # Delete the attributes with less than 10 classes
     preprocessing.minimum_classes(train_path, train_path) # Delete the attributes with less than 10 classes
+    
+    dataset_path_discretized = dataset_path.split("_")[0] + "_discretized.arff"
+    preprocessing.discretize_data(dataset_path, dataset_path_discretized) # Discretize the Main dataset
 
     # ==============================================================================
     # Algorithm and report
     # ==============================================================================
-
+    
     Algorithm = GeneticAlgorithm(test_path, train_path, population_size, num_generations, 
                                 crossover_rate, mutation_rate, tournament_winner_rate,
                                 enable_parallelism, max_parallelism_subprocess, HCFS,
                                 NeuralNetwork, train_epochs, save_model, save_path, load_model, load_path,
-                                GMNB_generations)
+                                GMNB_generations, original_dataset_path=dataset_path_discretized)
                                 
                                 
                                 
-
+    if HCFS:
+        Algorithm.HCFSwGMNBwPC()
     
-    Algorithm.NNwGMNBwPC() # Run the genetic algorithm
+    elif NeuralNetwork:
+        Algorithm.NNwGMNBwPC()
+    
+    else:   
+        Algorithm.GMNBwPC()

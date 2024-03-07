@@ -63,14 +63,15 @@ class GeneticAlgorithm:
                  crossover_rate:float, mutation_rate:float, tournament_winner_rate:float,
                  enable_threading:bool = True, max_parallelism_subprocess:int = 10, HCFS = True,
                  NeuralNetworkUse= False, train_epochs = 100, save_model = False, save_path = "", load_model = False,
-                 load_path = "", GMNB_generations = 10) -> None:
+                 load_path = "", GMNB_generations = 10, original_dataset_path = None) -> None:
         
         # Creating the objects
         self.population = Population(test_filepath, train_filepath) # Object that manipulates the population and fitness function 
         self.operators = genetic_operators() # Object that manipulates the genetic operators
         self.utils = Utils() # Object that manipulates the utils functions
         self.threads = ThreadsManager() # Object that manipulates the threads
-        self.cfs = CorrelationFeatureSelection(train_filepath) # Object that manipulates the hierarchical CFS
+        
+        self.cfs = CorrelationFeatureSelection(original_dataset_path) # Object that manipulates the hierarchical CFS
         
         self.num_attributes = len(self.population.test_data.dataset_attributes) - 1 # Number of attributes - attribute class
         
@@ -114,51 +115,6 @@ class GeneticAlgorithm:
         self.utils.debug(f"N. of objects: {len(self.population.test_data.dataset_objects)}", "info") # check the number of objects
         self.population.five_folds(train_filepath) # Creating the 5 folds of the train file        
         self.population.five_folds(test_filepath) # Creating the 5 folds of the test file
-
-    # ==============================================================================
-    # Genetic Algorithm Global Model Naive Bayes
-    #
-    # This algorithm uses the GMNB cross-validation to evaluate the fitness of the
-    # chromosomes. 
-    # ============================================================================== 
-
-    def GMNBwC(self):
-        """Genetic Algorithm with the GMNB with cross-validation"""
-        self.utils.debug(f"Starting the Genetic Algorithm with GMNB cross-validation", type="info")
-        dataset_fitness = self.population.cross_validation(self.population.create_population(1, default_dataset = True), sequential_run = True) # Check if the cross-validation is working
-        population_list = self.population.create_population(self.population_size) # Creating the initial population 
-
-        self.start_time = time.time() # Start the timer to check the time of the algorithm
-        for generation in range(self.num_generations): # Main loop of the genetic algorithm
-            
-            try:
-                generation_start_time = time.time()
-
-                population_fitness = self.population.cross_validation(population_list) # Evaluating the fitness of each chromosome
-                self.get_history(population_fitness, population_list) # Getting the history of the fitness
-
-                population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
-                population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover
-                population_list = self.operators.swap_mutation(population_list, self.mutation_rate) # Applying the mutation
-                generation_end_time = time.time()
-
-                self.utils.print_population_fitness(population_fitness, generation, self.num_generations, generation_start_time, generation_end_time) # Printing the population fitness
-                
-                
-
-            except KeyboardInterrupt:
-                self.utils.debug(f"Stopped at generation {generation}", type="info")
-                processes = multiprocessing.active_children()  # Corrected here
-                for process in processes:
-                    process.terminate()
-
-                break   
-
-        self.end_time = time.time() # End the timer to check the time of the algorithm
-        self.show_results("GMNBwC", dataset_fitness, self.best_chromosome, self.end_time, self.start_time, population_fitness, 
-                          self.best_fitness_history, self.fitness_history)
-        
-
 
     # ==============================================================================
     # Genetic Algorithm Global Model Naive Bayes with Parallelism
@@ -218,6 +174,11 @@ class GeneticAlgorithm:
 
         self.start_time = time.time() # Start the timer to check the time of the algorithm
         
+        self.utils.debug(f"Calculating the correlations of the dataset", type="debug")
+        fl, ff = self.cfs.get_dataset_correlations() 
+        
+        self.cfs = CorrelationFeatureSelection(self.population.train_filepath) # Object that manipulates the hierarchical CFS
+        
         for generation in range(self.num_generations): # Main loop of the genetic algorithm
             
             try:
@@ -227,9 +188,8 @@ class GeneticAlgorithm:
                     population_fitness = self.threads.cross_validation_multiprocessing(population_list, self.train_filepath, self.test_filepath, self.max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
                 
                 else: # Using HCFS for the rest of the generations
-                    population_fitness = evaluate_by_cfs(self.population.train_filepath, population_list) # Evaluating the fitness of each chromosome
-                    pass
-                
+                    population_fitness, analyses = self.cfs.hierarchicalCFS(population_list, fl , ff)
+                                    
                 self.get_history(population_fitness, population_list) # Getting the history of the fitness
                 population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
                 population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover

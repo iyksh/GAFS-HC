@@ -130,59 +130,34 @@ class CorrelationFeatureSelection:
         for k in range(tam_features):
             sum_correlation_fl += correlation_fl[att_vec[k]]
 
-        merit_denominator = np.sqrt(tam_features + (tam_features * (tam_features - 1) * sum_correlation_ff))
+        merit_denominator = pow(tam_features + (tam_features * (tam_features - 1) * sum_correlation_ff), 0.5)
         if np.isnan(merit_denominator):
             merit_denominator = 0.00000001
 
 
         return (tam_features * sum_correlation_fl)/merit_denominator # merit value
     
-    
-    
     def evaluate_population(self, population:list[list[int]], 
-                 correlation_f_to_f:list[float], correlation_fl_hierar:list[float],
-                 filepath) -> tuple[list[float]]:
+                 correlation_f_to_f:list[float], correlation_fl_hierar:list[float]) -> tuple[list[float]]:
 
-        pop_manager = Population(self.dataset_path, self.dataset_path)
         fitness = [0 for i in range(len(population))]
 
-        att_analyses = []
-        att_vec_avg = []
-        best_att = worse_att = avg_att = 0
-        best_merit = 0
-        worse_merit = 100
         for i, individual in enumerate(population):
-            att = pop_manager.convert_chromossome_to_file(individual, self.dataset_path, 'test')
-            size_set = sum(individual)
-
+            
             set_vec = []
             for j in range(len(individual)):
                 if individual[j] == 1:
                     set_vec.append(j)
 
-            if len(set_vec) < 1:
+            if len(set_vec) == 0:
                 fitness[i] = 0.0
             elif len(set_vec) == 1:
                 fitness[i] = correlation_fl_hierar[set_vec[0]]
             
             else:
-                fo_cfs_hierarq = self.merit(set_vec, correlation_f_to_f, correlation_fl_hierar)
-                new_set_merit = fo_cfs_hierarq
-                fitness[i] = new_set_merit
-
-            if fitness[i] > best_merit:
-                best_merit = fitness[i]
-                best_att = size_set
-            elif fitness[i] < worse_merit:
-                worse_merit = fitness[i]
-                worse_att = size_set
-
-            att_vec_avg.append(size_set)
-
-        avg_att = mean(att_vec_avg)
-        att_analyses.extend([best_att, worse_att, avg_att])
+                fitness[i] = self.merit(set_vec, correlation_f_to_f, correlation_fl_hierar)
         
-        return fitness, att_analyses
+        return fitness, "Not making analyses, to improve the performance of the algorithm"
     
     def hierarchicalCFS(self, population, fl, ff) -> tuple[list[float], list[float]]:
         """ - Run the hierarchical CFS algorithm
@@ -194,8 +169,7 @@ class CorrelationFeatureSelection:
             - tuple[list[float], list[float]] - the fitness of the population and the analyses of the features
             
         """
-        dataset_path = self.dataset_path  
-        fitness, analyses = self.evaluate_population(population, ff, fl, dataset_path)
+        fitness, analyses = self.evaluate_population(population, ff, fl)
 
         return fitness, analyses
     
