@@ -5,6 +5,13 @@ class Utils:
 
     def __init__(self) -> None:
         self.log_file = "generated-files/log.txt"
+        
+        with open(self.log_file, "w") as file:
+            file.write("""Here is where the GA generate the chromossome and some trash including:
+                       - chromossomes of the files,
+                       - threads folders.
+                       - Logs of the GA.\n
+                       """)
 
     def delete_chromossomes(self):
         current_directory = "./"
@@ -66,7 +73,7 @@ class Utils:
             
         elif type == "success":
             print("\033[1;32m" + "[Success]: " + "\033[0m" + text)
-                
+            
         else:
             print("\033[1;35m" + "[Debug]: " + "\033[0m" + text)
 

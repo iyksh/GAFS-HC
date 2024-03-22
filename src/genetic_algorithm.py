@@ -236,8 +236,10 @@ class GeneticAlgorithm:
         self.utils.debug(f"Starting the Genetic Algorithm with Neural Networks and GMNB {GMNB_generations} generations, with Parallel cross-validation", type="info")
         self.utils.debug(f"Train Save model: {self.save_model}, Load model: {self.load_model}", type="info")
         self.utils.debug(f"Dataset fitness: {dataset_fitness}", type="debug")
+        
         self.utils.debug(f"Random population for the first {GMNB_generations} generations, to avoid overfitting", type="debug")
         population_list = self.population.create_population(self.population_size)
+        print("\n")
         
         for generation in range(self.num_generations): # Main loop of the genetic algorithm
             
@@ -246,11 +248,17 @@ class GeneticAlgorithm:
 
                 if generation < GMNB_generations: # Using GMNB for the first x generations
                     
-                    # To train the model, is better to create random populations in each generation,
+                    # To train the model, is better to create random populations in each generation, \n
                     # to avoid overfitting
                     population_list = self.population.create_population(self.population_size) 
                     population_fitness = self.threads.cross_validation_multiprocessing(population_list, self.train_filepath, self.test_filepath, self.max_parallelism_subprocess) # Evaluating the fitness of each chromosome            
-                
+                    
+                    progress = "\033[1;34m[Database Creation Progress]: " + "\033[0m" + "{:.2f}%".format((generation+1)/GMNB_generations * 100)
+                    time_estimated = "\033[0m" + "| Estimated time: {:.2f} seconds".format((time.time() - generation_start_time) * (GMNB_generations - generation))
+                    
+                    print("\33[2K\r " + progress + " " + time_estimated, end = "\r")
+                    self.get_history(population_fitness, population_list, save_train_data) 
+                    
                 else: # Using NN for the rest of the generations
                     if not model_trained and self.load_model:
                         self.NN.load_nn(self.load_path)
@@ -267,14 +275,19 @@ class GeneticAlgorithm:
                         save_train_data = False # Saving the train data only with the correct model (GMNB)
                     
                     population_fitness = self.NN.evaluate_population(population_list) # Evaluating the fitness of each chromosome
-                
-                self.get_history(population_fitness, population_list, save_train_data) # Getting the history of the fitnesss
-                population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
-                population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover
-                population_list = self.operators.swap_mutation(population_list, self.mutation_rate) # Applying the mutation
-                generation_end_time = time.time()
-
-                self.utils.print_population_fitness(population_fitness, generation, self.num_generations, generation_start_time, generation_end_time) # Printing the population fitness
+                    
+                    if max(population_fitness) > self.best_chromosome[1]:
+                        best_fitness = max(population_fitness)
+                        self.best_chromosome = (population_list[population_fitness.index(best_fitness)], best_fitness)
+                                        
+                    
+                    population_list = self.operators.tournament_selection(population_list, population_fitness, k = self.tournament_winner_rate) # Selection
+                    population_list = self.operators.pmx_crossover(population_list, self.crossover_rate) # Applying the crossover
+                    population_list = self.operators.swap_mutation(population_list, self.mutation_rate) # Applying the mutation
+                    
+                    progress = "\033[1;34m"+"[Genetic Algorithm Progress]: " + "\033[0m" + "{:.2f}%".format((generation+1)/self.num_generations * 100)
+                    time_estimated = "\033[0m" + "| Estimated time: {:.2f} seconds".format((time.time() - generation_start_time) * (self.num_generations - generation))
+                    print("\33[2K\r " + progress + " " + time_estimated, end = "\r")
                 
             except KeyboardInterrupt:
                 self.utils.debug(f"Stopped at generation {generation}", type="info")
@@ -305,6 +318,7 @@ class GeneticAlgorithm:
                 self.utils.debug(f"Model saved at {self.save_model_path}", type="info")
                 self.utils.debug(f"Fitness found by the Neural Network: {best_chromosome[1]}", type="info")
                 self.utils.debug(f"Number of at tributes selected with Neural Network: {sum(best_chromosome[0])}", type="info")
+                self.utils.debug(f"Binary Chromossome: {best_chromosome[0]}", type="info")
                 
             fitness = self.population.cross_validation([best_chromosome[0]])
             fitness = fitness[0]
@@ -324,6 +338,12 @@ class GeneticAlgorithm:
 
 
     def get_history(self, population_fitness, population_list, save_train_data = False): # Function to get the history of the best fitness and the average fitness
+        if save_train_data:
+            with open(self.neuralNetwork_data, "a+") as file:
+                for i in range(len(population_list)):
+                    file.write((str(population_list[i]) + "," + str(population_fitness[i])) + "\n")
+            return  # If the train data was saved, the function will return
+        
         if max(population_fitness) > self.best_chromosome[1]:
             index = population_fitness.index(max(population_fitness))
             self.best_chromosome = (population_list[index], population_fitness[index])      
@@ -333,11 +353,7 @@ class GeneticAlgorithm:
 
         self.fitness_history.append(sum(population_fitness) / len(population_fitness))
 
-        if save_train_data:
-            with open(self.neuralNetwork_data, "a+") as file:
-                for i in range(len(population_list)):
-                    file.write((str(population_list[i]) + "," + str(population_fitness[i])) + "\n")
-    
+
         
 
 

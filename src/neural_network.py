@@ -9,19 +9,18 @@ class NeuralNetwork:
         self.model = self._create_model()
         
     def _create_model(self):
-        # Define the model architecture (starting with a simpler configuration)
+        # Define the model architecture
+        model = keras.Sequential()
+        model.add(keras.layers.Dense(self.num_features, activation='relu', input_shape=(self.num_features,)))
+        model.add(keras.layers.Dense(32, activation='relu'))
+        model.add(keras.layers.Dense(1))
 
-        model = keras.Sequential([
-            keras.layers.Dense(self.num_features, activation='relu', input_shape=(self.num_features,), kernel_initializer='he_uniform'),
-            keras.layers.Dense(32, activation='relu', kernel_initializer='he_uniform'),
-            keras.layers.Dense(32, activation='relu', kernel_initializer='he_uniform'),
-            keras.layers.Dense(1, activation='linear')  # A saída é uma estimativa da correlação hierárquica
-        ])
-
-        # Compilação do modelo
-        model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mse'])
+        # Compile the model
+        model.compile(optimizer='adam', loss='mse')
 
         return model
+
+
         
     def read_file(self, filename):
         """
@@ -69,7 +68,7 @@ class NeuralNetwork:
         X_train = X_train.reshape(-1, self.num_features)
         
         # Compile the model
-        self.model.fit(X_train, Y_train, epochs=epochs, verbose=1, workers=4, use_multiprocessing=True)
+        self.model.fit(X_train, Y_train, epochs=epochs, workers=4, use_multiprocessing=True, batch_size=256, verbose=0)
         
     
     def save_nn(self, filename):

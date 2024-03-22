@@ -1,4 +1,0 @@
-Here is where the GA generate the chromossome and some trash including:
-
-- chromossomes of the files,
-- threads folders.
