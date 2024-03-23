@@ -2,41 +2,32 @@
 #       
 # Define your configuration options here
 # 
-#
-#
-#
 # Author: Guilherme Santos
 # Last edited: 02/March/2024 
 # ========================================================================================================================================================
 
 dataset_path: data/CellCycle_single.arff
 
-HCFS:
-  activate: false
-  GMNB_generations: 0
-
-NeuralNetwork: 
+GMNBwGA:
   activate: true
-  GMNB_generations: 0
-  train_epochs: 300
-  
-  save_model: true
-  save_path: ./model_CellCycle.h5 # Do not forget to put .h5 extension 
-
-
-  load_model: false # Use this option if you want to load a pre-trained model
-  load_path: ./model_CellCycle.h5 # Use this option if you want to load a pre-trained model
-
-  data_path: /home/kali/Desktop/GAFS-HC/model_CellCycle.h5 # Do not forget to put .h5 extension
-
-
-GeneticAlgorithm:
-  population_size: 300
+  population_size: 4
   num_generations: 500
   crossover_rate: 0.9
   mutation_rate: 0.1
   tournament_winner_rate: 0.75
-  enable_parallelism: true
-  max_parallelism_subprocess: 4
+
+NNwGA: 
+  activate: false
+  GMNB_generations: 0
+  train_epochs: 17
+  
+  save_model: false
+  save_path: ./model_CellCycle.keras # Do not forget to put .keras extension 
+
+  load_model: true # Use this option if you want to load a pre-trained model
+  load_path: ./model_CellCycle.keras # Use this option if you want to load a pre-trained model
+
+
+
 
         

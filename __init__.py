@@ -8,6 +8,7 @@
 import os
 import yaml
 import shutil
+
 from src.__main__ import __main__
 
 def remove_thread_folders():

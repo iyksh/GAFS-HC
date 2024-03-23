@@ -3,7 +3,7 @@ import ctypes
 import numpy as np
 import random
 
-def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'y') -> float:
+def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'n') -> float:
     """Call nbayes function from nbayes.so, read docs/GMNB_2009_Silla.pdf for more information.
     
     `Args:`

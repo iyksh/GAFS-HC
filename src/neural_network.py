@@ -1,6 +1,8 @@
 import tensorflow as tf
 from tensorflow import keras
+from .utils import *
 import numpy as np
+
 
 class NeuralNetwork:
 
@@ -9,13 +11,36 @@ class NeuralNetwork:
         self.model = self._create_model()
         
     def _create_model(self):
+
+        
+        # Define the number of layers and neurons in each layer
+        entry_layer = self.num_features
+        dense_layer = (entry_layer + 10)//2
+        dense_layer1 = (dense_layer + 10)//2
+        dense_layer2 = (dense_layer1 + 10)//2
+        dense_layer3 = (dense_layer2 + 10)//2
+        dense_layer4 = (dense_layer3 + 10)//2
+        dense_layer5 = (dense_layer4 + 10)//2
+        dense_layer6 = (dense_layer5 + 10)//2
+        dense_layer7 = (dense_layer6 + 10)//2
+        output_layer = 1
+
         # Define the model architecture
         model = keras.Sequential()
-        model.add(keras.layers.Dense(self.num_features, activation='relu', input_shape=(self.num_features,)))
-        model.add(keras.layers.Dense(32, activation='relu'))
-        model.add(keras.layers.Dense(1))
+
+        # Create the layers
+        model.add(keras.layers.Dense(input_shape=(entry_layer,), units=dense_layer, activation='relu'))
+        model.add(keras.layers.Dense(units=dense_layer2, activation='relu'))
+        model.add(keras.layers.Dense(units=dense_layer3, activation='relu'))
+        model.add(keras.layers.Dense(units=dense_layer4, activation='relu'))
+        model.add(keras.layers.Dense(units=dense_layer5, activation='relu'))
+        model.add(keras.layers.Dense(units=dense_layer6, activation='relu'))
+        model.add(keras.layers.Dense(units=dense_layer7, activation='relu'))
+        model.add(keras.layers.Dense(output_layer))
+
 
         # Compile the model
+        #categorical_accuracy, acc
         model.compile(optimizer='adam', loss='mse')
 
         return model
@@ -66,9 +91,24 @@ class NeuralNetwork:
         X_train = np.array(individuals)
         Y_train = np.array(fitness)
         X_train = X_train.reshape(-1, self.num_features)
+        Y_train = Y_train.reshape(-1, 1)
         
         # Compile the model
-        self.model.fit(X_train, Y_train, epochs=epochs, workers=4, use_multiprocessing=True, batch_size=256, verbose=0)
+        self.model.fit(X_train, Y_train, epochs=epochs, workers=4, use_multiprocessing=True, batch_size=256, verbose=1)
+        
+        # Evaluate the model on the training data
+        train_loss = self.model.evaluate(X_train, Y_train, verbose=0)
+        
+        # Evaluate the model accuracy
+        predictions = self.model.predict(X_train)
+        accuracy = np.mean(np.abs(predictions - Y_train))
+            
+        
+        print(f"Training loss: {train_loss*100:.2f}%")
+        print(f"Accuracy: {accuracy*100:.2f}%")
+        
+
+
         
     
     def save_nn(self, filename):
@@ -146,12 +186,17 @@ class NeuralNetwork:
 # Example usage
 
 if __name__ == "__main__":
+    
     network = NeuralNetwork(num_features=77)  # Replace X with actual number of features
-
-    network.load_nn("model_CellCycle")
-    #network.train_nn("generated-files/train_data.txt")
-    #network.save_nn("my_model.h5")
-    chromossome = [1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1]
+    
+    network.train_nn("generated-files/train_data.txt", epochs=10000)
+    network.save_nn("model_CellCycle.keras")
+    network.load_nn("model_CellCycle.keras")
+    
+    
+    
+    
+    chromossome = [1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1]
     fitness = network.evaluate_fitness(chromossome)
 
     print(fitness)
