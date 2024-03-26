@@ -1,7 +1,7 @@
 from src.dataset import Dataset
-from src.metaheuristic_utils.utils_cfs import *
-from src.metaheuristic_utils.pearson_coeff import *
-from src.population_manager import Population
+from utils_cfs import *
+from pearson_coeff import *
+from src.cross_validation import CrossValidation
 
 import multiprocessing
 import random

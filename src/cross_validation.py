@@ -16,58 +16,23 @@
 
 import random
 
-from src.dataset import Dataset
 from src.utils import Utils
 from src.cpp_converter import call_nbayes
+from src.dataset import Dataset
 
-class Population:
+class CrossValidation:
 
-    def __init__(self, dataset_path:str, thread_folder = None) -> None:
+    def __init__(self, filepath) -> None:
         
         # Creating the objects.
+        self.filepath = filepath
         self.utils = Utils()
-        self.data = Dataset(dataset_path) 
-
-
-        # Saving Variables
-        self.filepath = dataset_path
         self.num_folds = 5
-
-        if thread_folder != None: # If use threads, the files need to be saved in different folders to avoid conflicts
-            self.chromossome_train_path = (f"./generated-files/{thread_folder}/chromossome_train.arff")
-            self.chromossome_test_path = (f"./generated-files/{thread_folder}/chromossome_test.arff")
         
-        else:
-            # The train and test dataset.
-            self.chromossome_train_path = (f"./generated-files/chromossome_train.arff")  
-            self.chromossome_test_path = (f"./generated-files/chromossome_test.arff") 
-
-    def create_population(self, population_size: int, default_dataset = False) -> list[list[int]]:
-        """
-        Create the initial population with random genes (0 or 1).
+        self.chromossome_train_path = (f"./generated-files/chromossome_train.arff")
+        self.chromossome_test_path = (f"./generated-files/chromossome_test.arff")
         
-        - 0 means that the attribute will not be selected, and 1 means that the attribute will be selected.
 
-        """
-
-        len_attributes = len(self.data.dataset_attributes[:-1]) # Exclude the #ATTRIBUTE class
-        population = []
-
-        if default_dataset:
-            return [[1 for _ in range(len_attributes)] for _ in range(population_size)]
-
-        for _ in range(population_size):
-            chromosome = [random.randint(0, 1) for _ in range(len_attributes)]
-
-            # Ensure at least one attributes is selected
-            if chromosome.count(1) == 0:
-                chromosome[random.randint(0, len_attributes - 1)] = 1
-
-            population.append(chromosome)
-
-        return population
-
-        
     def convert_chromossome_to_file(self, chromosome: list, filepath:str, type:str, num_folds = 5, cross_validation_folds = None) -> None:
         """
         - Convert a chromosome list with binary encoding (e.g., [0, 1, 0, 1]) to a .arff file.
@@ -164,25 +129,19 @@ class Population:
         new_dataset.dataset_dict['description'] = description
         new_dataset.save_dataset(save_path)
 
-
-    def cross_validation(self, population:list[int], sequential_run = False) -> list[float]:
+    # a ser alterado, deixar os mesmos parâmetros.
+    def cross_validation(self, population: list[list[int]]) -> list[float]:
         chromossomes_fitness = []
-
-
+        
         for chromosome in population:
-
             cross_validation_values = []
-            test_index = self.num_folds 
-
-            for i in range(self.num_folds):
-                test_index = test_index - 1
-
+            
+            for test_index in range(self.num_folds):
                 train_index = [i for i in range(self.num_folds) if i != test_index]
-
-                self.convert_chromossome_to_file(chromosome, self.filepath, 'test', cross_validation_folds = test_index)
-
-                self.convert_chromossome_to_file(chromosome, self.filepath, 'train', cross_validation_folds = train_index)
-
+                
+                self.convert_chromossome_to_file(chromosome, self.filepath, 'test', cross_validation_folds=test_index)
+                self.convert_chromossome_to_file(chromosome, self.filepath, 'train', cross_validation_folds=train_index)
+                
                 cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
             
             chromossomes_fitness.append(sum(cross_validation_values) / self.num_folds)

@@ -2,12 +2,34 @@ import random
 
 from src.utils import *
 from src.cpp_converter import call_nbayes
+from src.dataset import Dataset
 
 class genetic_operators:
 
     def __init__(self) -> None:
         self.utils = Utils()
         pass
+    
+    def create_population(self, population_size: int, len_attributes:int) -> list[list[int]]:
+        """
+        Create the initial population with random genes (0 or 1).
+        
+        - 0 means that the attribute will not be selected, and 1 means that the attribute will be selected.
+
+        """
+
+        population = []
+
+        for _ in range(population_size):
+            chromosome = [random.randint(0, 1) for _ in range(len_attributes)]
+
+            # Ensure at least one attributes is selected
+            if chromosome.count(1) == 0:
+                chromosome[random.randint(0, len_attributes - 1)] = 1
+
+            population.append(chromosome)
+
+        return population
 
     def roulette_selection(self, population, fitness_scores):
         total_fitness = sum(fitness_scores)

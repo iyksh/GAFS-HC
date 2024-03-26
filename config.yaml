@@ -9,17 +9,23 @@
 dataset_path: data/CellCycle_single.arff
 
 GMNBwGA:
-  activate: true
-  population_size: 4
-  num_generations: 500
+  activate: false # Activate the GMNBwGA algorithm, true or false
+  population_size: 4 
+  num_generations: 3
   crossover_rate: 0.9
   mutation_rate: 0.1
   tournament_winner_rate: 0.75
 
 NNwGA: 
-  activate: false
-  GMNB_generations: 0
-  train_epochs: 17
+  activate: true # Activate the NNwGA algorithm, true or false
+  population_size: 1000
+  num_generations: 5000
+  crossover_rate: 0.9
+  mutation_rate: 0.1
+  tournament_winner_rate: 0.75
+  
+  GMNB_generations: 0 # Number of generations to train the GMNB model, the data will be used to train the NN model
+  train_epochs: 10000 # Number of epochs to train the NN model
   
   save_model: false
   save_path: ./model_CellCycle.keras # Do not forget to put .keras extension 
