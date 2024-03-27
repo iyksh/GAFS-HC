@@ -19,6 +19,8 @@ from src.cpp_converter import call_nbayes
 from src.dataset import Dataset
 
 import arff
+import os
+import multiprocessing
 
 class CrossValidation:
 
@@ -32,7 +34,8 @@ class CrossValidation:
         self.chromossome_train_path = (f"./generated-files/chromossome_train.arff")
         self.chromossome_test_path = (f"./generated-files/chromossome_test.arff")
 
-    def convert_chromossome_to_file(self, chromosome: list, type_chromossome:str, cross_validation_folds = None) -> None:
+    def convert_chromossome_to_file(self, chromosome: list, type_chromossome:str, 
+                                    cross_validation_folds = None, thread_index = 0) -> None:
         """
         - Convert a chromosome list with binary encoding (e.g., [0, 1, 0, 1]) to a .arff file.
         - Attributes will be get from the first fold, and the objects will be get from the all folds.
@@ -113,33 +116,52 @@ class CrossValidation:
         new_dataset['relation'] = folds[0].dataset_dict['relation']
         
         if type_chromossome == 'test':
-            save_path = self.chromossome_test_path
+            save_path = (f"./generated-files/{thread_index}/chromossome_test.arff")
 
         elif type_chromossome == 'train':
-            save_path = self.chromossome_train_path
+            save_path = (f"./generated-files/{thread_index}/chromossome_train.arff")
             
         elif type_chromossome == "best_chromossome_test":
-            save_path = "./generated-files/best_chromossome_test.arff"
+            save_path = (f"./generated-files/{thread_index}/best_chromossome_test.arff")
 
         elif type_chromossome == "best_chromossome_train":
-            save_path = "./generated-files/best_chromossome_train.arff"
+            save_path = (f"./generated-files/{thread_index}/best_chromossome_train.arff")
 
         arff.dump(new_dataset, open(save_path, 'w+'))
+        
+        return save_path
 
     def cross_validation(self, population: list[list[int]]) -> list[float]:
-        chromossomes_fitness = []
-        
-        for chromosome in population:
+        # Define a function to handle fitness calculation for each chromosome
+        def calculate_fitness(chromosome, thread_index, thread_results):
             cross_validation_values = []
-            
             for test_index in range(self.num_folds):
                 train_index = [i for i in range(self.num_folds) if i != test_index]
+
+                test_path =  self.convert_chromossome_to_file(chromosome, 'test', cross_validation_folds=test_index, thread_index=thread_index)
+                train_path = self.convert_chromossome_to_file(chromosome, 'train', cross_validation_folds=train_index, thread_index=thread_index)
+
+                cross_validation_values.append(call_nbayes(train_path, test_path))
+
+            # Append the average of cross_validation_values to thread_results
+            thread_results.append(sum(cross_validation_values) / len(cross_validation_values))
+
+        with multiprocessing.Manager() as manager:
+            thread_results = manager.list()  # Shared list
+
+            processes = []
+            for chromossome in population:
+                thread_index = population.index(chromossome)
+                os.makedirs(f"./generated-files/{thread_index}", exist_ok=True)
                 
-                self.convert_chromossome_to_file(chromosome, 'test', cross_validation_folds=test_index)
-                self.convert_chromossome_to_file(chromosome, 'train', cross_validation_folds=train_index)
-                
-                cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
-                
-            chromossomes_fitness.append(sum(cross_validation_values) / self.num_folds)
+                p = multiprocessing.Process(target=calculate_fitness, args=(chromossome, thread_index, thread_results))
+                processes.append(p)
+                p.start()
+
+            for process in processes:
+                process.join()
+
+            # Convert the shared list to a regular list
+            chromossomes_fitness = list(thread_results)
             
-        return chromossomes_fitness
+            return chromossomes_fitness

@@ -114,7 +114,7 @@ class GeneticAlgorithm:
         self.utils.debug(f"The algorithm found a solution {porcentage_better:.2f}% better than the dataset fitness, using {type_of_algorithm}", type="success")
 
         self.utils.plot_fitness_history(self.fitness_history, title = f'Fitness History {type_of_algorithm}')
-        self.utils.plot_fitness_history(self.best_fitness_history, title = f'{type_of_algorithm} Best-Fitness History') # Plotting the best fitness history
+        self.utils.plot_fitness_history(self.best_fitnesschromossomes_fitness_history, title = f'{type_of_algorithm} Best-Fitness History') # Plotting the best fitness history
 
 
     def get_history(self, population_fitness, population_list): # Function to get the history of the best fitness and the average fitness   

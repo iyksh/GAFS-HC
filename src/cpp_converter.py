@@ -2,6 +2,8 @@ import os
 import ctypes
 import numpy as np
 import random
+import threading
+import multiprocessing
 
 def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './result.arff', mlnp:str = 'n', usf:str = 'y') -> float:
     """Call nbayes function from nbayes.so, read docs/GMNB_2009_Silla.pdf for more information.
@@ -41,4 +43,22 @@ def call_nbayes(training_dataset:str, test_dataset:str, result_file:str = './res
     return result
 
 
+if __name__ == '__main__':
+    def run_nbayes(training_dataset:str, test_dataset:str):
+        result = call_nbayes(training_dataset, test_dataset)
+        print(result)
 
+    if __name__ == '__main__':
+        processes = []
+                
+        datasets = [('generated-files/0/chromossome_train.arff', 'generated-files/0/chromossome_test.arff'),
+                    ('generated-files/1/chromossome_train.arff', 'generated-files/1/chromossome_test.arff'),
+                    ('generated-files/2/chromossome_train.arff', 'generated-files/2/chromossome_test.arff')]
+
+        for dataset in datasets:
+            p = multiprocessing.Process(target=run_nbayes, args=dataset)
+            processes.append(p)
+            p.start()
+
+        for process in processes:
+            process.join()
