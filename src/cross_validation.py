@@ -14,11 +14,11 @@
 # 
 # ======================================================================================================
 
-import random
-
 from src.utils import Utils
 from src.cpp_converter import call_nbayes
 from src.dataset import Dataset
+
+import arff
 
 class CrossValidation:
 
@@ -31,105 +31,101 @@ class CrossValidation:
         
         self.chromossome_train_path = (f"./generated-files/chromossome_train.arff")
         self.chromossome_test_path = (f"./generated-files/chromossome_test.arff")
-        
 
-    def convert_chromossome_to_file(self, chromosome: list, filepath:str, type:str, num_folds = 5, cross_validation_folds = None) -> None:
+    def convert_chromossome_to_file(self, chromosome: list, type_chromossome:str, cross_validation_folds = None) -> None:
         """
         - Convert a chromosome list with binary encoding (e.g., [0, 1, 0, 1]) to a .arff file.
         - Attributes will be get from the first fold, and the objects will be get from the all folds.
-    
-        Parameters:
-            - chromosome (list): Binary-encoded chromosome representing attribute selection.
-            - filepath (str): The path of the dataset file.
-            - type (str): The type of the dataset file. It can be 'test' or 'train'.
-            - num_folds (int): The number of folds of the dataset file.
-            - cross_validation_folds (list): The list of folds to be used in the cross-validation. If None, all folds will be used.
-
-        Note:
-            The resulting .arff file is saved as `chromossome.arff`, by the default self.chromossome_path.
         """
 
         folds = []
+        file_paths = []
+        
 
-        if cross_validation_folds != None and type == 'test':       
-            filepath_fold = filepath.split(".")[0] + "_test_fold_" + str(cross_validation_folds) + ".arff"
-            temporary = Dataset(filepath_fold)
-            folds.append(temporary)
-
-        elif cross_validation_folds != None and type == 'train':
-            for i in range(num_folds): # Read all folds
-                if i in cross_validation_folds:
-                    filepath_fold = filepath.split(".")[0] + "_train_fold_" + str(i) + ".arff"
-                    temporary = Dataset(filepath_fold)
-                    folds.append(temporary)
-
+        if type_chromossome == 'test':       
+            file_paths.append(self.filepath.split(".")[0] + "_test_fold_" + str(cross_validation_folds) + ".arff")
+            
+        elif type_chromossome == 'train':
+            for i in cross_validation_folds:
+                    file_paths.append(self.filepath.split(".")[0] + "_train_fold_" + str(i) + ".arff")
+                    
+        for file_path in file_paths:
+            folds.append(Dataset(file_path))
+            
         # ==============================================================================
         # Getting the attributes of the folds and the attribute class
         # ==============================================================================
             
-        attributes = []
-        temporary_chromossome = folds[0] 
-        attributes_class = temporary_chromossome.dataset_attributes[-1] 
-
-        # all the folds have the same attributes_class and the same number of attributes
-        # The chromosome size is equal to the number of attributes
-        for i in range(len(temporary_chromossome.dataset_dict['attributes'][:-1])): 
-            if chromosome[i] == 1:
-                attributes.append(temporary_chromossome.dataset_dict['attributes'][i])
-        attributes.append(attributes_class) #incluing @ATTRIBUTE class
+        attributes = folds[0].dataset_dict['attributes'] # attributes of the first fold with the class
+        selected_attributes = []
+        
+        for index, attribute in enumerate(attributes): 
+            if attributes[index] == attributes[-1]: # Stop when the class is reached
+                selected_attributes.append(attribute)
+                break
+            
+            elif chromosome[index] == 1:
+                selected_attributes.append(attribute)
+        
+        attributes = selected_attributes            
 
         # ==============================================================================
         # Getting the objects of the folds
         # ==============================================================================
 
         objects = [] # set of objects of the folds
+        selected_objects = [] # set of objects selected by the chromosome
         descriptions = []
-
-        # for each fold
-        for i in range(len(folds)): 
-            descriptions.append(folds[i].dataset_dict['description'])
-            # for each line of the objects
-            for j in range(len(folds[i].dataset_objects)): 
-                line = [] # subset of objects of the folds
-
-                # for each number in the line
-                for k in range(len(folds[i].dataset_objects[j]) - 1): 
-                    if chromosome[k] == 1:
-                        line.append(folds[i].dataset_objects[j][k])
-                line.append(folds[i].dataset_objects[j][-1]) # add the class
-
-
-                # add the line in the subset of objects of the folds
-                objects.append(line) 
-
+    
+        
+        for i in range(len(folds)):  # for each fold
+            objects += folds[i].dataset_dict['data']
+            descriptions.append(f"Fold {cross_validation_folds} of the dataset")
+        
+        
+        for line in range(len(objects)):
+            selected_objects_line = []
+            for column in range(len(objects[line])):
+                if objects[line][column] == objects[line][-1]: # Stop when the class is reached
+                    selected_objects_line.append(objects[line][column])
+                    break
+                
+                if chromosome[column] == 1:
+                    selected_objects_line.append(objects[line][column])
+            
+            selected_objects.append(selected_objects_line)
+        objects = selected_objects
+        
+        #print(f"Attributes per line: {len(selected_objects[0])}")
+        #print(f"Attributes selected by this algorithm: {len(attributes)}")   
+        #print(f"Chromossome selected attributes number: {chromosome.count(1)}")
+        #print("-" * 50)
+        
+                
         # ==============================================================================
         # Saving the dataset in a new file
         # ==============================================================================
 
-        new_dataset = Dataset(filepath)
-        new_dataset.dataset_dict['attributes'] = attributes
-        new_dataset.dataset_dict['data'] = objects
-        description = str(descriptions.copy())
-
-
-        if type == 'test':
+        new_dataset = {}
+        new_dataset['attributes'] = attributes
+        new_dataset['data'] = objects
+        new_dataset['description'] = str(descriptions.copy())
+        new_dataset['relation'] = folds[0].dataset_dict['relation']
+        
+        if type_chromossome == 'test':
             save_path = self.chromossome_test_path
 
-        elif type == 'train':
+        elif type_chromossome == 'train':
             save_path = self.chromossome_train_path
             
-        elif type == "best_chromossome_test":
-            description = "Best Chromossome of the test dataset"
+        elif type_chromossome == "best_chromossome_test":
             save_path = "./generated-files/best_chromossome_test.arff"
 
-        elif type == "best_chromossome_train":
-            description = "Best Chromossome of the train dataset"
+        elif type_chromossome == "best_chromossome_train":
             save_path = "./generated-files/best_chromossome_train.arff"
 
-        new_dataset.dataset_dict['description'] = description
-        new_dataset.save_dataset(save_path)
+        arff.dump(new_dataset, open(save_path, 'w+'))
 
-    # a ser alterado, deixar os mesmos parâmetros.
     def cross_validation(self, population: list[list[int]]) -> list[float]:
         chromossomes_fitness = []
         
@@ -139,11 +135,11 @@ class CrossValidation:
             for test_index in range(self.num_folds):
                 train_index = [i for i in range(self.num_folds) if i != test_index]
                 
-                self.convert_chromossome_to_file(chromosome, self.filepath, 'test', cross_validation_folds=test_index)
-                self.convert_chromossome_to_file(chromosome, self.filepath, 'train', cross_validation_folds=train_index)
+                self.convert_chromossome_to_file(chromosome, 'test', cross_validation_folds=test_index)
+                self.convert_chromossome_to_file(chromosome, 'train', cross_validation_folds=train_index)
                 
                 cross_validation_values.append(call_nbayes(self.chromossome_train_path, self.chromossome_test_path))
-            
+                
             chromossomes_fitness.append(sum(cross_validation_values) / self.num_folds)
-        
+            
         return chromossomes_fitness

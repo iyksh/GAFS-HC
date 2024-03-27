@@ -135,16 +135,6 @@ class genetic_operators:
         return population
     
 
-    def check_chromossome(self, train_path, test_path):
-        nbayes_fitness = call_nbayes(train_path, test_path)
-        self.utils.debug(f"Original Dataset GMNbayes: {nbayes_fitness}")
-
-        best_chromossome_test = "./generated-files/best_chromossome_test.arff"
-        best_chromossome_train = "./generated-files/best_chromossome_train.arff"
-
-        nbayes_fitness = call_nbayes(best_chromossome_train, best_chromossome_test)
-        self.utils.debug(f"Best chromossome found fitness: {nbayes_fitness}")
-
 
 
 

@@ -4,10 +4,8 @@
 
 import arff
 import numpy as np
-import pandas as pd
 import warnings
 
-from sklearn.exceptions import UndefinedMetricWarning
 from sklearn.preprocessing import KBinsDiscretizer
 from sklearn.model_selection import StratifiedKFold
 from src.utils import Utils

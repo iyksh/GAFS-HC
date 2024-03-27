@@ -4,10 +4,6 @@ debug: Changing class R.20.01 with 4 instances from R.20
 debug: Changing class R.20 with 4 instances from R 
 info: The class is root, removing it. 
 info: N. of attributes: 77 | N. of objects: 3753 
-info: Will be generated 0 models using GMNB to train data 
-info: Train Save model: False | Load model: True | Dataset hF: 42.90783 
+info: Starting the Global Model Naive Bayes with Genetic Algorithm 
+info: Dataset hF: 42.92201 
  
-info: Stopped at generation 720 
-info: Chromossome hF found by the Neural Network: 42.96567 | with 36 Attributes 
-info: Dataset hF: 42.90783 | with 77 Attributes 
-success: The algorithm found a solution 0.13% better than the dataset fitness, using NNwGMNBwPC 

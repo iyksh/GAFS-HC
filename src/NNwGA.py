@@ -13,7 +13,6 @@ import multiprocessing
 from src.cross_validation import CrossValidation
 from src.genetic_operators import *
 from src.dataset import *
-from src.cpp_converter import evaluate_by_cfs
 from src.neural_network import NeuralNetwork
 
 class NNwGeneticAlgorithm:

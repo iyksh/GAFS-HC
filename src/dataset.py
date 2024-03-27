@@ -56,7 +56,9 @@ class Dataset:
 
         self.dataset_objects = self.dataset_dict['data'] #list of lists [[value, value, value], [value, value, value]] all strings
 
+        self.attribute_class = self.dataset_attributes[-1][0] # the last attribute is the class
         
+        self.only_attributes = [attr[0] for attr in self.dataset_attributes] # list of the attributes names
 
     # ==============================================================================
     # Functions to manipulate the datas
