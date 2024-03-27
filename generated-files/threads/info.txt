@@ -1,0 +1,9 @@
+this folder is used to store chromossome multiple threads without conflits
+
+A biblioteca threading e a biblioteca multiprocessing no Python são usadas para executar tarefas em paralelo, mas elas têm diferenças fundamentais.
+
+Threads: A biblioteca threading permite que várias threads sejam executadas em paralelo. No entanto, devido ao Global Interpreter Lock (GIL) no Python, apenas uma thread pode executar código Python de cada vez (mesmo em um processador multi-core). Threads são mais úteis para tarefas de I/O, onde o programa passa a maior parte do tempo esperando por recursos de rede ou disco.
+
+Processos: A biblioteca multiprocessing usa processos em vez de threads. Cada processo tem seu próprio interpretador Python e seu próprio espaço na memória. Portanto, o código pode realmente ser executado em paralelo em diferentes CPUs. Isso é útil para tarefas de CPU, onde o programa passa a maior parte do tempo fazendo cálculos.
+
+No código que você forneceu, a biblioteca multiprocessing é usada para calcular a aptidão de diferentes cromossomos em paralelo. Isso é provavelmente uma tarefa intensiva em CPU, então faz sentido usar processos em vez de threads.

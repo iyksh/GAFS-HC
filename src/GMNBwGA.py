@@ -50,7 +50,6 @@ class GeneticAlgorithm:
         self.tournament_winner_rate = tournament_winner_rate #rate of the tournament winner
 
         # Debugging the variables before the algorithm starts
-        self.utils.clear_screen()                # Clear the terminal screen before the starts
         self.utils.debug(f"N. of attributes: {self.num_attributes} | N. of objects: {self.num_objects}", "info") # check the number of attributes
 
     # ==============================================================================

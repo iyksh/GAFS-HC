@@ -31,9 +31,13 @@ class CrossValidation:
         self.utils = Utils()
         self.num_folds = 5
         
-        self.chromossome_train_path = (f"./generated-files/chromossome_train.arff")
-        self.chromossome_test_path = (f"./generated-files/chromossome_test.arff")
+        self.chromossome_train_path = (f"./generated-files/threads/chromossome_train.arff")
+        self.chromossome_test_path = (f"./generated-files/threads/chromossome_test.arff")
+        
+        self.utils.debug(f"In cross_validation.py, is used multithreading, and will be used: {multiprocessing.cpu_count()} threads", "info")
 
+        
+        
     def convert_chromossome_to_file(self, chromosome: list, type_chromossome:str, 
                                     cross_validation_folds = None, thread_index = 0) -> None:
         """
@@ -116,52 +120,48 @@ class CrossValidation:
         new_dataset['relation'] = folds[0].dataset_dict['relation']
         
         if type_chromossome == 'test':
-            save_path = (f"./generated-files/{thread_index}/chromossome_test.arff")
+            save_path = (f"./generated-files/threads/{thread_index}/chromossome_test.arff")
 
         elif type_chromossome == 'train':
-            save_path = (f"./generated-files/{thread_index}/chromossome_train.arff")
+            save_path = (f"./generated-files/threads/{thread_index}/chromossome_train.arff")
             
         elif type_chromossome == "best_chromossome_test":
-            save_path = (f"./generated-files/{thread_index}/best_chromossome_test.arff")
+            save_path = (f"./generated-files/threads/{thread_index}/best_chromossome_test.arff")
 
         elif type_chromossome == "best_chromossome_train":
-            save_path = (f"./generated-files/{thread_index}/best_chromossome_train.arff")
+            save_path = (f"./generated-files/threads/{thread_index}/best_chromossome_train.arff")
 
         arff.dump(new_dataset, open(save_path, 'w+'))
         
         return save_path
 
+    def calculate_fitness_wrapper(self, args):
+            chromossome, thread_index, thread_results = args
+            os.makedirs(f"./generated-files/threads/{thread_index}", exist_ok=True)
+            self.calculate_fitness(chromossome, thread_index, thread_results)
+            
+    def calculate_fitness(self, chromosome, thread_index, thread_results):
+                cross_validation_values = []
+                for test_index in range(self.num_folds):
+                    train_index = [i for i in range(self.num_folds) if i != test_index]
+
+                    test_path =  self.convert_chromossome_to_file(chromosome, 'test', cross_validation_folds=test_index, thread_index=thread_index)
+                    train_path = self.convert_chromossome_to_file(chromosome, 'train', cross_validation_folds=train_index, thread_index=thread_index)
+
+                    cross_validation_values.append(call_nbayes(train_path, test_path))
+
+                # Append the average of cross_validation_values to thread_results
+                thread_results.append(sum(cross_validation_values) / len(cross_validation_values))
+
     def cross_validation(self, population: list[list[int]]) -> list[float]:
         # Define a function to handle fitness calculation for each chromosome
-        def calculate_fitness(chromosome, thread_index, thread_results):
-            cross_validation_values = []
-            for test_index in range(self.num_folds):
-                train_index = [i for i in range(self.num_folds) if i != test_index]
-
-                test_path =  self.convert_chromossome_to_file(chromosome, 'test', cross_validation_folds=test_index, thread_index=thread_index)
-                train_path = self.convert_chromossome_to_file(chromosome, 'train', cross_validation_folds=train_index, thread_index=thread_index)
-
-                cross_validation_values.append(call_nbayes(train_path, test_path))
-
-            # Append the average of cross_validation_values to thread_results
-            thread_results.append(sum(cross_validation_values) / len(cross_validation_values))
-
         with multiprocessing.Manager() as manager:
             thread_results = manager.list()  # Shared list
 
-            processes = []
-            for chromossome in population:
-                thread_index = population.index(chromossome)
-                os.makedirs(f"./generated-files/{thread_index}", exist_ok=True)
-                
-                p = multiprocessing.Process(target=calculate_fitness, args=(chromossome, thread_index, thread_results))
-                processes.append(p)
-                p.start()
-
-            for process in processes:
-                process.join()
+            with multiprocessing.Pool() as pool:
+                pool.map(self.calculate_fitness_wrapper, [(chromossome, population.index(chromossome), thread_results) for chromossome in population])
 
             # Convert the shared list to a regular list
             chromossomes_fitness = list(thread_results)
-            
+
             return chromossomes_fitness

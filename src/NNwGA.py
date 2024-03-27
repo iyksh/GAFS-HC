@@ -64,7 +64,6 @@ class NNwGeneticAlgorithm:
         
 
         # Debugging the variables before the algorithm starts
-        self.utils.clear_screen()                # Clear the terminal screen before the starts
         self.utils.debug(f"N. of attributes: {self.num_attributes} | N. of objects: {self.num_objects}", "info") # check the number of attributes
         self.utils.debug(f"Will be generated {self.GMNB_generations * self.population_size} models using GMNB to train data", "info") # check the number of models to be generated
           
@@ -81,9 +80,10 @@ class NNwGeneticAlgorithm:
         """Neural Networks with GMNB with Parallel cross-validation"""
         self.start_time = time.time() # Start the timer to check the time of the algorithm
         
-        dataset_fitness = self.cv.cross_validation([[1] * self.num_attributes])
+        #dataset_fitness = self.cv.cross_validation([[1] * self.num_attributes])
         save_train_data, model_trained = True, False
         
+        dataset_fitness = (0,0) # if you want to skip the GMNB
         self.utils.debug(f"Train Save model: {self.save_model} | Load model: {self.load_model} | Dataset hF: {dataset_fitness[0]:.5f} \n", type="info")
         population_list = self.operators.create_population(self.population_size, self.num_attributes) # Creating the initial population
         
@@ -94,14 +94,23 @@ class NNwGeneticAlgorithm:
                 generation_start_time = time.time()
 
                 if generation < self.GMNB_generations: # Using GMNB for the first x generations, run at least one time
-                    
-                    population_list = population_list = self.operators.create_population(self.population_size, self.num_attributes)  
-                    population_fitness = self.cv.cross_validation(population_list) # Evaluating the fitness of each chromosome 
-                                    
-                    progress = "\033[1;34m[Database Creation Progress]: " + "\033[0m" + "{:.2f}%".format((generation+1)/self.GMNB_generations * 100)
-                    time_estimated = "\033[0m" + "| Estimated time: {:.2f} seconds".format((time.time() - generation_start_time) * (self.GMNB_generations - generation))
-                    
-                    self.get_history(population_fitness, population_list, save_train_data, progress, time_estimated)
+                
+                        try:
+                            population_list = self.operators.create_population(self.population_size, self.num_attributes)  
+                            population_fitness = self.cv.cross_validation(population_list) # Evaluating the fitness of each chromosome 
+                            
+                            progress = "\033[1;34m[Database Creation Progress]: " + "\033[0m" + "{:.2f}%".format((generation+1)/self.GMNB_generations * 100)
+                            time_estimated = "\033[0m" + "| Estimated time: {:.2f} seconds".format((time.time() - generation_start_time) * (self.GMNB_generations - generation))
+                            
+                            self.get_history(population_fitness, population_list, save_train_data, progress, time_estimated)
+                        
+                        except KeyboardInterrupt:
+                            self.utils.debug(f"\033[1;34m\nStopped the Database Creation at generation {generation}\n", type="info")
+                            processes = multiprocessing.active_children()
+                            for process in processes:
+                                process.terminate()
+                                
+                            self.GMNB_generations = 0
                     
                 else: # Using NN for the rest of the generations
                     if not model_trained and self.load_model:
