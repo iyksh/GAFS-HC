@@ -1,12 +1,2 @@
-debug: Changing class R.12.04.02 with 9 instances from R.12.04 
-debug: Changing class R.20.01.17 with 4 instances from R.20.01 
-debug: Changing class R.20.01 with 4 instances from R.20 
-debug: Changing class R.20 with 4 instances from R 
-info: The class is root, removing it. 
-info: In cross_validation.py, is used multithreading, and will be used: 8 threads 
-info: N. of attributes: 77 | N. of objects: 3753 
-info: Will be generated 0 models using GMNB to train data 
-info: Train Save model: True | Load model: False | Dataset hF: 0.00000 
- 
-info: Chromossome hF found by the Neural Network: 42.62945 | with 43 Attributes 
-info: Dataset hF: 0.00000 | with 77 Attributes 
+error: Error reading the dataset. 
+error: File path: data/CellCycle_single.arff 
